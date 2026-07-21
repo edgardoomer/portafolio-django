@@ -65,12 +65,6 @@ copy .env.example .env        # Windows
 cp .env.example .env          # Linux / macOS
 ```
 
-Edita el `.env` con tus propios valores. Genera la `SECRET_KEY` con:
-
-```bash
-python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
-```
-
 ```bash
 # 5. Base de datos
 createdb cv_edgar
@@ -85,31 +79,6 @@ python manage.py runserver
 ```
 
 El sitio queda en http://127.0.0.1:8000/
-
-## Variables de entorno
-
-| Variable | Descripción | Obligatoria |
-|---|---|---|
-| `SECRET_KEY` | Clave criptográfica de Django | Sí |
-| `DEBUG` | `True` en local, `False` en producción | No (por defecto `False`) |
-| `ALLOWED_HOSTS` | Dominios permitidos, separados por comas | No |
-| `OPENAI_API_KEY` | Clave de la API de OpenAI | Solo para el chat |
-| `DB_NAME` / `DB_USER` / `DB_PASSWORD` / `DB_HOST` / `DB_PORT` | Conexión a PostgreSQL | Sí (`DB_PASSWORD`) |
-| `RECAPTCHA_PUBLIC_KEY` / `RECAPTCHA_PRIVATE_KEY` | Claves de Google reCAPTCHA | Para registro y login |
-
-> El archivo `.env` está en `.gitignore` y **nunca** debe subirse al repositorio.
-
-## Despliegue
-
-Antes de publicar, verifica la configuración de seguridad:
-
-```bash
-python manage.py check --deploy
-python manage.py collectstatic --noinput
-```
-
-En producción define `DEBUG=False`, rellena `ALLOWED_HOSTS` y `CSRF_TRUSTED_ORIGINS`
-con tu dominio real, y sirve la aplicación con Gunicorn detrás de HTTPS.
 
 ## Estructura
 
