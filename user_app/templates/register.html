@@ -1,0 +1,142 @@
+{% extends 'body.html' %}
+{% load static %}
+
+{% block title %} Crear Cuenta {% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/login_style.css' %}">
+    
+    <style>
+        .row-two-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        @media (max-width: 480px) {
+            .row-two-cols { grid-template-columns: 1fr; }
+        }
+        /* Estilo extra para separar las secciones */
+        .section-divider {
+            border-top: 1px solid #eee;
+            margin: 20px 0;
+            padding-top: 10px;
+        }
+        .section-title {
+            font-size: 0.9rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+    </style>
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <div class="login-overlay">
+        <div class="login-card">
+            
+            <div class="card-header-fixed">
+                <a href="javascript:history.back()" class="btn-close" aria-label="Cerrar">&times;</a>
+                <h2>Crear Cuenta</h2>
+            </div>
+
+            <div class="card-body-scroll">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" style="color:red; text-align:center; margin-bottom:15px;">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="section-title">Datos Personales</div>
+
+                    <div class="row-two-cols">
+                        <div class="form-group">
+                            <label>{{ form.first_name.label }}</label>
+                            {{ form.first_name }}
+                            {{ form.first_name.errors }}
+                        </div>
+                        <div class="form-group">
+                            <label>{{ form.last_name.label }}</label>
+                            {{ form.last_name }}
+                            {{ form.last_name.errors }}
+                        </div>
+                    </div>
+
+                    <div class="row-two-cols">
+                        <div class="form-group">
+                            <label>{{ form.cedula.label }}</label>
+                            {{ form.cedula }}
+                            {{ form.cedula.errors }}
+                        </div>
+                        <div class="form-group">
+                            <label>{{ form.email.label }}</label> 
+                            {{ form.email }}
+                            <small class="text-muted" style="font-size:0.7rem; color:#888">Este será tu usuario de acceso.</small>
+                            {{ form.email.errors }}
+                        </div>
+                    </div>
+
+                    <div class="section-divider"></div>
+                    <div class="section-title">Perfil Profesional</div>
+
+                    <div class="row-two-cols">
+                        <div class="form-group">
+                            <label>{{ form.profesion.label }} <span style="color:#999">*</span></label>
+                            {{ form.profesion }}
+                        </div>
+                        <div class="form-group">
+                            <label>{{ form.puesto.label }} <span style="color:#999">*</span></label>
+                            {{ form.puesto }}
+                        </div>
+                    </div>
+
+                    <div class="row-two-cols">
+                        <div class="form-group">
+                             <label>{{ form.empresa.label }} <span style="color:#999">*</span></label>
+                             {{ form.empresa }}
+                        </div>
+                        <div class="form-group">
+                            <label>{{ form.afinidad.label }}</label>
+                            {{ form.afinidad }}
+                       </div>
+                    </div>
+
+                    <div class="section-divider"></div>
+                    <div class="section-title">Seguridad</div>
+
+                    {% for field in form %}
+                        {% if field.name not in 'first_name,last_name,cedula,email,profesion,puesto,empresa,afinidad' %}
+                            <div class="form-group">
+                                <label>{{ field.label }}</label>
+                                {{ field }} {% if field.errors %}
+                                    <div style="color:red; font-size:0.8rem">{{ field.errors }}</div>
+                                {% endif %}
+                                
+                                {% if field.help_text and field.name != 'captcha' %}
+                                    <small style="color: #888; font-size: 0.75rem; display: block;">
+                                        {{ field.help_text|safe }}
+                                    </small>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    <p style="color: #666; opacity: 0.7; font-size: 0.8rem; font-style: italic; margin-top: 20px;">
+                        * Campos opcionales.
+                    </p>
+
+                    <button type="submit" class="btn-login">Crear Cuenta</button>
+                </form>
+
+                <div class="register-link">
+                    ¿Ya tienes cuenta? <a href="{% url 'login_view' %}">Entra aquí</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'body.html' %}
+{%  load widget_tweaks  %}
+{% load i18n %}
+{%  load static  %}
+
+{% block title %}  
+    {{ titulo }}
+{% endblock %}
+
+{% block content %}
+
+
+						<!--Resume Tab-->
+<section id="resume" class="bg-white t-center active" style="display: block;">
+						
+						<!--Resume -->
+<div class="resume">
+									
+						
+						<!--Content-->	
+<div class="content">
+	<div class="block-content mb-100">
+
+			<!-- ========================= -->
+            <!--        CHAT BOX          -->
+            <!-- ========================= -->
+            <div class="cvchat-container">
+
+                <!-- HEADER FIJO -->  
+    <div class="cvchat-welcome-fixed">
+        <div class="cvchat-welcome-icon">🤖</div>
+        <p class="cvchat-welcome-title">{% trans "Asistente de IA" %}</p>
+        <p class="cvchat-welcome-subtitle">{% trans "Pregúntame lo que quieras" %}</p>
+    </div>
+
+    <!-- MENSAJES (SCROLL) -->
+    <div class="cvchat-messages"></div>
+
+    <!-- INPUT -->
+    <div class="cvchat-input-area">
+        <textarea class="cvchat-input" placeholder="Escribe..." rows="1"></textarea>
+        <button class="cvchat-send-btn">➤</button>
+    </div>
+            </div>
+
+
+</div>
+
+    </div>					
+
+</div>
+					<!--End content-->
+						<!--End about-->
+</section>
+						<!--End about tab-->
+
+
+
+
+{% endblock %}

@@ -1,0 +1,740 @@
+# Russian translations for mi_cv.
+# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Edgar Izurieta, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-24 02:57-0500\n"
+"PO-Revision-Date: 2025-11-24 01:50-0500\n"
+"Last-Translator: Edgar Izurieta\n"
+"Language-Team: Russian\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\blog_app\templates\blog.html:19
+msgid "Muro de Recomendaciones"
+msgstr "Стена рекомендаций"
+
+#: .\blog_app\templates\blog.html:20
+msgid "Opiniones y Feedback Profesional"
+msgstr "Мнения и профессиональные отзывы"
+
+#: .\blog_app\templates\blog.html:39
+msgid "Deja una recomendación profesional..."
+msgstr "Оставьте профессиональную рекомендацию..."
+
+#: .\blog_app\templates\blog.html:42
+msgid "Publicar"
+msgstr "Опубликовать"
+
+#: .\blog_app\templates\blog.html:51
+msgid "¿Quieres dejar una recomendación?"
+msgstr "Хотите оставить рекомендацию?"
+
+#: .\blog_app\templates\blog.html:52
+msgid "Debes tener una cuenta para escribir en el muro."
+msgstr "Вы должны войти в систему, чтобы писать на стене."
+
+#: .\blog_app\templates\blog.html:56 .\user_app\templates\login.html:53
+msgid "Iniciar Sesión"
+msgstr "Войти"
+
+#: .\blog_app\templates\blog.html:59 .\templates\base.html:80
+msgid "Registrarse"
+msgstr "Регистрация"
+
+#: .\blog_app\templates\blog.html:90
+msgid "Comentar"
+msgstr "Комментировать"
+
+#: .\blog_app\templates\blog.html:106
+msgid "Ver"
+msgstr "Посмотреть"
+
+#: .\blog_app\templates\blog.html:106
+msgid "comentarios más..."
+msgstr "еще комментариев..."
+
+#: .\blog_app\templates\blog.html:113
+msgid "Escribe una respuesta..."
+msgstr "Напишите ответ..."
+
+#: .\blog_app\templates\blog.html:114
+msgid "Enviar"
+msgstr "Отправить"
+
+#: .\blog_app\templates\blog.html:119
+msgid "Inicia sesión"
+msgstr "Войдите"
+
+#: .\blog_app\templates\blog.html:120
+msgid "para unirte a la conversación."
+msgstr "чтобы присоединиться к беседе."
+
+#: .\blog_app\templates\blog.html:130
+msgid "Aún no hay recomendaciones."
+msgstr "Пока нет рекомендаций."
+
+#: .\iachat_app\templates\askedgar_view.html:32
+msgid "Asistente de IA"
+msgstr "ИИ-ассистент"
+
+#: .\iachat_app\templates\askedgar_view.html:33
+msgid "Pregúntame lo que quieras"
+msgstr "Спросите меня о чем угодно"
+
+#: .\mi_cv\settings.py:178 .\site_app\templates\curriculum_view.html:486
+msgid "Español"
+msgstr "Испанский"
+
+#: .\mi_cv\settings.py:179
+msgid "English"
+msgstr "Английский"
+
+#: .\mi_cv\settings.py:180
+msgid "Russian"
+msgstr "Русский"
+
+#: .\portafolio_app\templates\portafolio_view.html:177
+msgid "Mi Portafolio"
+msgstr "Мое Портфолио"
+
+#: .\portafolio_app\templates\portafolio_view.html:178
+msgid "Proyectos destacados y casos de estudio"
+msgstr "Избранные проекты и кейсы"
+
+#: .\portafolio_app\templates\portafolio_view.html:199
+msgid "Ver detalles"
+msgstr "Подробнее"
+
+#: .\portafolio_app\templates\portafolio_view.html:209
+msgid "Objetivo del Proyecto"
+msgstr "Цель проекта"
+
+#: .\portafolio_app\templates\portafolio_view.html:212
+msgid "Resumen"
+msgstr "Резюме"
+
+#: .\portafolio_app\templates\portafolio_view.html:216
+msgid "Saber más"
+msgstr "Узнать больше"
+
+#: .\portafolio_app\templates\portafolio_view.html:222
+msgid "Aún no he subido proyectos. Vuelve pronto."
+msgstr "Проекты еще не загружены. Заходите позже."
+
+#: .\portafolio_app\templates\portafolio_view.html:232
+msgid "Proyectos"
+msgstr "Проекты"
+
+#: .\site_app\templates\contact_view.html:122
+msgid "Contáctame"
+msgstr "Свяжитесь со мной"
+
+#: .\site_app\templates\contact_view.html:123
+msgid "Trabajemos juntos en el próximo desafío"
+msgstr "Давайте работать вместе над следующим вызовом"
+
+#: .\site_app\templates\contact_view.html:146
+msgid "NUMERO DE TELEFONO"
+msgstr "НОМЕР ТЕЛЕФОНА"
+
+#: .\site_app\templates\contact_view.html:164
+msgid "Desarrollado con"
+msgstr "Разработано с использованием"
+
+#: .\site_app\templates\contact_view.html:165
+msgid "Tecnologías utilizadas para construir este sitio"
+msgstr "Технологии, использованные для создания этого сайта"
+
+#: .\site_app\templates\contact_view.html:189 .\templates\body.html:129
+msgid "Contacto"
+msgstr "Контакты"
+
+#: .\site_app\templates\curriculum_view.html:30
+msgid "¿Pero por qué tú, Edgar?"
+msgstr "Но почему именно ты, Эдгар?"
+
+#: .\site_app\templates\curriculum_view.html:31
+msgid "¿Qué sabes hacer?"
+msgstr "Что ты умеешь делать?"
+
+#: .\site_app\templates\curriculum_view.html:51
+msgid "Experiencia"
+msgstr "Опыт работы"
+
+#: .\site_app\templates\curriculum_view.html:67
+msgid "Noviembre 2024"
+msgstr "Ноябрь 2024"
+
+#: .\site_app\templates\curriculum_view.html:67
+#: .\site_app\templates\curriculum_view.html:84
+msgid "Hasta la actualidad"
+msgstr "По настоящее время"
+
+#: .\site_app\templates\curriculum_view.html:68
+msgid "Operador de EPF/Well testing – Sertecpet"
+msgstr "Оператор EPF/Well testing – Sertecpet"
+
+#: .\site_app\templates\curriculum_view.html:69
+#: .\site_app\templates\curriculum_view.html:106
+msgid "1 año de experiencia"
+msgstr "1 год опыта"
+
+#: .\site_app\templates\curriculum_view.html:73
+msgid ""
+"Operación y monitoreo de equipos de procesamiento: Separadores, Bombas HPS, "
+"bombas quintuplex y triplex, bombas electro sumergibles, botas "
+"desgasificadoras, tanques y VSD."
+msgstr ""
+"Эксплуатация и мониторинг технологического оборудования: сепараторы, насосы "
+"HPS, насосы квинтуплекс и триплекс, ЭЦН, дегазаторы, резервуары и частотно-"
+"регулируемые приводы (VSD)."
+
+#: .\site_app\templates\curriculum_view.html:74
+msgid ""
+"Diseño e interpretación de P&ID, así como diseño de equipos y procesos con "
+"AutoCAD Plant 3D y Pipesim."
+msgstr ""
+"Проектирование и интерпретация P&ID, а также проектирование оборудования и "
+"процессов с использованием AutoCAD Plant 3D и Pipesim."
+
+#: .\site_app\templates\curriculum_view.html:75
+msgid ""
+"Análisis de muestras de crudo (BSW, salinidad) y gestión de inventarios "
+"mediante gauging de tanques."
+msgstr ""
+"Анализ проб нефти (обводненность, соленость) и управление запасами "
+"посредством замеров резервуаров."
+
+#: .\site_app\templates\curriculum_view.html:76
+msgid "Pruebas y diagnóstico de bombas y motores."
+msgstr "Испытания и диагностика насосов и двигателей."
+
+#: .\site_app\templates\curriculum_view.html:77
+msgid "Procesos de flushing, acidificación y mantenimiento inicial de equipos."
+msgstr ""
+"Процессы промывки, кислотной обработки и начальное обслуживание оборудования."
+
+#: .\site_app\templates\curriculum_view.html:78
+msgid "Gestión logística de equipos."
+msgstr "Управление логистикой оборудования."
+
+#: .\site_app\templates\curriculum_view.html:84
+msgid "Agosto 2023"
+msgstr "Август 2023"
+
+#: .\site_app\templates\curriculum_view.html:85
+msgid ""
+"Desarrollador de Python | Analista de datos e AI – Independiente|Freelancer"
+msgstr "Разработчик Python | Аналитик данных и ИИ – Фрилансер"
+
+#: .\site_app\templates\curriculum_view.html:86
+msgid "2 años de experiencia"
+msgstr "2 года опыта"
+
+#: .\site_app\templates\curriculum_view.html:91
+msgid "Programación en Python, C++ y JavaScript (pandas, numpy, scipy)."
+msgstr "Программирование на Python, C++ и JavaScript (pandas, numpy, scipy)."
+
+#: .\site_app\templates\curriculum_view.html:92
+msgid ""
+"Uso de plataformas de IA para manejo de tokens en aplicaciones web (OpenAI, "
+"DeepSeek, Agent Builder, pipelines)."
+msgstr ""
+"Использование платформ ИИ для управления токенами в веб-приложениях (OpenAI, "
+"DeepSeek, Agent Builder, pipelines)."
+
+#: .\site_app\templates\curriculum_view.html:93
+msgid ""
+"Implementación de frameworks de IA generativa (LangChain) y machine learning "
+"(TensorFlow/Keras)."
+msgstr ""
+"Внедрение фреймворков генеративного ИИ (LangChain) и машинного обучения "
+"(TensorFlow/Keras)."
+
+#: .\site_app\templates\curriculum_view.html:94
+msgid ""
+"Métodos supervisados y no supervisados, análisis contrastivos y métricas "
+"estadísticas: R², σ, F-test, RSE, IQR."
+msgstr ""
+"Методы обучения с учителем и без, контрастный анализ и статистические "
+"метрики: R², σ, F-тест, RSE, IQR."
+
+#: .\site_app\templates\curriculum_view.html:95
+msgid "Regresiones lineales: Lasso, Ridge, Lineal."
+msgstr "Линейная регрессия: Lasso, Ridge, Linear."
+
+#: .\site_app\templates\curriculum_view.html:96
+msgid "Identificación de outliers."
+msgstr "Выявление выбросов (outliers)."
+
+#: .\site_app\templates\curriculum_view.html:97
+msgid ""
+"Análisis de datos del sector petrolero: bombas HPS, bombas centrífugas, "
+"sísmica y datos de producción."
+msgstr ""
+"Анализ данных нефтяного сектора: насосы HPS, центробежные насосы, сейсмика и "
+"данные о добыче."
+
+#: .\site_app\templates\curriculum_view.html:98
+msgid ""
+"Experiencia con ECLIPSE 200/300, Petrel y Pipesim, complementado con Python."
+msgstr ""
+"Опыт работы с ECLIPSE 200/300, Petrel и Pipesim, в дополнение к Python."
+
+#: .\site_app\templates\curriculum_view.html:104
+msgid "Enero 2019 - Diciembre 2019"
+msgstr "Январь 2019 - Декабрь 2019"
+
+#: .\site_app\templates\curriculum_view.html:105
+msgid "Pasante de Operaciones – Petroecuador EP"
+msgstr "Стажер по операциям – Petroecuador EP"
+
+#: .\site_app\templates\curriculum_view.html:110
+msgid "Apoyo en mantenimiento mecánico preventivo de válvulas y equipos."
+msgstr ""
+"Поддержка в профилактическом механическом обслуживании клапанов и "
+"оборудования."
+
+#: .\site_app\templates\curriculum_view.html:111
+msgid ""
+"Toma de mediciones de tanques y verificación de instrumentación de campo."
+msgstr "Замеры резервуаров и проверка полевых приборов."
+
+#: .\site_app\templates\curriculum_view.html:112
+msgid "Elaboración de permisos y documentación de órdenes de trabajo."
+msgstr "Подготовка разрешений и документации по нарядам-допускам."
+
+#: .\site_app\templates\curriculum_view.html:113
+msgid "Análisis de registros eléctricos y optimización de sistemas ESP."
+msgstr "Анализ каротажных диаграмм и оптимизация систем ЭЦН."
+
+#: .\site_app\templates\curriculum_view.html:114
+msgid "Recolección y análisis de datos de producción y presión de yacimientos."
+msgstr "Сбор и анализ данных о добыче и пластовом давлении."
+
+#: .\site_app\templates\curriculum_view.html:138
+msgid "Educación"
+msgstr "Образование"
+
+#: .\site_app\templates\curriculum_view.html:154
+msgid "Julio 2025 - Noviembre 2025"
+msgstr "Июль 2025 - Ноябрь 2025"
+
+#: .\site_app\templates\curriculum_view.html:155
+msgid "Diplomado en Python Full Stack | Universidad Hemisferios"
+msgstr "Диплом Python Full Stack | Университет Hemisferios"
+
+#: .\site_app\templates\curriculum_view.html:156
+msgid "horas"
+msgstr "часов"
+
+#: .\site_app\templates\curriculum_view.html:160
+msgid "Habilidades adquiridas y profesionalizadas"
+msgstr "Приобретенные и профессиональные навыки"
+
+#: .\site_app\templates\curriculum_view.html:161
+msgid "Programacion en lenguaje python, .net y JavaScript"
+msgstr "Программирование на Python, .NET и JavaScript"
+
+#: .\site_app\templates\curriculum_view.html:162
+msgid ""
+"Programacion orientada a objetos y uso de librerias pandas, numpy, matplot, "
+"os"
+msgstr ""
+"Объектно-ориентированное программирование и использование библиотек pandas, "
+"numpy, matplot, os"
+
+#: .\site_app\templates\curriculum_view.html:163
+msgid ""
+"Machine learning no supervisado por medio de scikit learn | regresion lineal/"
+"ridge/lasso"
+msgstr ""
+"Машинное обучение без учителя с scikit-learn | линейная регрессия/ridge/lasso"
+
+#: .\site_app\templates\curriculum_view.html:169
+msgid "Agosto 2014 - Junio 2020"
+msgstr "Август 2014 - Июнь 2020"
+
+#: .\site_app\templates\curriculum_view.html:170
+msgid "Ingenieria de Petroleos | Universidad UTE"
+msgstr "Нефтяная инженерия | Университет UTE"
+
+#: .\site_app\templates\curriculum_view.html:176
+msgid "Conocimiento adquiridos"
+msgstr "Полученные знания"
+
+#: .\site_app\templates\curriculum_view.html:177
+msgid ""
+"Analisis y simulación de reservorios por medio de software Petrel, Eclipse"
+msgstr "Анализ и моделирование пластов с помощью ПО Petrel, Eclipse"
+
+#: .\site_app\templates\curriculum_view.html:178
+msgid "Simulacion de sistemas hidraulicos y analisis nodal con pipesim"
+msgstr "Моделирование гидравлических систем и узловой анализ с Pipesim"
+
+#: .\site_app\templates\curriculum_view.html:179
+msgid "Perforacion direccional y analisis BSW|Salinidad"
+msgstr "Наклонно-направленное бурение и анализ обводненности/солености"
+
+#: .\site_app\templates\curriculum_view.html:180
+msgid "Metrologia, termodinamica y electricidad"
+msgstr "Метрология, термодинамика и электричество"
+
+#: .\site_app\templates\curriculum_view.html:206
+msgid "Habilidades"
+msgstr "Навыки"
+
+#: .\site_app\templates\curriculum_view.html:223
+msgid "Software Petrolero"
+msgstr "ПО для нефтегазовой отрасли"
+
+#: .\site_app\templates\curriculum_view.html:290
+msgid "Software de Productividad"
+msgstr "Офисное ПО"
+
+#: .\site_app\templates\curriculum_view.html:326
+msgid "Programación"
+msgstr "Программирование"
+
+#: .\site_app\templates\curriculum_view.html:462
+msgid "Habilidades Blandas"
+msgstr "Гибкие навыки (Soft Skills)"
+
+#: .\site_app\templates\curriculum_view.html:464
+msgid "Trabajo metódico bajo supervisión."
+msgstr "Методичная работа под руководством."
+
+#: .\site_app\templates\curriculum_view.html:465
+msgid "Atención al detalle"
+msgstr "Внимание к деталям"
+
+#: .\site_app\templates\curriculum_view.html:466
+msgid "Comunicación efectiva"
+msgstr "Эффективная коммуникация"
+
+#: .\site_app\templates\curriculum_view.html:467
+msgid "Atención al cliente"
+msgstr "Клиентоориентированность"
+
+#: .\site_app\templates\curriculum_view.html:468
+msgid "Trabajo en equipo e iniciativa"
+msgstr "Командная работа и инициативность"
+
+#: .\site_app\templates\curriculum_view.html:469
+msgid "Organización y gestión del tiempo"
+msgstr "Организация и тайм-менеджмент"
+
+#: .\site_app\templates\curriculum_view.html:475
+msgid "Languages"
+msgstr "Языки"
+
+#: .\site_app\templates\curriculum_view.html:477
+msgid "Inglés"
+msgstr "Английский"
+
+#: .\site_app\templates\curriculum_view.html:477
+#: .\site_app\templates\curriculum_view.html:480
+msgid "Avanzado"
+msgstr "Продвинутый"
+
+#: .\site_app\templates\curriculum_view.html:478
+msgid "Negociación, redacción técnica y comunicación profesional fluida."
+msgstr "Переговоры, техническое письмо и свободное профессиональное общение."
+
+#: .\site_app\templates\curriculum_view.html:480
+msgid "Ruso"
+msgstr "Русский"
+
+#: .\site_app\templates\curriculum_view.html:481
+msgid "Comunicación fluida en temas profesionales y redacción de informes."
+msgstr "Свободное общение на профессиональные темы и составление отчетов."
+
+#: .\site_app\templates\curriculum_view.html:483
+msgid "Portugues"
+msgstr "Португальский"
+
+#: .\site_app\templates\curriculum_view.html:483
+msgid "Intermedio"
+msgstr "Средний"
+
+#: .\site_app\templates\curriculum_view.html:484
+msgid "Conversaciones funcionales y lectura técnica."
+msgstr "Разговорный уровень и чтение технической литературы."
+
+#: .\site_app\templates\curriculum_view.html:486
+msgid "Nativo"
+msgstr "Родной"
+
+#: .\site_app\templates\curriculum_view.html:507
+#: .\site_app\templates\home_view.html:133
+msgid "Descargar CV"
+msgstr "Скачать резюме"
+
+#: .\site_app\templates\home_view.html:29
+msgid "Edgar Fernando Izurieta"
+msgstr "Эдгар Фернандо Изурета"
+
+#: .\site_app\templates\home_view.html:30
+msgid "Ingeniero en Petroleos / Analista de Datos e Inteligencia Artificial"
+msgstr "Инженер-нефтяник / Аналитик данных и Искусственный Интеллект"
+
+#: .\site_app\templates\home_view.html:48
+msgid "Quien soy?"
+msgstr "Кто я?"
+
+#: .\site_app\templates\home_view.html:56
+msgid ""
+"\"Tengo el grado de ingeniero de Petróleos con 3 años de experiencia en "
+"operaciones de producción temprana, well testing y análisis de yacimientos "
+"con herramientas de Machine Learning. Me destaco por mi sólida disciplina y "
+"una gran iniciativa, lo cual demuestro con el dominio de cuatro idiomas y el "
+"aprendizaje por cuenta propia de lenguajes de programación y diseño "
+"ingenieril. Estoy comprometido y entusiasmado con aplicar mis conocimientos "
+"técnicos y habilidades analíticas para la optimizacion de procesos y "
+"garantizar la eficiencia operativa en entornos desafiantes. “"
+msgstr ""
+"\"Я инженер-нефтяник с 3-летним опытом работы в операциях ранней добычи, "
+"испытании скважин и анализе пластов с использованием инструментов машинного "
+"обучения. Отличаюсь строгой дисциплиной и высокой инициативностью, что "
+"подтверждается владением четырьмя языками и самостоятельным изучением языков "
+"программирования и инженерного проектирования. Я полон энтузиазма и готов "
+"применять свои технические знания и аналитические навыки для оптимизации "
+"процессов и обеспечения операционной эффективности в сложных условиях.\""
+
+#: .\site_app\templates\home_view.html:72
+msgid "Algo de mi"
+msgstr "Немного обо мне"
+
+#: .\site_app\templates\home_view.html:89 .\user_app\templates\profile.html:65
+msgid "Nombre"
+msgstr "Имя"
+
+#: .\site_app\templates\home_view.html:90
+msgid "Cumpleaños"
+msgstr "Дата рождения"
+
+#: .\site_app\templates\home_view.html:91
+msgid "Ciudad de Nacimiento"
+msgstr "Место рождения"
+
+#: .\site_app\templates\home_view.html:92
+msgid "Nacionalidad"
+msgstr "Гражданство"
+
+#: .\site_app\templates\home_view.html:93
+msgid "Estado Civil"
+msgstr "Семейное положение"
+
+#: .\site_app\templates\home_view.html:94
+msgid "Disponibilidad"
+msgstr "Доступность"
+
+#: .\site_app\templates\home_view.html:100
+msgid "9 de Junio"
+msgstr "9 июня"
+
+#: .\site_app\templates\home_view.html:101
+msgid "Quito"
+msgstr "Кито"
+
+#: .\site_app\templates\home_view.html:102
+msgid "Ecuatoriano"
+msgstr "Эквадорец"
+
+#: .\site_app\templates\home_view.html:103
+msgid "Soltero"
+msgstr "Холост"
+
+#: .\site_app\templates\home_view.html:104
+msgid "En linea y presencial"
+msgstr "Онлайн и оффлайн"
+
+#: .\templates\base.html:74
+msgid "Hola"
+msgstr "Привет!"
+
+#: .\templates\base.html:75
+#, fuzzy
+#| msgid "Mi Perfil"
+msgid "Perfil"
+msgstr "Мой Профиль"
+
+#: .\templates\base.html:76
+msgid "Logout"
+msgstr "Выйти"
+
+#: .\templates\base.html:79
+msgid "Login"
+msgstr "Войти"
+
+#: .\templates\body.html:124
+msgid "Acerca de mi"
+msgstr "Обо мне"
+
+#: .\templates\body.html:124
+msgid "Por qué yo?"
+msgstr "Почему я?"
+
+#: .\templates\body.html:125
+msgid "Consulta con IA"
+msgstr "Консультация с ИИ"
+
+#: .\templates\body.html:126
+msgid "Mi curriculum"
+msgstr "Мое резюме"
+
+#: .\templates\body.html:126
+msgid "¿Qué sé hacer?"
+msgstr "Что я умею?"
+
+#: .\templates\body.html:127
+msgid "Portfolio"
+msgstr "Портфолио"
+
+#: .\templates\body.html:127
+msgid "Mis proyectos"
+msgstr "Мои проекты"
+
+#: .\templates\body.html:128
+msgid "Blog"
+msgstr "Влог"
+
+#: .\templates\body.html:128
+msgid "Mis recomendaciones"
+msgstr "Мои рекомендации"
+
+#: .\templates\body.html:129
+msgid "Sin compromiso!"
+msgstr "Без обязательств!"
+
+#: .\user_app\forms.py:33
+#, fuzzy
+#| msgid "Nombre"
+msgid "Tu nombre"
+msgstr "Имя"
+
+#: .\user_app\forms.py:34
+#, fuzzy
+#| msgid "Apellido"
+msgid "Tu apellido"
+msgstr "Фамилия"
+
+#: .\user_app\forms.py:35
+msgid "Cédula de identidad"
+msgstr "Удостоверение личности"
+
+#: .\user_app\forms.py:38
+msgid "nombre@correo.com"
+msgstr "имя@почта.com"
+
+#: .\user_app\forms.py:41
+msgid "Ej: Ing. de Petróleos"
+msgstr "Напр. Нефтяник Инженер"
+
+#: .\user_app\forms.py:42
+msgid "Ej: Gerente de Operaciones"
+msgstr "Напр. Менеджер по операциям "
+
+#: .\user_app\forms.py:43
+msgid "Ej: Petroecuador / SLB"
+msgstr "Напр. Petroecuador / SLB"
+
+#: .\user_app\forms.py:44
+msgid "Amigo? Jefe? Familiar?"
+msgstr "Друг? Начальник? Родственник?"
+
+#: .\user_app\forms.py:53
+msgid "tu@email.com"
+msgstr "твоя@почта.com"
+
+#: .\user_app\forms.py:58
+msgid "Contraseña"
+msgstr "пароль"
+
+#: .\user_app\forms.py:61
+#, fuzzy
+#| msgid "¿Olvidaste tu contraseña?"
+msgid "Ingresa tu contraseña"
+msgstr "Забыли пароль?"
+
+#: .\user_app\forms.py:87
+msgid "No puedes cambiar tu cédula."
+msgstr "Нельзя изменить Удостоверение личности"
+
+#: .\user_app\templates\login.html:17
+msgid "Cerrar"
+msgstr "Закрыть"
+
+#: .\user_app\templates\login.html:18
+msgid "Bienvenido"
+msgstr "Добро пожаловать"
+
+#: .\user_app\templates\login.html:43
+msgid "¿Olvidaste tu contraseña?"
+msgstr "Забыли пароль?"
+
+#: .\user_app\templates\login.html:57
+msgid "¿No tienes cuenta?"
+msgstr "Нет аккаунта?"
+
+#: .\user_app\templates\login.html:57
+msgid "Regístrate aquí"
+msgstr "Зарегистрируйтесь здесь"
+
+#: .\user_app\templates\profile.html:4
+msgid "Mi Perfil"
+msgstr "Мой Профиль"
+
+#: .\user_app\templates\profile.html:22
+msgid "Correo Electrónico"
+msgstr "Электронная почта"
+
+#: .\user_app\templates\profile.html:26
+msgid "Empresa Actual"
+msgstr "Текущая компания"
+
+#: .\user_app\templates\profile.html:30
+msgid "Miembro desde"
+msgstr "Участник с"
+
+#: .\user_app\templates\profile.html:38
+msgid "Editar Información"
+msgstr "Редактировать информацию"
+
+#: .\user_app\templates\profile.html:69
+msgid "Apellido"
+msgstr "Фамилия"
+
+#: .\user_app\templates\profile.html:76
+msgid "Profesión"
+msgstr "Профессия"
+
+#: .\user_app\templates\profile.html:80
+msgid "Puesto / Cargo"
+msgstr "Должность"
+
+#: .\user_app\templates\profile.html:87
+msgid "Empresa"
+msgstr "Компания"
+
+#: .\user_app\templates\profile.html:91
+msgid "Afinidad / Área"
+msgstr "Сфера деятельности"
+
+#: .\user_app\templates\profile.html:97
+msgid "Cédula (No editable)"
+msgstr "Удостоверение личности (не редактируется)"
+
+#: .\user_app\templates\profile.html:103
+msgid "Guardar Cambios"
+msgstr "Сохранить изменения"

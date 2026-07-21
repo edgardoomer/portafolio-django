@@ -1,0 +1,156 @@
+{% extends 'body.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} Recomendaciones {% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/blog_styles.css' %}">
+
+<section id="blog" class="bg-white t-center active" style="display: block;">
+    
+    <div class="blog">
+        <div class="content">
+            
+            <div class="block-content mb-50">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="main-title profile">
+                            <h1 class="mb-20">{% trans "Muro de Recomendaciones" %}</h1>
+                            <h3>{% trans "Opiniones y Feedback Profesional" %}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block-content mb-100">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 blog-fix-align">
+                        
+                       {% if user.is_authenticated %}
+    <div class="rec-card write-card">
+        <form method="post">
+            {% csrf_token %}
+            <div style="display: flex; gap: 15px;">
+                <div class="avatar-mini" style="background:#ffd42d; color:#000;">
+                    {{ user.first_name|slice:":1" }}
+                </div>
+                <div style="flex-grow: 1;">
+                    <textarea name="contenido" rows="3" class="main-input" placeholder="{% trans "Deja una recomendación profesional..." %}" required></textarea>
+                    <div style="text-align: right; margin-top: 10px;">
+                        <button type="submit" name="btn_recomendacion" class="btn" style="background-color: #333; color: #fff; border: none; padding: 8px 20px; border-radius: 4px;">
+                            {% trans "Publicar" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% else %}
+    <div class="rec-card" style="text-align: center; border-left: 4px solid #ccc; background: #fcfcfc;">
+        <h3 style="margin: 0 0 10px 0; color: #555;">{% trans "¿Quieres dejar una recomendación?" %}</h3>
+        <p style="color: #777; margin-bottom: 15px;">{% trans "Debes tener una cuenta para escribir en el muro." %}</p>
+        
+        <div style="display: flex; justify-content: center; gap: 15px;">
+            <a href="{% url 'login_view' %}?next={{ request.path }}" class="btn" style="background-color: #ffd42d; color: #000; border: none; padding: 8px 20px; border-radius: 4px; text-decoration: none;">
+                {% trans "Iniciar Sesión" %}
+            </a>
+            <a href="{% url 'register_view' %}" class="btn" style="background-color: #eee; color: #333; border: 1px solid #ddd; padding: 8px 20px; border-radius: 4px; text-decoration: none;">
+                {% trans "Registrarse" %}
+            </a>
+        </div>
+    </div>
+{% endif %}
+
+
+
+                        {% for rec in recomendaciones %}
+                            <div class="rec-card">
+                                <div class="rec-header">
+                                    <div class="avatar-mini">{{ rec.user.first_name|slice:":1" }}</div>
+                                    <div class="user-meta">
+                                        <h4>{{ rec.user.first_name }} {{ rec.user.last_name }}</h4>
+                                        <span>
+                                            {% if rec.user.puesto %}{{ rec.user.puesto }}{% endif %}
+                                            {% if rec.user.empresa %} en <strong>{{ rec.user.empresa }}</strong>{% endif %}
+                                        </span>
+                                        <small>{{ rec.created_at|date:"d M Y" }}</small>
+                                    </div>
+                                </div>
+
+                                <div class="rec-content">
+                                    {{ rec.contenido|linebreaks }}
+                                </div>
+
+                                <div class="rec-footer">
+                                    <a href="{% url 'dar_like' rec.id %}" class="btn-action" style="text-decoration: none;">
+                                        {% if rec.likes_count > 0 %}❤️{% else %}🤍{% endif %} {{ rec.likes_count }}
+                                    </a>
+                                    <button class="btn-action" onclick="document.getElementById('input-reply-{{ rec.id }}').focus()">
+                                        💬 {% trans "Comentar" %}
+                                    </button>
+                                </div>
+
+                                <div class="replies-section">
+
+    {% for resp in rec.respuestas.all %}
+        <div class="reply-item {% if forloop.counter > 2 %}hidden-reply reply-group-{{ rec.id }}{% endif %}">
+            <strong>{{ resp.user.first_name }} {{ resp.user.last_name }}:</strong> 
+            {{ resp.contenido }}
+        </div>
+    {% empty %}
+        {% endfor %}
+
+    {% if rec.respuestas_count > 2 %}
+        <button class="btn-show-more" id="btn-more-{{ rec.id }}" onclick="showAllReplies({{ rec.id }})">
+            {% trans "Ver" %} {{ rec.respuestas_count|add:"-2" }} {% trans "comentarios más..." %}
+        </button>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <form action="{% url 'agregar_respuesta' rec.id %}" method="post" style="margin-top:15px; display:flex; gap:10px;">
+            {% csrf_token %}
+            <input id="input-reply-{{ rec.id }}" type="text" name="contenido" class="main-input" placeholder="{% trans "Escribe una respuesta..." %}" required style="padding: 8px 10px;">
+            <button type="submit" style="border:none; background:none; font-weight:bold; cursor:pointer; color:#333;">{% trans "Enviar"%}</button>
+        </form>
+    {% else %}
+        <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #ccc; text-align: center;">
+            <small style="color: #777;">
+                <a href="{% url 'login_view' %}?next={{ request.path }}" style="color: #333; font-weight: 800; text-decoration: underline;">{% trans "Inicia sesión" %}</a> 
+                {% trans "para unirte a la conversación." %}
+            </small>
+        </div>
+    {% endif %}
+
+</div>
+
+                            </div>
+                        {% empty %}
+                            <div style="text-align: center; color: #999; margin-top: 40px;">
+                                <p>{% trans "Aún no hay recomendaciones." %}</p>
+                            </div>
+                        {% endfor %}
+
+                    </div> </div> </div> <div class="block-content mb-50">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="page-number emph-1">- Feedback -</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    function showAllReplies(recId) {
+        const hiddenReplies = document.querySelectorAll(`.reply-group-${recId}`);
+        hiddenReplies.forEach(reply => {
+            reply.style.display = 'block';
+        });
+        document.getElementById(`btn-more-${recId}`).style.display = 'none';
+    }
+</script>
+
+{% endblock %}

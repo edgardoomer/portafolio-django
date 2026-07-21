@@ -1,0 +1,217 @@
+/***********************************************
+ *  CVCHAT — CHAT ELEGANTE BLANCO + AMARILLO 
+ *  SIN CONFLICTOS CON BOOTSTRAP
+ ***********************************************/
+
+/* Paleta */
+:root {
+    --cvchat-bg: #ffffff;
+    --cvchat-bg-alt: #f9f9f9;
+    --cvchat-primary: #ffcb2f;
+    --cvchat-primary-dark: #e0ae1f;
+    --cvchat-text: #222;
+    --cvchat-border: #e6e6e6;
+}
+
+/* Contenedor general */
+.cvchat-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto;
+    border: 2px solid var(--cvchat-primary);
+    border-radius: 20px;
+    background: var(--cvchat-bg);
+    padding: 0;
+    box-shadow: 0 0 25px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    height: 70vh;
+}
+
+/* Header minimal */
+.cvchat-header {
+    padding: 20px;
+    background: var(--cvchat-primary);
+    color: #000;
+    font-weight: bold;
+    font-size: 22px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--cvchat-primary-dark);
+}
+
+/* Área de mensajes */
+.cvchat-messages {
+    height: 400px;              /* o la altura que gustes */
+    overflow-y: auto;           /* activa scroll vertical */
+    overflow-x: hidden;         /* evita desplazamiento horizontal */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;                  /* espacio entre mensajes */
+    scroll-behavior: smooth;    /* desplazamiento suave */
+}
+
+/* Burbuja base */
+.cvchat-message {
+    max-width: 75%;
+    padding: 14px 18px;
+    border-radius: 16px;
+    font-size: 15px;
+    line-height: 1.45;
+    animation: cvchat-fade-in 0.3s ease;
+    word-break: break-word;
+}
+
+/* Mensaje del usuario */
+.cvchat-user {
+    align-self: flex-end;
+    background: var(--cvchat-primary);
+    color: #000;
+    border-bottom-right-radius: 4px;
+}
+
+/* Mensaje del bot */
+.cvchat-bot {
+    align-self: flex-start;
+    background: #fff;
+    border: 1px solid var(--cvchat-border);
+    color: var(--cvchat-text);
+    border-bottom-left-radius: 4px;
+}
+
+/* Animaciones */
+@keyframes cvchat-fade-in {
+    from { opacity: 0,92; transform: translateY(5px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Footer — Input */
+.cvchat-footer {
+    padding: 15px 20px;
+    border-top: 2px solid var(--cvchat-primary);
+    background: #fff;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.cvchat-input {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 2px solid var(--cvchat-border);
+    resize: none;
+    outline: none;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.cvchat-input:focus {
+    border-color: var(--cvchat-primary);
+    background: #fffceb;
+}
+
+/* Botón enviar */
+.cvchat-send {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    border: none;
+    background: var(--cvchat-primary);
+    color: #000;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cvchat-send:hover {
+    background: var(--cvchat-primary-dark);
+}
+
+/* Icono dentro del botón */
+.cvchat-send svg {
+    width: 26px;
+    height: 26px;
+}
+
+/* Mensaje de bienvenida */
+.cvchat-welcome {
+    text-align: center;
+    padding: 60px 20px;
+    opacity: 0.8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.cvchat-welcome-icon {
+    font-size: 55px;
+    margin-bottom: 10px;
+}
+
+.cvchat-welcome-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.cvchat-welcome-text {
+    font-size: 15px;
+    color: #555;
+}
+
+/* =========================
+   HEADER FIJO DEL CHAT
+========================= */
+.cvchat-welcome-fixed {
+    position: sticky;     /* SE QUEDA PEGADO ARRIBA */
+    top: 0;
+    background: #ffffffdd; /* Blanco con un leve blur */
+    backdrop-filter: blur(10px);
+    padding: 20px 10px;
+    text-align: center;
+    border-bottom: 1px solid #f1c40f55;  /* Amarillo suave */
+    z-index: 20;
+}
+
+/* Mantén el icono y textos bonitos */
+.cvchat-welcome-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.cvchat-welcome-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+}
+
+.cvchat-welcome-subtitle {
+    font-size: 14px;
+    color: #666;
+}
+
+/* =========================
+   MENSAJES
+========================= */
+.cvchat-messages {
+    overflow-y: auto;
+    padding: 20px;
+    height: 450px;    /* Ajusta como quieras */
+}
+
+/* Los mensajes se ven más sólidos */
+.cvchat-msg {
+    opacity: 1;       /* NO MÁS TRANSPARENCIA */
+}
+
+/* Opción: si quieres ligera diferencia entre mensajes viejos */
+.cvchat-msg-old {
+    opacity: 0.85;
+}

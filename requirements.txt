@@ -1,0 +1,29 @@
+# Framework
+Django==5.2.8
+asgiref==3.11.0
+sqlparse==0.5.3
+tzdata==2025.2
+
+# Base de datos
+psycopg2==2.9.11
+
+# Apps de terceros
+django-modeltranslation==0.19.17
+django-recaptcha==4.1.0
+django-widget-tweaks==1.5.0
+
+# Configuracion y seguridad
+python-decouple==3.8
+django-ratelimit==4.1.0
+
+# Archivos estaticos en produccion
+whitenoise==6.8.2
+
+# OpenAI
+openai==2.8.0
+
+# Imagenes
+pillow==12.0.0
+
+# Servidor de produccion (Linux). En Windows usa: waitress
+gunicorn==23.0.0

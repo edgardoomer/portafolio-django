@@ -1,0 +1,105 @@
+
+    /* Alineación izquierda para el blog */
+    .blog-fix-align { text-align: left; }
+
+    /* TARJETA PRINCIPAL (El recuadro gris) */
+    .rec-card {
+        background: #f9f9f9; /* Color base de la tarjeta */
+        border: 1px solid #e6e6e6;
+        border-radius: 8px;
+        padding: 30px;
+        margin-bottom: 25px;
+        transition: all 0.3s ease;
+    }
+    .rec-card:hover {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        background: #fff; /* Al pasar el mouse se ilumina un poco */
+    }
+
+    /* Tarjeta de escribir (Destacada) */
+    .write-card {
+        background: #fff;
+        border-left: 4px solid #ffd42d;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    /* CABECERA (Avatar + Nombre) */
+    .rec-header {
+        display: flex; align-items: center; margin-bottom: 20px;
+        border-bottom: 1px solid #e0e0e0; padding-bottom: 15px;
+    }
+    .avatar-mini {
+        width: 45px; height: 45px; background: #333; color: #fff;
+        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        font-weight: bold; font-size: 1.2rem; margin-right: 15px; flex-shrink: 0;
+    }
+    
+    /* AJUSTE DE TÍTULO DE LA TARJETA */
+    .user-meta h4 { 
+        margin: 0 0 5px 0; font-size: 1.2rem; color: #222; 
+        font-weight: 700; text-transform: none; letter-spacing: 0.5px;
+        line-height: 1.3 !important;
+    }
+    .user-meta span { display: block; font-size: 0.9rem; color: #666; line-height: 1.4 !important; margin-bottom: 3px;}
+    .user-meta small { color: #aaa; font-size: 0.75rem; }
+
+    /* AJUSTE DEL TEXTO DEL TÍTULO PRINCIPAL DE LA PÁGINA */
+    .main-title h1 { line-height: 1.4 !important; padding-bottom: 10px; }
+    .main-title h3 { margin-top: 10px !important; }
+
+    /* CONTENIDO DEL POST */
+    .rec-content { 
+        font-size: 1.05rem; color: #444; 
+        line-height: 1.8 !important; letter-spacing: 0.3px; word-spacing: 1px;
+        margin-bottom: 20px; word-break: break-word;
+    }
+    .rec-content p { margin-bottom: 15px; line-height: 1.8 !important; }
+
+    /* Botones de acción */
+    .rec-footer { display: flex; gap: 20px; align-items: center; margin-top: 15px; }
+    .btn-action {
+        background: none; border: none; cursor: pointer; font-size: 0.9rem; 
+        color: #555; font-weight: 600; display: flex; align-items: center; gap: 5px;
+    }
+    .btn-action:hover { color: #000; }
+
+    /* --- AQUÍ ESTÁN LOS CAMBIOS QUE PEDISTE --- */
+
+    /* 1. SECCIÓN DE RESPUESTAS (Ya no es blanca) */
+    .replies-section {
+        background: transparent; /* Transparente para que tome el gris de la tarjeta */
+        border-top: 1px solid #e0e0e0; /* Solo una línea sutil arriba */
+        margin-top: 20px;
+        padding-top: 15px;
+    }
+
+    .reply-item {
+        padding: 12px 0;
+        border-bottom: 1px solid #e6e6e6; /* Líneas separadoras sutiles */
+        font-size: 0.95rem;
+        color: #333;
+        line-height: 1.6 !important;
+    }
+
+    /* 2. NOMBRE DEL AUTOR EN RESPUESTAS (Negrilla fuerte) */
+    .reply-item strong {
+        font-weight: 900 !important; /* Negrilla forzada */
+        color: #000; /* Negro puro */
+        margin-right: 5px;
+    }
+
+    /* ----------------------------------------- */
+
+    .hidden-reply { display: none; }
+    .btn-show-more {
+        background: none; border: none; color: #007bff; cursor: pointer; 
+        font-size: 0.85rem; padding: 5px 0; text-decoration: underline;
+    }
+
+    /* Inputs */
+    .main-input {
+        width: 100%; border: 1px solid #ddd; background: #fff;
+        padding: 15px; border-radius: 5px; resize: none; outline: none;
+        font-family: inherit; line-height: 1.5;
+    }
+    .main-input:focus { border-color: #ffd42d; }

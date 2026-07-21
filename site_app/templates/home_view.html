@@ -1,0 +1,167 @@
+{% extends 'body.html' %}
+{%  load static  %}
+{% load i18n %}
+{% block title %}  
+    {{ titulo }}
+{% endblock %}
+
+{% block content %}
+
+						<!--About Tab-->
+					<section id="about" class="bg-white t-center active" style="display: block;">
+						
+						<!--About -->
+						<div class="about">
+									
+						
+						<!--Content-->	
+						<div class="content">
+							
+							<!--Block content-->	
+							<div class="block-content mb-100">
+								
+									<!--Row-->
+									<div class="row">
+
+									<div class="col-md-12  ">
+								
+								<div class="main-title profile">
+	                                <h1 class="mb-20" style="line-height: 1;">{% trans "Edgar Fernando Izurieta" %}</h1>
+	                                <h3>{% trans "Ingeniero en Petroleos / Analista de Datos e Inteligencia Artificial" %}</h3>
+	                            </div>
+									 </div>
+								 </div>
+								<!--End row-->
+
+							</div>
+							<!--End block content-->
+														
+								<!--Block content-->	
+								<div class="block-content mb-100">
+
+										<!--Row-->
+											<div class="row">
+
+										<div class="col-md-12  ">
+
+											<div class="sub-title mb-40">
+				                                <h2 class="uppercase">{% trans "Quien soy?" %}</h2>
+				                            </div>
+
+										 </div>
+										 </div>
+										<!--End row-->
+		
+		
+								<p class="lead-intro" style="font-size: 22px;">{% trans '"Tengo el grado de ingeniero de Petróleos con 3 años de experiencia en operaciones de producción temprana, well testing y análisis de yacimientos con herramientas de Machine Learning. Me destaco por mi sólida disciplina y una gran iniciativa, lo cual demuestro con el dominio de cuatro idiomas y el aprendizaje por cuenta propia de lenguajes de programación y diseño ingenieril. Estoy comprometido y entusiasmado con aplicar mis conocimientos técnicos y habilidades analíticas para la optimizacion de procesos y garantizar la eficiencia operativa en entornos desafiantes. “' %}</p>
+									
+								<img class="signature mt-20" src=" " alt="">
+
+								</div>
+								<!--End block content-->								
+								
+									<!--Block content-->	
+									<div class="block-content mb-100 pb-30">
+
+											<!--Row-->
+												<div class="row">
+
+											<div class="col-md-12  ">
+
+												<div class="sub-title mb-40">
+					                                <h2 class="uppercase">{% trans "Algo de mi" %}</h2>
+					                            </div>
+
+											 </div>
+											 </div>
+											<!--End row-->
+			
+			
+											<div class="row">
+										<div class="col-md-8 col-md-offset-3  col-sm-8 col-sm-offset-3 ">
+																				
+										<!--Listing-->	
+										<div class="listing mt-40">
+											
+										<div class="listing-inner">
+										<div class="listing-event">
+											<ul class="data left">
+												<li class="emph-1">{% trans "Nombre" %}</li>
+												<li class="emph-1">{% trans "Cumpleaños" %}</li>
+												<li class="emph-1">{% trans "Ciudad de Nacimiento" %}</li>
+												<li class="emph-1">{% trans "Nacionalidad" %}</li>
+												<li class="emph-1">{% trans "Estado Civil" %}</li>
+												<li class="emph-1">{% trans "Disponibilidad" %}</li>
+												
+											</ul>
+											
+											<ul class="data right">
+												<li>Edgar Fernando Izurieta</li>
+												<li>{% trans "9 de Junio" %} <span class="emph-1"></span></li>
+												<li>{% trans "Quito" %}</li>
+												<li>{% trans "Ecuatoriano" %}</li>
+												<li>{% trans "Soltero" %}</li>
+												<li>{% trans "En linea y presencial" %}</li>
+											</ul>
+											
+										</div>
+										</div>
+										
+										</div>
+										<!--End listing-->	
+																				
+									</div>
+									
+									</div>
+
+									</div>
+									<!--End block content-->
+									
+								<!--Block content-->	
+								<div class="block-content mb-100  pb-30">
+
+										<!--Row-->
+										<!--End row-->										
+
+										<!--Row-->
+										<div class="row">
+								
+
+								<a href="{% static 'files/cv.pdf' %}" download 
+								class="btn" 
+								style="background-color: #ffd42d; color: #000; border: none;">
+									{% trans "Descargar CV" %}
+								</a>
+								</div>
+								<!--End row-->
+
+								</div>
+								<!--End block content-->
+
+						
+						<!--Block content-->	
+						<div class="block-content">
+
+								<!--Row-->	
+								<div class="row">
+							<div class="col-md-12">
+								<span class="page-number emph-1">- 1/5 -</span>
+							</div>
+
+						</div>
+						<!--End row-->	
+						</div>
+						<!--End block content-->
+						
+
+					</div>
+					<!--End content-->
+						
+						</div>
+						<!--End about-->
+
+					</section>
+						<!--End about tab-->
+
+
+{% endblock %}

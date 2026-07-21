@@ -1,0 +1,6 @@
+/* FIX solo para la página askedgar */
+#resume .content::after {
+    box-shadow: none !important;
+    height: 0 !important;
+    padding: 0 !important;
+}

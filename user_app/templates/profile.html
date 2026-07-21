@@ -1,0 +1,110 @@
+{% extends 'body.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} {% trans "Mi Perfil" %} {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/profile_style.css' %}">
+
+<div class="profile-container">
+    
+    <aside class="profile-card">
+        <div class="profile-header">
+            <div class="avatar-circle">
+                {{ user.first_name|slice:":1" }}
+            </div>
+            <h2 class="user-name">{{ user.first_name }} {{ user.last_name }}</h2>
+            <p class="user-role">{{ user.profesion|default:" N/A" }}</p>
+        </div>
+        
+        <div class="info-list">
+            <div class="info-item">
+                <strong>{% trans "Correo Electrónico" %}</strong>
+                {{ user.email }}
+            </div>
+            <div class="info-item">
+                <strong>{% trans "Empresa Actual" %}</strong>
+                {{ user.empresa|default:"--" }}
+            </div>
+            <div class="info-item">
+                <strong>{% trans "Miembro desde" %}</strong>
+                {{ user.date_joined|date:"M Y" }}
+            </div>
+        </div>
+    </aside>
+
+    <main class="profile-card">
+        <h3 style="margin-top:0; margin-bottom:25px; border-bottom:1px solid #eee; padding-bottom:15px;">
+            {% trans "Editar Información" %}
+        </h3>
+
+        <form method="post">
+            {% csrf_token %}
+            
+            {% if messages %}
+    <div id="msg-box" style="
+        position: fixed; top: 70px; right: 20px; z-index: 9999;
+        background: #333; color: #fff; padding: 15px 25px; 
+        border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        font-family: sans-serif; animation: fadeIn 0.5s;
+    ">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+
+    <script>
+        setTimeout(function(){
+            var box = document.getElementById('msg-box');
+            if(box){ box.style.display = 'none'; }
+        }, 3000);
+    </script>
+{% endif %}
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>{% trans "Nombre" %}</label>
+                    {{ form.first_name }}
+                </div>
+                <div class="form-group">
+                    <label>{% trans "Apellido" %}</label>
+                    {{ form.last_name }}
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>{% trans "Profesión" %}</label>
+                    {{ form.profesion }}
+                </div>
+                <div class="form-group">
+                    <label>{% trans "Puesto / Cargo" %}</label>
+                    {{ form.puesto }}
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>{% trans "Empresa" %}</label>
+                    {{ form.empresa }}
+                </div>
+                <div class="form-group">
+                    <label>{% trans "Afinidad / Área" %}</label>
+                    {{ form.afinidad }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>{% trans "Cédula (No editable)" %}</label>
+                {{ form.cedula }}
+                <small style="color:#999">{{ form.cedula.help_text }}</small>
+            </div>
+
+            <div style="text-align: right; margin-top: 20px;">
+                <button type="submit" class="btn-save">{% trans "Guardar Cambios" %}</button>
+            </div>
+        </form>
+    </main>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+
+    /* Contenedor principal que centra y da margen */
+    .profile-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 1fr 2fr; /* Izquierda pequeña, Derecha grande */
+        gap: 30px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Tarjetas blancas modernas */
+    .profile-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        padding: 30px;
+        height: fit-content; /* Se ajusta al contenido */
+    }
+
+    /* Estilos Columna Izquierda (Resumen) */
+    .profile-header {
+        text-align: center;
+    }
+    .avatar-circle {
+        width: 120px;
+        height: 120px;
+        background-color: #ffd42d; /* Tu color amarillo */
+        color: #333;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        font-weight: bold;
+        margin: 0 auto 20px auto;
+    }
+    .user-name { font-size: 1.5rem; font-weight: 700; color: #333; margin: 0; }
+    .user-role { color: #777; margin-bottom: 20px; }
+    .info-item { border-bottom: 1px solid #eee; padding: 15px 0; font-size: 0.9rem; }
+    .info-item strong { display: block; color: #555; }
+
+    /* Estilos Formulario (Reutilizamos lógica visual) */
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 5px; color: #666; font-weight: 600;}
+    .form-control {
+        width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;
+        box-sizing: border-box;
+    }
+    .btn-save {
+        background-color: #333; color: white; padding: 12px 30px; border: none;
+        border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s;
+    }
+    .btn-save:hover { background-color: #000; }
+
+    /* Responsivo para celular */
+    @media (max-width: 768px) {
+        .profile-container { grid-template-columns: 1fr; }
+    }

@@ -1,0 +1,62 @@
+{% extends 'body.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}  
+    {{ titulo }}
+{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/login_style.css' %}">
+    
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <div class="login-overlay">
+        <div class="login-card">
+            
+            <div class="card-header-fixed">
+                <a href="/" onclick="event.preventDefault(); (history.length > 1) ? history.back() : window.location.href='/';" class="btn-close" aria-label="{% trans "Cerrar" %}">&times;</a>
+                <h2>{% trans "Bienvenido" %}</h2>
+            </div>
+
+            <div class="card-body-scroll">
+                
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" style="color:red; text-align:center; margin-bottom:15px;">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="form-group">
+                        {{ form.username.label_tag }}
+                        {{ form.username }}
+                        {{ form.username.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.password.label_tag }}
+                        {{ form.password }}
+                        {{ form.password.errors }}
+                        
+                        <a href="{% url 'password_reset' %}" class="forgot-password">{% trans "¿Olvidaste tu contraseña?" %}</a>
+                    </div>
+
+                    {% if form.captcha %}
+                        <div class="form-group captcha-container">
+                            {{ form.captcha }}
+                            {{ form.captcha.errors }}
+                        </div>
+                    {% endif %}
+
+                    <button type="submit" class="btn-login">{% trans "Iniciar Sesión" %}</button>
+                </form>
+
+                <div class="register-link">
+                    {% trans "¿No tienes cuenta?" %} <a href="{% url 'register_view' %}">{% trans "Regístrate aquí" %}</a>
+                </div>
+                
+            </div> </div>
+    </div>
+{% endblock %}

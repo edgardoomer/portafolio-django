@@ -1,0 +1,272 @@
+{% extends 'body.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} Portafolio {% endblock %}
+
+{% block content %}
+
+<style>
+    /* --- ESTILOS DEL PORTAFOLIO --- */
+
+    /* GRILLA DE PROYECTOS */
+    .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsivo automático */
+        gap: 30px;
+        margin-top: 30px;
+        padding: 0 20px;
+    }
+
+    /* TARJETA INDIVIDUAL */
+    .project-card {
+        background: #fff;
+        border-radius: 15px;
+        overflow: hidden; /* Para que la imagen no se salga de las esquinas */
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        border: 1px solid #eee;
+    }
+
+    .project-card:hover {
+        transform: translateY(-10px); /* Efecto de levantarse */
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+    /* IMAGEN DE LA TARJETA */
+    .card-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover; /* Recorta la imagen para que llene el espacio sin deformarse */
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .card-body {
+        padding: 20px;
+        text-align: left;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .card-tech {
+        font-size: 0.85rem;
+        color: #888;
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    /* Botón "Ver más" en la tarjeta */
+    .btn-card {
+        color: #ffd42d; /* Tu amarillo */
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        text-decoration: none;
+    }
+
+    /* --- ESTILOS DE LA VENTANA MODAL (POPUP) --- */
+    .modal-overlay {
+        display: none; /* Oculto por defecto */
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro transparente */
+        z-index: 9999; /* Por encima de todo */
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+        display: flex; /* Se activa con JS */
+        opacity: 1;
+    }
+
+    .modal-content {
+        background: #fff;
+        width: 90%;
+        max-width: 600px;
+        border-radius: 15px;
+        padding: 40px;
+        position: relative;
+        text-align: left;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        animation: scaleUp 0.3s ease; /* Animación de entrada */
+    }
+
+    @keyframes scaleUp {
+        from { transform: scale(0.8); }
+        to { transform: scale(1); }
+    }
+
+    /* BOTÓN CERRAR (X) */
+    .btn-close-modal {
+        position: absolute;
+        top: 15px; right: 20px;
+        font-size: 2rem;
+        color: #aaa;
+        cursor: pointer;
+        background: none; border: none;
+        line-height: 1;
+        transition: color 0.3s;
+    }
+    .btn-close-modal:hover { color: #333; transform: scale(1.1); }
+
+    /* TEXTOS DEL MODAL */
+    .modal-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #222;
+        margin-bottom: 10px;
+        border-bottom: 4px solid #ffd42d;
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+
+    .modal-subtitle {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #555;
+        margin-top: 20px;
+        margin-bottom: 5px;
+    }
+
+    .modal-text {
+        font-size: 1rem;
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    /* BOTÓN "SABER MÁS" */
+    .btn-contact-project {
+        display: block;
+        width: 100%;
+        text-align: center;
+        background-color: #333;
+        color: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 30px;
+        transition: background 0.3s;
+    }
+    .btn-contact-project:hover {
+        background-color: #ffd42d;
+        color: #000;
+    }
+
+</style>
+
+<section id="portfolio" class="bg-white t-center active" style="display: block;">
+    <div class="portfolio">
+        <div class="content">
+            
+            <div class="block-content mb-50">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="main-title profile">
+                            <h1 class="mb-20">{% trans "Mi Portafolio" %}</h1>
+                            <h3>{% trans "Proyectos destacados y casos de estudio" %}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block-content mb-100">
+                
+                <div class="portfolio-grid">
+                    {% for pro in proyectos %}
+                        <div class="project-card" onclick="openModal('modal-{{ pro.id }}')">
+                            
+                            {% if pro.imagen %}
+                                <img src="{{ pro.imagen.url }}" alt="{{ pro.titulo }}" class="card-image">
+                            {% else %}
+                                <div class="card-image" style="background:#eee; display:flex; align-items:center; justify-content:center; color:#aaa;">Sin Imagen</div>
+                            {% endif %}
+
+                            <div class="card-body">
+                                <span class="card-tech">{{ pro.tecnologias }}</span>
+                                <h3 class="card-title">{{ pro.titulo }}</h3>
+                                <span class="btn-card">{% trans "Ver detalles" %} &rarr;</span>
+                            </div>
+                        </div>
+
+                        <div id="modal-{{ pro.id }}" class="modal-overlay" onclick="closeModalOutside(event, 'modal-{{ pro.id }}')">
+                            <div class="modal-content">
+                                <button class="btn-close-modal" onclick="closeModal('modal-{{ pro.id }}')">&times;</button>
+
+                                <h2 class="modal-title">{{ pro.titulo }}</h2>
+                                
+                                <div class="modal-subtitle">{% trans "Objetivo del Proyecto" %}</div>
+                                <p class="modal-text">{{ pro.objetivo }}</p>
+
+                                <div class="modal-subtitle">{% trans "Resumen" %}</div>
+                                <p class="modal-text">{{ pro.descripcion|linebreaks }}</p>
+
+                                <a href="{% url 'contact_view' %}?asunto=Interés en proyecto {{ pro.titulo }}" class="btn-contact-project">
+                                    {% trans "Saber más" %}
+                                </a>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="col-md-12">
+                            <p style="color:#999;">{% trans "Aún no he subido proyectos. Vuelve pronto." %}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            <div class="block-content mb-50">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="page-number emph-1">- {% trans "Proyectos" %} -</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    // Abrir modal
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'flex';
+        // Pequeño timeout para que funcione la transición de opacidad
+        setTimeout(() => {
+            modal.classList.add('active');
+        }, 10);
+        // Evitar scroll en el fondo
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Cerrar modal con botón
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.classList.remove('active');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300); // Espera la animación
+        document.body.style.overflow = 'auto';
+    }
+
+    // Cerrar modal si se hace click fuera de la caja blanca
+    function closeModalOutside(event, modalId) {
+        if (event.target.id === modalId) {
+            closeModal(modalId);
+        }
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,198 @@
+{% extends 'body.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} Contacto {% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    /* ESTILOS PERSONALIZADOS PARA CONTACTO */
+    
+    /* 1. El email destacado */
+    .email-link {
+        font-size: 1.5rem;
+        color: #333;
+        text-decoration: none;
+        border-bottom: 2px solid #ffd42d; /* Tu amarillo característico */
+        transition: all 0.3s ease;
+        padding-bottom: 2px;
+    }
+    .email-link:hover {
+        background-color: #ffd42d;
+        color: #000;
+        border-bottom-color: transparent;
+        padding: 5px 10px; /* Efecto de botón al hover */
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    /* 2. Contenedor de Iconos Tech */
+    .tech-stack-container {
+        display: flex;
+        justify-content: center;
+        gap: 40px; /* Espacio entre iconos */
+        flex-wrap: wrap; /* Para que baje en celulares */
+        margin-top: 20px;
+    }
+
+    /* 3. Los Iconos Base (Apagados) */
+    .tech-item {
+        font-size: 3.5rem; /* Tamaño grande */
+        color: #ccc; /* Gris apagado inicial */
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efecto rebote suave */
+        position: relative;
+    }
+
+    /* Tooltip simple (nombre de la tecnología) */
+    .tech-item::after {
+        content: attr(data-name); /* Toma el nombre del HTML */
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.8rem;
+        color: #333;
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+    .tech-item:hover::after {
+        opacity: 1;
+    }
+
+    /* 4. COLORES Y EFECTOS ESPECÍFICOS POR TECNOLOGÍA */
+    
+    /* Python (Azul/Amarillo - Usamos Azul dominante) */
+    .tech-item.python:hover {
+        color: #3776AB;
+        filter: drop-shadow(0 0 10px rgba(55, 118, 171, 0.6));
+        transform: translateY(-10px) scale(1.1);
+    }
+
+    /* JavaScript (Amarillo) */
+    .tech-item.js:hover {
+        color: #F7DF1E;
+        filter: drop-shadow(0 0 10px rgba(247, 223, 30, 0.6));
+        transform: translateY(-10px) scale(1.1);
+    }
+
+    /* HTML5 (Naranja) */
+    .tech-item.html:hover {
+        color: #E34F26;
+        filter: drop-shadow(0 0 10px rgba(227, 79, 38, 0.6));
+        transform: translateY(-10px) scale(1.1);
+    }
+
+    /* CSS3 (Azul) */
+    .tech-item.css:hover {
+        color: #1572B6;
+        filter: drop-shadow(0 0 10px rgba(21, 114, 182, 0.6));
+        transform: translateY(-10px) scale(1.1);
+    }
+
+    /* Django (Verde Oscuro) */
+    .tech-item.django:hover {
+        color: #092E20;
+        filter: drop-shadow(0 0 10px rgba(9, 46, 32, 0.6));
+        transform: translateY(-10px) scale(1.1);
+    }
+
+    /* PostgreSQL (Azul Elefante) */
+    .tech-item.postgres:hover {
+        color: #336791;
+        filter: drop-shadow(0 0 10px rgba(51, 103, 145, 0.6));
+        transform: translateY(-10px) scale(1.1);
+    }
+
+</style>
+
+<section id="contact" class="bg-white t-center active" style="display: block;">
+    
+    <div class="contact">
+        <div class="content">
+            
+            <div class="block-content mb-50">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="main-title profile">
+                            <h1 class="mb-20">{% trans "Contáctame" %}</h1>
+                            <h3>{% trans "Trabajemos juntos en el próximo desafío" %}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block-content mb-100">
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        <h2 class="uppercase" style="margin-bottom: 10px;">Edgar Fernando Izurieta Merchán</h2>
+                        
+                        <div class="timeline">
+										<div class="timeline-inner">
+											<div class="name">
+												<h4>EMAIL </h4>
+											</div>
+											<div class="detail">
+                                                <div style="text-align: justify;">
+                                                <p>• edgfernando18@gmail.com</p>	
+                                                </div>										
+                                            </div>
+                                            <div class="name">
+												<h4>{% trans "NUMERO DE TELEFONO" %} </h4>
+											</div>
+											<div class="detail">
+                                                <div style="text-align: justify;">
+                                                <p>• 0998730448</p>	
+                                                </div>										
+                                            </div>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block-content mb-100">
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        <div class="sub-title mb-40">
+                            <h2 class="uppercase">{% trans "Desarrollado con" %}</h2>
+                            <p>{% trans "Tecnologías utilizadas para construir este sitio" %}</p>
+                        </div>
+
+                        <div class="tech-stack-container">
+                            <i class="fab fa-python tech-item python" data-name="Python"></i>
+                            
+                            <i class="fas fa-laptop-code tech-item django" data-name="Django"></i>
+                            
+                            <i class="fas fa-database tech-item postgres" data-name="PostgreSQL"></i>
+                            
+                            <i class="fab fa-html5 tech-item html" data-name="HTML5"></i>
+                            
+                            <i class="fab fa-css3-alt tech-item css" data-name="CSS3"></i>
+                            
+                            <i class="fab fa-js tech-item js" data-name="JavaScript"></i>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="block-content mb-50">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="page-number emph-1">- {% trans "Contacto" %} -</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block body %}
+
+<style>
+    /* 1. FONDO DE LA PÁGINA */
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        
+        /* CAMBIO: Ruta directa a /media/ */
+        background-image: url('/media/fondo.png'); 
+        
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    #wrapper {
+        flex: 1; 
+    }
+
+    /* 2. FOOTER ANIMADO */
+    .animacion-footer {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        overflow: hidden; 
+        background-color: transparent;
+        border-top: none;
+        margin-top: 50px;
+    }
+
+    /* EL PERRO */
+    .perro-container {
+        position: absolute;
+        bottom: 14px;
+        left: 50%;    
+        transform: translateX(-50%);
+        z-index: 10;
+        width: 120px;
+    }
+
+    .perro { width: 100%; height: auto; }
+
+    /* EL ESCENARIO (Loop) */
+    .escenario-minder {
+        display: flex;
+        width: 200%;
+        height: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        animation: moverEscenario 40s linear infinite; 
+        pointer-events: none;
+    }
+
+    .bloque-escenario {
+        width: 50%;
+        height: 100%;
+        position: relative;
+    }
+
+    @keyframes moverEscenario {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
+    /* ELEMENTOS */
+    .elemento {
+        position: absolute;
+        bottom: 11px;
+        z-index: 1;
+    }
+
+    .pino { height: 90px; width: auto; }
+    .cabezal { height: 100px; width: auto; z-index: 2; }
+
+    /* EL SUELO (CÉSPED) */
+    .suelo {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 50px;
+        background-repeat: repeat-x;
+        
+        /* CAMBIO: Ruta directa a /media/ */
+        background-image: url('/media/cesped.png'); 
+        
+        background-size: contain;
+        z-index: 5;
+    }
+</style>
+
+<div class="loader" style="display: none;">
+    <div class="loader-inner" style="display: none;">
+        <div class="spinner">
+            <div class="dot1"></div>
+            <div class="dot2"></div>
+        </div>
+    </div>
+</div>
+
+<div id="wrapper" class="mt-150 mb-0" data-easytabs="true">
+
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-md-2 left-content pd-r0">
+                <header id="header">
+                    <div class="main-header">
+                        <div class="img-profile">
+                            <img src="/media/site_images/foto.png" alt="Perfil">
+                            
+                            <div class="name-profile t-center">
+                                <h5 class="uppercase">Edgar Izurieta</h5>
+                            </div>
+                        </div>
+                        
+                        <nav id="main-nav" class="main-nav clearfix t-center uppercase tabbed">
+                            <ul class="clearfix">
+                                <li><a class="{% if section == 'about' %}active{% endif %}" href="{% url 'home_view' %}#about"><i class="icon-user"></i> {% trans "Acerca de mi" %} <span>{% trans "Por qué yo?" %}</span></a></li>
+                                <li><a class="{% if section == 'resume' %}active{% endif %}" href="{% url 'ask_view' %}#resume"><i class="icon-briefcase"></i> AskEdgar.IA <span>{% trans "Consulta con IA" %}</span></a></li>
+                                <li><a class="{% if section == 'curriculum' %}active{% endif %}" href="{% url 'curriculum_view' %}#curriculum"><i class="icon-briefcase"></i> {% trans "Mi curriculum" %} <span>{% trans "¿Qué sé hacer?" %}</span></a></li>
+                                <li><a class="{% if section == 'portfolio' %}active{% endif %}" href="{% url 'portafolio_index' %}#portfolio"><i class="icon-github"></i> {% trans "Portfolio" %} <span>{% trans "Mis proyectos" %}</span></a></li>
+                                <li><a class="{% if section == 'blog' %}active{% endif %}" href="{% url 'blog_index' %}#blog"><i class="icon-chat"></i> {% trans "Blog" %} <span>{% trans "Mis recomendaciones" %}</span></a></li>
+                                <li><a class="{% if section == 'contact' %}active{% endif %}" href="{% url 'contact_view' %}#contact"><i class="icon-phone"></i> {% trans "Contacto" %} <span>{% trans "Sin compromiso!" %}</span></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </header>
+            </div>
+
+            <div class="col-md-9 right-content pd-r0 pd-l0">
+                {% block content %}
+                {% endblock %}
+            </div>
+
+            <footer class="footer">
+                <div class="col-md-1 pd-l0">
+                    <ul class="social"> 
+                        <li><a href="https://www.facebook.com/edgar.fer.izurieta"><i class="icon-facebook"></i></a></li>
+                        <li><a href="https://www.instagram.com/edgardoomi/"><i class="icon-instagram"></i></a></li>
+                        <li><a href="https://www.github.com/edgardoomer"><i class="icon-github"></i></a></li>
+                        <li><a href="https://www.linkedin.com/in/edgarfer"><i class="icon-linkedin"></i></a></li>
+                    </ul>
+                    <div class="copyright">
+                        <p>© 2025 Edgardooom</p>
+                    </div>
+                </div>
+            </footer>
+
+        </div> 
+    </div> 
+
+</div> 
+
+
+<footer class="animacion-footer">
+    
+    <div class="perro-container">
+        <img src="/media/perro.gif" alt="Perro caminando" class="perro">
+    </div>
+
+    <div class="escenario-minder">
+        
+        <div class="bloque-escenario">
+            <img src="/media/pino.png" class="elemento pino" style="left: 5%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 10%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 13%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 25%;">
+            <img src="/media/cabezal_1.gif" class="elemento cabezal" style="left: 40%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 35%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 42%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 57%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 67%;">
+            <img src="/media/cabezal_1.gif" class="elemento cabezal" style="left: 72%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 77%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 80%;">
+            <img src="/media/cabezal_1.gif" class="elemento cabezal" style="left: 85%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 89%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 98%;">
+            
+            <div class="suelo" style="background-image: url('/media/cesped.png');"></div>
+        </div>
+
+        <div class="bloque-escenario">
+            <img src="/media/pino.png" class="elemento pino" style="left: 5%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 10%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 13%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 25%;">
+            <img src="/media/cabezal_1.gif" class="elemento cabezal" style="left: 40%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 35%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 42%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 57%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 67%;">
+            <img src="/media/cabezal_1.gif" class="elemento cabezal" style="left: 72%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 77%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 80%;">
+            <img src="/media/cabezal.gif" class="elemento cabezal" style="left: 85%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 89%;">
+            <img src="/media/pino.png" class="elemento pino" style="left: 98%;">
+            
+            <div class="suelo" style="background-image: url('/media/cesped.png');"></div>
+        </div>
+
+    </div>
+</footer>
+
+{% endblock %}
