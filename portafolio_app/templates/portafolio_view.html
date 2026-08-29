@@ -6,170 +6,192 @@
 {% block content %}
 
 <style>
-    /* --- ESTILOS DEL PORTAFOLIO --- */
-
-    /* GRILLA DE PROYECTOS */
+    /* --- GRILLA DE PROYECTOS --- */
     .portfolio-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsivo automático */
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: 30px;
         margin-top: 30px;
         padding: 0 20px;
     }
 
-    /* TARJETA INDIVIDUAL */
     .project-card {
         background: #fff;
         border-radius: 15px;
-        overflow: hidden; /* Para que la imagen no se salga de las esquinas */
+        overflow: hidden;
         box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         cursor: pointer;
         position: relative;
         border: 1px solid #eee;
     }
-
     .project-card:hover {
-        transform: translateY(-10px); /* Efecto de levantarse */
+        transform: translateY(-10px);
         box-shadow: 0 15px 30px rgba(0,0,0,0.1);
     }
-
-    /* IMAGEN DE LA TARJETA */
     .card-image {
         width: 100%;
         height: 200px;
-        object-fit: cover; /* Recorta la imagen para que llene el espacio sin deformarse */
+        object-fit: cover;
         border-bottom: 1px solid #f0f0f0;
     }
+    .card-body { padding: 20px; text-align: left; }
+    .card-title { font-size: 1.2rem; font-weight: 700; color: #333; margin-bottom: 10px; }
+    .card-tech { font-size: 0.85rem; color: #888; margin-bottom: 15px; display: block; }
+    .btn-card { color: #ffd42d; font-weight: bold; text-transform: uppercase; font-size: 0.9rem; text-decoration: none; }
 
-    .card-body {
-        padding: 20px;
-        text-align: left;
-    }
-
-    .card-title {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: #333;
-        margin-bottom: 10px;
-    }
-
-    .card-tech {
-        font-size: 0.85rem;
-        color: #888;
-        margin-bottom: 15px;
-        display: block;
-    }
-
-    /* Botón "Ver más" en la tarjeta */
-    .btn-card {
-        color: #ffd42d; /* Tu amarillo */
-        font-weight: bold;
-        text-transform: uppercase;
-        font-size: 0.9rem;
-        text-decoration: none;
-    }
-
-    /* --- ESTILOS DE LA VENTANA MODAL (POPUP) --- */
+    /* --- MODAL --- */
     .modal-overlay {
-        display: none; /* Oculto por defecto */
+        display: none;
         position: fixed;
         top: 0; left: 0;
         width: 100%; height: 100%;
-        background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro transparente */
-        z-index: 9999; /* Por encima de todo */
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 9999;
         align-items: center;
         justify-content: center;
         opacity: 0;
         transition: opacity 0.3s ease;
+        padding: 20px;
     }
-
-    .modal-overlay.active {
-        display: flex; /* Se activa con JS */
-        opacity: 1;
-    }
+    .modal-overlay.active { display: flex; opacity: 1; }
 
     .modal-content {
         background: #fff;
-        width: 90%;
-        max-width: 600px;
+        /* El ancho manda; la altura sale de aspect-ratio para que la columna
+           derecha (58%) quede EXACTAMENTE en 16:9.
+           aspect-ratio del modal = 16 / (9 * 0.58) = 3.07 */
+        width: min(1100px, 94vw);
+        aspect-ratio: 3.07 / 1;
+        max-height: 88vh;
         border-radius: 15px;
-        padding: 40px;
         position: relative;
-        text-align: left;
         box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        animation: scaleUp 0.3s ease; /* Animación de entrada */
+        animation: scaleUp 0.3s ease;
+        overflow: hidden;
+        display: flex;              /* dos columnas */
+    }
+    @keyframes scaleUp { from { transform: scale(0.9); } to { transform: scale(1); } }
+
+    /* Columna izquierda: TEXTO (se amolda a la altura del slider y hace scroll) */
+    .modal-text-col {
+        flex: 0 0 42%;
+        padding: 30px 32px;
+        text-align: left;
+        overflow-y: auto;
+        height: 100%;
+    }
+    /* Columna derecha: SLIDER en 16:9 */
+    .modal-slider-col {
+        flex: 0 0 58%;
+        background: #111;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        height: 100%;
     }
 
-    @keyframes scaleUp {
-        from { transform: scale(0.8); }
-        to { transform: scale(1); }
-    }
-
-    /* BOTÓN CERRAR (X) */
     .btn-close-modal {
         position: absolute;
-        top: 15px; right: 20px;
+        top: 12px; right: 16px;
         font-size: 2rem;
-        color: #aaa;
-        cursor: pointer;
-        background: none; border: none;
-        line-height: 1;
-        transition: color 0.3s;
-    }
-    .btn-close-modal:hover { color: #333; transform: scale(1.1); }
-
-    /* TEXTOS DEL MODAL */
-    .modal-title {
-        font-size: 1.8rem;
-        font-weight: 800;
-        color: #222;
-        margin-bottom: 10px;
-        border-bottom: 4px solid #ffd42d;
-        display: inline-block;
-        padding-bottom: 5px;
-    }
-
-    .modal-subtitle {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #555;
-        margin-top: 20px;
-        margin-bottom: 5px;
-    }
-
-    .modal-text {
-        font-size: 1rem;
-        color: #666;
-        line-height: 1.6;
-        margin-bottom: 15px;
-    }
-
-    /* BOTÓN "SABER MÁS" */
-    .btn-contact-project {
-        display: block;
-        width: 100%;
-        text-align: center;
-        background-color: #333;
         color: #fff;
-        padding: 15px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: bold;
-        margin-top: 30px;
+        cursor: pointer;
+        background: rgba(0,0,0,0.35); border: none;
+        line-height: 1;
+        width: 40px; height: 40px;
+        border-radius: 50%;
+        z-index: 5;
         transition: background 0.3s;
     }
-    .btn-contact-project:hover {
-        background-color: #ffd42d;
-        color: #000;
-    }
+    .btn-close-modal:hover { background: rgba(0,0,0,0.6); }
 
+    .modal-title { font-size: 1.8rem; font-weight: 800; color: #222; margin-bottom: 10px; border-bottom: 4px solid #ffd42d; display: inline-block; padding-bottom: 5px; }
+    .modal-tech { font-size: 0.9rem; color:#888; margin: 12px 0 20px; }
+    .modal-subtitle { font-size: 1.1rem; font-weight: 700; color: #555; margin-top: 20px; margin-bottom: 5px; }
+    .modal-text { font-size: 1rem; color: #666; line-height: 1.6; margin-bottom: 15px; }
+    .btn-contact-project { display: block; width: 100%; text-align: center; background-color: #333; color: #fff; padding: 15px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 30px; transition: background 0.3s; }
+    .btn-contact-project:hover { background-color: #ffd42d; color: #000; }
+
+    /* --- SLIDER --- */
+    .slider {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    .slider-track {
+        display: flex;
+        height: 100%;
+        transition: transform 0.4s ease;
+    }
+    .slider-slide {
+        min-width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .slider-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;   /* muestra la imagen 16:9 completa, sin recortar */
+        display: block;
+    }
+    .slider-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 212, 45, 0.9);
+        color: #000;
+        border: none;
+        width: 44px; height: 44px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        z-index: 3;
+        transition: background 0.2s, transform 0.2s;
+    }
+    .slider-btn:hover { background: #ffd42d; transform: translateY(-50%) scale(1.08); }
+    .slider-btn.prev { left: 12px; }
+    .slider-btn.next { right: 12px; }
+    .slider-btn.hidden-nav { display: none; }
+
+    .slider-dots {
+        position: absolute;
+        bottom: 14px; left: 0; right: 0;
+        display: flex; gap: 8px;
+        justify-content: center;
+        z-index: 3;
+    }
+    .slider-dot {
+        width: 10px; height: 10px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.5);
+        border: none; cursor: pointer;
+        padding: 0;
+        transition: background 0.2s;
+    }
+    .slider-dot.active { background: #ffd42d; }
+
+    .slider-empty { color: #888; font-size: 0.95rem; }
+
+    /* Responsive: en móvil, una columna (slider arriba, texto abajo) */
+    @media (max-width: 768px) {
+        /* En móvil: apilado. El slider ocupa el ancho completo en 16:9
+           y el texto va debajo. */
+        .modal-content { flex-direction: column; aspect-ratio: auto; height: auto; max-height: 92vh; width: 94vw; }
+        .modal-slider-col { flex: none; width: 100%; aspect-ratio: 16 / 9; height: auto; }
+        .modal-text-col { flex: none; width: 100%; height: auto; max-height: 45vh; }
+    }
 </style>
 
 <section id="portfolio" class="bg-white t-center active" style="display: block;">
     <div class="portfolio">
         <div class="content">
-            
+
             <div class="block-content mb-50">
                 <div class="row">
                     <div class="col-md-12">
@@ -182,17 +204,14 @@
             </div>
 
             <div class="block-content mb-100">
-                
                 <div class="portfolio-grid">
                     {% for pro in proyectos %}
                         <div class="project-card" onclick="openModal('modal-{{ pro.id }}')">
-                            
                             {% if pro.imagen %}
                                 <img src="{{ pro.imagen.url }}" alt="{{ pro.titulo }}" class="card-image">
                             {% else %}
-                                <div class="card-image" style="background:#eee; display:flex; align-items:center; justify-content:center; color:#aaa;">Sin Imagen</div>
+                                <div class="card-image" style="background:#eee; display:flex; align-items:center; justify-content:center; color:#aaa;">{% trans "Sin Imagen" %}</div>
                             {% endif %}
-
                             <div class="card-body">
                                 <span class="card-tech">{{ pro.tecnologias }}</span>
                                 <h3 class="card-title">{{ pro.titulo }}</h3>
@@ -200,21 +219,45 @@
                             </div>
                         </div>
 
+                        <!-- MODAL -->
                         <div id="modal-{{ pro.id }}" class="modal-overlay" onclick="closeModalOutside(event, 'modal-{{ pro.id }}')">
                             <div class="modal-content">
                                 <button class="btn-close-modal" onclick="closeModal('modal-{{ pro.id }}')">&times;</button>
 
-                                <h2 class="modal-title">{{ pro.titulo }}</h2>
-                                
-                                <div class="modal-subtitle">{% trans "Objetivo del Proyecto" %}</div>
-                                <p class="modal-text">{{ pro.objetivo }}</p>
+                                <!-- COLUMNA IZQUIERDA: TEXTO -->
+                                <div class="modal-text-col">
+                                    <h2 class="modal-title">{{ pro.titulo }}</h2>
+                                    <p class="modal-tech">{{ pro.tecnologias }}</p>
 
-                                <div class="modal-subtitle">{% trans "Resumen" %}</div>
-                                <p class="modal-text">{{ pro.descripcion|linebreaks }}</p>
+                                    <div class="modal-subtitle">{% trans "Objetivo del Proyecto" %}</div>
+                                    <p class="modal-text">{{ pro.objetivo }}</p>
 
-                                <a href="{% url 'contact_view' %}?asunto=Interés en proyecto {{ pro.titulo }}" class="btn-contact-project">
-                                    {% trans "Saber más" %}
-                                </a>
+                                    <div class="modal-subtitle">{% trans "Resumen" %}</div>
+                                    <p class="modal-text">{{ pro.descripcion|linebreaks }}</p>
+
+                                    <a href="{% url 'contact_view' %}?asunto=Interés en proyecto {{ pro.titulo }}" class="btn-contact-project">
+                                        {% trans "Saber más" %}
+                                    </a>
+                                </div>
+
+                                <!-- COLUMNA DERECHA: SLIDER -->
+                                <div class="modal-slider-col">
+                                    <div class="slider" data-slider>
+                                        <div class="slider-track">
+                                            {% for img in pro.imagenes.all %}
+                                                <div class="slider-slide">
+                                                    <img src="{{ img.imagen.url }}" alt="{{ img.titulo|default:pro.titulo }}">
+                                                </div>
+                                            {% empty %}
+                                                <div class="slider-slide"><span class="slider-empty">{% trans "Sin imágenes adicionales" %}</span></div>
+                                            {% endfor %}
+                                        </div>
+
+                                        <button class="slider-btn prev" type="button" aria-label="{% trans 'Anterior' %}">&#8249;</button>
+                                        <button class="slider-btn next" type="button" aria-label="{% trans 'Siguiente' %}">&#8250;</button>
+                                        <div class="slider-dots"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     {% empty %}
@@ -223,7 +266,6 @@
                         </div>
                     {% endfor %}
                 </div>
-
             </div>
 
             <div class="block-content mb-50">
@@ -239,34 +281,67 @@
 </section>
 
 <script>
-    // Abrir modal
+    // --- MODAL ---
     function openModal(modalId) {
         const modal = document.getElementById(modalId);
         modal.style.display = 'flex';
-        // Pequeño timeout para que funcione la transición de opacidad
-        setTimeout(() => {
-            modal.classList.add('active');
-        }, 10);
-        // Evitar scroll en el fondo
+        setTimeout(() => modal.classList.add('active'), 10);
         document.body.style.overflow = 'hidden';
+        // Reinicia el slider de este modal a la primera imagen
+        const slider = modal.querySelector('[data-slider]');
+        if (slider && slider._goTo) slider._goTo(0);
     }
-
-    // Cerrar modal con botón
     function closeModal(modalId) {
         const modal = document.getElementById(modalId);
         modal.classList.remove('active');
-        setTimeout(() => {
-            modal.style.display = 'none';
-        }, 300); // Espera la animación
+        setTimeout(() => { modal.style.display = 'none'; }, 300);
         document.body.style.overflow = 'auto';
     }
-
-    // Cerrar modal si se hace click fuera de la caja blanca
     function closeModalOutside(event, modalId) {
-        if (event.target.id === modalId) {
-            closeModal(modalId);
-        }
+        if (event.target.id === modalId) closeModal(modalId);
     }
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.active').forEach(m => closeModal(m.id));
+        }
+    });
+
+    // --- SLIDER (uno independiente por proyecto) ---
+    function initSlider(slider) {
+        const track = slider.querySelector('.slider-track');
+        const slides = Array.from(slider.querySelectorAll('.slider-slide'));
+        const prevBtn = slider.querySelector('.slider-btn.prev');
+        const nextBtn = slider.querySelector('.slider-btn.next');
+        const dotsBox = slider.querySelector('.slider-dots');
+        let current = 0;
+
+        // Con una sola imagen, ocultamos flechas y puntos
+        if (slides.length <= 1) {
+            prevBtn.classList.add('hidden-nav');
+            nextBtn.classList.add('hidden-nav');
+        } else {
+            slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+                dot.type = 'button';
+                dot.addEventListener('click', () => goTo(i));
+                dotsBox.appendChild(dot);
+            });
+        }
+
+        function goTo(index) {
+            current = (index + slides.length) % slides.length;
+            track.style.transform = `translateX(-${current * 100}%)`;
+            dotsBox.querySelectorAll('.slider-dot').forEach((d, i) =>
+                d.classList.toggle('active', i === current));
+        }
+
+        prevBtn.addEventListener('click', () => goTo(current - 1));
+        nextBtn.addEventListener('click', () => goTo(current + 1));
+        slider._goTo = goTo; // para reiniciar al abrir el modal
+    }
+
+    document.querySelectorAll('[data-slider]').forEach(initSlider);
 </script>
 
 {% endblock %}

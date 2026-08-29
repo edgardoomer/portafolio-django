@@ -15,6 +15,16 @@ from django.utils.translation import gettext_lazy as _
 from decouple import config, Csv
 import os
 
+# Hace que Python confie en el almacen de certificados del sistema operativo.
+# Necesario cuando un antivirus o proxy (p. ej. Avast) intercepta el TLS y
+# presenta su propia raiz, que no esta en el bundle de certifi. Si truststore
+# no esta instalado, se usa el comportamiento por defecto (certifi).
+try:
+    import truststore
+    truststore.inject_into_ssl()
+except Exception:
+    pass
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,7 +38,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 
+# --- Proveedor de IA del chat ---
+# 'deepseek' u 'openai'. DeepSeek es compatible con el SDK de OpenAI, solo
+# cambia la base_url. Todas las claves se leen del .env.
+IACHAT_PROVIDER = config('IACHAT_PROVIDER', default='deepseek')
+
 OPENAI_API_KEY = config('OPENAI_API_KEY', default='')
+
+DEEPSEEK_API_KEY = config('DEEPSEEK_API_KEY', default='')
+DEEPSEEK_MODEL = config('DEEPSEEK_MODEL', default='deepseek-chat')
+DEEPSEEK_BASE_URL = config('DEEPSEEK_BASE_URL', default='https://api.deepseek.com')
 
 # DEBUG es False por defecto: si olvidas definirlo en produccion,
 # el sitio falla del lado seguro en lugar de exponer los settings.
@@ -234,11 +253,33 @@ CACHES = {
 
 # Longitud maxima del mensaje del usuario. Evita que alguien envie
 # textos gigantes para inflar el consumo de tokens.
-IACHAT_MAX_MESSAGE_LENGTH = 300
+IACHAT_MAX_MESSAGE_LENGTH = 500
 
 # Limites de peticiones por IP.
 IACHAT_RATE_PER_MINUTE = '5/m'
 IACHAT_RATE_PER_DAY = '40/d'
+
+# --- Limites por conversacion ---
+# Tope de palabras acumuladas por conversacion. Al superarse (con un pequeno
+# margen de tolerancia) se pide al usuario abrir otra conversacion.
+IACHAT_MAX_WORDS_PER_CONVERSATION = 500
+IACHAT_WORDS_TOLERANCE = 50  # margen: se avisa al pasar de 550
+
+# --- Limites para visitantes ANONIMOS (por sesion de navegador) ---
+IACHAT_ANON_MAX_CONVERSATIONS = 2
+IACHAT_ANON_TOKEN_LIMIT = 500
+
+# --- Tope de conversaciones para usuarios AUTENTICADOS ---
+IACHAT_USER_MAX_CONVERSATIONS = 4
+
+# --- Limite por defecto para usuarios AUTENTICADOS ---
+# (se guarda por usuario en CustomUser.token_limit; esto es solo el valor
+# inicial de referencia).
+IACHAT_USER_DEFAULT_TOKEN_LIMIT = 1000
+
+# Captcha del chat para anonimos (como en el registro). Se puede desactivar
+# en desarrollo poniendo IACHAT_CAPTCHA_ENABLED=False en el .env.
+IACHAT_CAPTCHA_ENABLED = config('IACHAT_CAPTCHA_ENABLED', default=True, cast=bool)
 
 
 # ==========================================================
