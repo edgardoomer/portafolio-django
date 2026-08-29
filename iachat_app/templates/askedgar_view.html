@@ -1,60 +1,163 @@
 {% extends 'body.html' %}
-{%  load widget_tweaks  %}
+{% load static %}
 {% load i18n %}
-{%  load static  %}
 
-{% block title %}  
-    {{ titulo }}
-{% endblock %}
+{% block title %}{{ titulo }}{% endblock %}
 
 {% block content %}
+<style>
+  .cvchat-wrap {
+    --cvchat-bg: #ffffff;
+    --cvchat-bg-alt: #f9f9f9;
+    --cvchat-primary: #ffd42d;
+    --cvchat-primary-dark: #e0ae1f;
+    --cvchat-text: #222;
+    --cvchat-text-secondary: #666;
+    --cvchat-border: #e6e6e6;
+    --cvchat-radius: 1.5rem;
+    --cvchat-shadow: 0 4px 24px rgba(0,0,0,.06);
+    --cvchat-sidebar-width: 210px;
+    max-width: 1100px;
+    margin: 20px auto;
+    height: 76vh;
+    min-height: 500px;
+    border: 1px solid var(--cvchat-border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--cvchat-shadow);
+    text-align: left;
+    background: var(--cvchat-bg);
+  }
+  .cvchat-wrap * { box-sizing: border-box; }
+  .cvchat-container { display: flex; flex-direction: row; width: 100%; height: 100%; background: var(--cvchat-bg); }
 
+  /* --- SIDEBAR (solo logo + botón, más compacto) --- */
+  .cvchat-sidebar { width: var(--cvchat-sidebar-width); border-right: 1px solid var(--cvchat-border); background: var(--cvchat-bg); display: flex; flex-direction: column; flex-shrink: 0; }
+  .cvchat-sidebar-top { padding: 1rem .8rem; display: flex; flex-direction: column; gap: .6rem; }
+  .cvchat-sidebar-logo { display: flex; align-items: center; gap: .5rem; font-weight: 700; font-size: 1rem; padding: .3rem .4rem; color: var(--cvchat-text); }
+  .cvchat-sidebar-logo svg { color: var(--cvchat-primary-dark); }
+  .cvchat-menu-item { display: flex; align-items: center; gap: .6rem; padding: .65rem; border-radius: .8rem; cursor: pointer; border: 1px solid var(--cvchat-border); background: var(--cvchat-bg-alt); color: var(--cvchat-text); font-size: .9rem; transition: .2s; text-align: left; width: 100%; font-weight: 500; }
+  .cvchat-menu-item:hover:not(:disabled) { border-color: var(--cvchat-primary); background: rgba(255,212,45,.08); }
+  .cvchat-menu-item:disabled { opacity: .5; cursor: default; }
 
-						<!--Resume Tab-->
-<section id="resume" class="bg-white t-center active" style="display: block;">
-						
-						<!--Resume -->
-<div class="resume">
-									
-						
-						<!--Content-->	
-<div class="content">
-	<div class="block-content mb-100">
+  /* --- MAIN --- */
+  .cvchat-main { flex: 1; display: flex; flex-direction: column; min-width: 0; position: relative; background: var(--cvchat-bg); }
+  .cvchat-header { padding: .75rem 1.2rem; border-bottom: 1px solid var(--cvchat-border); display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: var(--cvchat-bg); flex-shrink: 0; }
+  .cvchat-header-title { font-weight: 700; font-size: 1rem; color: var(--cvchat-text); }
+  .cvchat-status { font-size: .78rem; color: var(--cvchat-text-secondary); white-space: nowrap; }
+  .cvchat-status b { color: var(--cvchat-primary-dark); }
 
-			<!-- ========================= -->
-            <!--        CHAT BOX          -->
-            <!-- ========================= -->
-            <div class="cvchat-container">
+  /* --- LISTA DE CONVERSACIONES (en la barra lateral izquierda) --- */
+  .cvchat-recents-header { padding: .5rem .9rem .3rem; font-size: .72rem; font-weight: 600; color: var(--cvchat-text-secondary); text-transform: uppercase; letter-spacing: .03em; }
+  .cvchat-sidebar-list { flex: 1; overflow-y: auto; padding: 0 .6rem .6rem; display: flex; flex-direction: column; gap: .25rem; min-height: 0; }
+  .cvchat-conversation { display: flex; align-items: center; justify-content: space-between; padding: .5rem .6rem; border-radius: .7rem; cursor: pointer; border: 1px solid transparent; transition: .2s; }
+  .cvchat-conversation:hover { background: var(--cvchat-bg-alt); }
+  .cvchat-conversation.active { background: rgba(255,212,45,.16); border-color: var(--cvchat-primary); }
+  .cvchat-conversation-title { flex: 1; font-size: .85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: .4rem; color: var(--cvchat-text); }
+  .cvchat-conv-del { border: none; background: none; cursor: pointer; color: #aaa; opacity: 0; transition: .2s; display: flex; padding: 0; }
+  .cvchat-conversation:hover .cvchat-conv-del { opacity: 1; }
+  .cvchat-conv-del:hover { color: #d33; }
+  .cvchat-list-empty { color: #aaa; font-size: .82rem; padding: .5rem .6rem; }
 
-                <!-- HEADER FIJO -->  
-    <div class="cvchat-welcome-fixed">
-        <div class="cvchat-welcome-icon">🤖</div>
-        <p class="cvchat-welcome-title">{% trans "Asistente de IA" %}</p>
-        <p class="cvchat-welcome-subtitle">{% trans "Pregúntame lo que quieras" %}</p>
+  /* --- MENSAJES (scroll siempre visible) --- */
+  .cvchat-messages { flex: 1 1 auto; overflow-y: scroll; padding: 1.2rem; display: flex; flex-direction: column; gap: 1rem; scroll-behavior: smooth; min-height: 0; }
+  .cvchat-message { display: flex; flex-direction: column; max-width: 82%; animation: fadeIn .25s ease-out; }
+  .cvchat-message.user { align-self: flex-end; align-items: flex-end; }
+  .cvchat-message.assistant { align-self: flex-start; align-items: flex-start; }
+  .cvchat-bubble { padding: .8rem 1.1rem; border-radius: var(--cvchat-radius); line-height: 1.5; font-size: .95rem; word-wrap: break-word; white-space: pre-wrap; }
+  .cvchat-message.user .cvchat-bubble { background: var(--cvchat-primary); color: #000; border-bottom-right-radius: .35rem; }
+  .cvchat-message.assistant .cvchat-bubble { background: var(--cvchat-bg-alt); color: var(--cvchat-text); border: 1px solid var(--cvchat-border); border-bottom-left-radius: .35rem; }
+  .cvchat-message.system .cvchat-bubble { background: #fff8dd; border: 1px solid var(--cvchat-primary); color: #7a5c00; }
+  .cvchat-message.system a { color: var(--cvchat-primary-dark); font-weight: 700; }
+  .cvchat-empty-state { text-align: center; color: #999; padding: 2rem 1rem; font-size: .9rem; margin: auto; }
+
+  /* --- INPUT --- */
+  .cvchat-input-area { padding: 1rem 1.2rem 1.2rem; flex-shrink: 0; background: var(--cvchat-bg); }
+  .cvchat-input-wrapper { display: flex; align-items: center; gap: .6rem; border: 1px solid var(--cvchat-border); border-radius: var(--cvchat-radius); padding: .5rem .7rem; background: var(--cvchat-bg); box-shadow: var(--cvchat-shadow); transition: .2s; }
+  .cvchat-input-wrapper:focus-within { border-color: var(--cvchat-primary); box-shadow: 0 4px 28px rgba(255,212,45,.18); }
+  .cvchat-textarea { flex: 1; border: none; outline: none; resize: none; background: transparent; font-family: inherit; font-size: .95rem; color: var(--cvchat-text); max-height: 8rem; min-height: 1.5rem; line-height: 1.5; padding: .25rem 0; }
+  .cvchat-textarea:disabled { color: #aaa; }
+  .cvchat-send-btn { width: 2.3rem; height: 2.3rem; border-radius: 50%; border: none; background: var(--cvchat-primary); color: #000; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: .2s; flex-shrink: 0; box-shadow: 0 2px 8px rgba(255,212,45,.35); }
+  .cvchat-send-btn:hover:not(:disabled) { background: var(--cvchat-primary-dark); transform: scale(1.05); }
+  .cvchat-send-btn:disabled { opacity: .7; cursor: default; }
+
+  .cvchat-spinner { width: 1.15rem; height: 1.15rem; border: 2.5px solid rgba(0,0,0,.25); border-top-color: #000; border-radius: 50%; animation: cvspin .7s linear infinite; }
+  @keyframes cvspin { to { transform: rotate(360deg); } }
+  .cvchat-typing { display: flex; gap: .25rem; padding: .25rem 0; }
+  .cvchat-typing-dot { width: .5rem; height: .5rem; background: #bbb; border-radius: 50%; animation: cvbounce 1.4s infinite ease-in-out; }
+  .cvchat-typing-dot:nth-child(2) { animation-delay: .2s; }
+  .cvchat-typing-dot:nth-child(3) { animation-delay: .4s; }
+  @keyframes cvbounce { 0%,80%,100% { transform: translateY(0);} 40% { transform: translateY(-.3rem);} }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px);} to { opacity: 1; transform: translateY(0);} }
+
+  .cvchat-captcha-gate { position: absolute; inset: 0; background: rgba(255,255,255,.96); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; z-index: 20; text-align: center; padding: 1rem; }
+  .cvchat-captcha-gate p { color: var(--cvchat-text-secondary); max-width: 320px; }
+
+  @media (max-width: 768px) {
+    .cvchat-sidebar { width: 150px; }
+    .cvchat-wrap { height: 82vh; }
+  }
+</style>
+
+<div class="cvchat-wrap"
+     id="cvchatWrap"
+     data-login-url="{% url 'login_view' %}"
+     data-captcha-enabled="{% if captcha_enabled %}1{% else %}0{% endif %}"
+     data-recaptcha-key="{{ recaptcha_site_key }}"
+     data-max-words="{{ max_words }}">
+  {% csrf_token %}
+  <div class="cvchat-container">
+
+    <!-- SIDEBAR: solo logo + botón -->
+    <aside class="cvchat-sidebar">
+      <div class="cvchat-sidebar-top">
+        <div class="cvchat-sidebar-logo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          {% trans "Asistente IA" %}
+        </div>
+        <button class="cvchat-menu-item" id="newChatBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          {% trans "Nueva conversación" %}
+        </button>
+      </div>
+      <div class="cvchat-recents-header">{% trans "Conversaciones" %}</div>
+      <div class="cvchat-sidebar-list" id="conversationsList"></div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="cvchat-main">
+      <div class="cvchat-header">
+        <span class="cvchat-header-title">AskEdgar.IA</span>
+        <span class="cvchat-status" id="chatStatus"></span>
+      </div>
+
+      <div class="cvchat-messages" id="messagesArea"></div>
+
+      <div class="cvchat-input-area">
+        <div class="cvchat-input-wrapper">
+          <textarea class="cvchat-textarea" id="messageInput" rows="1"
+                    maxlength="500" placeholder="{% trans 'Escribe un mensaje...' %}"></textarea>
+          <button class="cvchat-send-btn" id="sendBtn" title="{% trans 'Enviar' %}">
+            <svg id="sendIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+
+      {% if captcha_enabled %}
+      <div class="cvchat-captcha-gate" id="captchaGate">
+        <div style="font-size:2rem;">🤖</div>
+        <p>{% trans "Verifica que no eres un robot para empezar a chatear con el asistente." %}</p>
+        <div class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}" data-callback="onCaptchaSuccess"></div>
+      </div>
+      {% endif %}
     </div>
-
-    <!-- MENSAJES (SCROLL) -->
-    <div class="cvchat-messages"></div>
-
-    <!-- INPUT -->
-    <div class="cvchat-input-area">
-        <textarea class="cvchat-input" placeholder="Escribe..." rows="1"></textarea>
-        <button class="cvchat-send-btn">➤</button>
-    </div>
-            </div>
-
-
+  </div>
 </div>
 
-    </div>					
-
-</div>
-					<!--End content-->
-						<!--End about-->
-</section>
-						<!--End about tab-->
-
-
-
-
+{% if captcha_enabled %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endif %}
+<script defer src="{% static 'js/respuestas_preparadas.js' %}"></script>
+<script defer src="{% static 'js/filtro_seguridad.js' %}"></script>
+<script defer src="{% static 'js/askedgar.js' %}"></script>
 {% endblock %}

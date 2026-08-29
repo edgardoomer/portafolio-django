@@ -1,7 +1,5 @@
 from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render
+from django.conf import settings
 from django.views import View
 
 class HomeView(View):
@@ -16,9 +14,13 @@ class HomeView(View):
 class AskEdgarView(View):
     def get(self, request):
         context = {
-        'titulo': 'AskEdgar.IA',
-        'section': 'resume'
-    }
+            'titulo': 'AskEdgar.IA',
+            'section': 'resume',
+            # El captcha solo aplica a visitantes anónimos.
+            'captcha_enabled': settings.IACHAT_CAPTCHA_ENABLED and not request.user.is_authenticated,
+            'recaptcha_site_key': settings.RECAPTCHA_PUBLIC_KEY,
+            'max_words': settings.IACHAT_MAX_WORDS_PER_CONVERSATION,
+        }
         return render(request, "askedgar_view.html", context)
     
 
