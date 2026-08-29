@@ -3,10 +3,14 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.http import url_has_allowed_host_and_scheme
+from django_ratelimit.decorators import ratelimit
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from .forms import UserUpdateForm
 
 
+# Anti fuerza bruta: como maximo 10 intentos POST por IP y minuto. Sumado al
+# reCAPTCHA del formulario, dificulta mucho los ataques automatizados.
+@ratelimit(key='ip', rate='10/m', method='POST', block=True)
 def register_view(request):
     if request.method == 'POST':
         
@@ -29,6 +33,7 @@ def register_view(request):
 
 
 # VISTA DE LOGIN
+@ratelimit(key='ip', rate='10/m', method='POST', block=True)
 def login_view(request):
     if request.method == 'POST':
         form = CustomAuthenticationForm(request, data=request.POST)
