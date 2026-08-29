@@ -239,7 +239,11 @@ STORAGES = {
         'BACKEND': 'django.core.files.storage.FileSystemStorage',
     },
     'staticfiles': {
-        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+        # CompressedStaticFilesStorage: comprime (gzip/brotli) y cachea, pero
+        # NO reescribe/hashea ni exige que cada url() de los CSS exista. Evita
+        # que collectstatic falle por assets heredados que faltan (p. ej. el
+        # owl-carousel de la plantilla). Suficiente para trafico bajo.
+        'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
     },
 }
 
