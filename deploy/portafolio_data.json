@@ -1,0 +1,247 @@
+[
+{
+  "model": "portafolio_app.proyecto",
+  "pk": 7,
+  "fields": {
+    "titulo": "HPS-DOOM",
+    "titulo_es": "HPS-DOOM",
+    "titulo_en": "HPS-DOOM",
+    "titulo_ru": "HPS-DOOM",
+    "imagen": "portfolio/Screenshot_2026-08-28_232934_gakTeBo.png",
+    "objetivo": "Digitalizar las curvas de fábrica de las bombas horizontales de superficie e integrarlas en un sistema interactivo que sustituya la consulta manual de las fichas técnicas en PDF.\r\nEvaluar el punto de operación real de cada unidad contra su curva de fábrica y determinar si trabaja dentro de rango para una operación apropiada.\r\nEntender el funcionamiento del equipo y la operación.",
+    "objetivo_es": "Digitalizar las curvas de fábrica de las bombas horizontales de superficie e integrarlas en un sistema interactivo que sustituya la consulta manual de las fichas técnicas en PDF.\r\nEvaluar el punto de operación real de cada unidad contra su curva de fábrica y determinar si trabaja dentro de rango para una operación apropiada.\r\nEntender el funcionamiento del equipo y la operación.",
+    "objetivo_en": "Digitize the factory curves of horizontal surface pumps and integrate them into an interactive system that replaces the manual consultation of PDF technical data sheets.\r\nEvaluate the actual operating point of each unit against its factory curve and determine if it operates within range for proper operation.\r\nUnderstand the equipment's functionality and operation.",
+    "objetivo_ru": "Оцифровать заводские характеристики горизонтальных поверхностных насосов и интегрировать их в интерактивную систему, заменяющую ручной поиск в технических паспортах в формате PDF.\r\nОценить фактическую рабочую точку каждой установки в сравнении с ее заводской характеристикой и определить, работает ли она в допустимом диапазоне для надлежащей эксплуатации.\r\nПонять принцип работы оборудования и особенности эксплуатации.",
+    "descripcion": "HPS-DOOM es una aplicación web para el monitoreo y análisis de bombas horizontales de superficie de campo. El sistema digitaliza las curvas de fábrica de catorce unidades y las convierte en gráficas interactivas. A partir de una única curva base de 60 Hz por bomba, genera mediante leyes de afinidad la curva de cualquier frecuencia entre 20 y 60 Hz. Con las lecturas de campo de presión, caudal y frecuencia, evalúa si el punto de operación se encuentra dentro de la curva y reporta desviación, eficiencia, potencia y distancia al punto de mejor eficiencia.",
+    "descripcion_es": "HPS-DOOM es una aplicación web para el monitoreo y análisis de bombas horizontales de superficie de campo. El sistema digitaliza las curvas de fábrica de catorce unidades y las convierte en gráficas interactivas. A partir de una única curva base de 60 Hz por bomba, genera mediante leyes de afinidad la curva de cualquier frecuencia entre 20 y 60 Hz. Con las lecturas de campo de presión, caudal y frecuencia, evalúa si el punto de operación se encuentra dentro de la curva y reporta desviación, eficiencia, potencia y distancia al punto de mejor eficiencia.",
+    "descripcion_en": "HPS-DOOM is a web application for monitoring and analyzing field horizontal surface pumps. The system digitizes the factory curves of fourteen units and converts them into interactive graphs. From a single 60 Hz base curve per pump, it generates the curve for any frequency between 20 and 60 Hz using affinity laws. With the field readings of pressure, flow rate, and frequency, it evaluates whether the operating point is within the curve and reports deviation, efficiency, power, and distance to the best efficiency point.",
+    "descripcion_ru": "HPS-DOOM — это веб-приложение для мониторинга и анализа полевых горизонтальных поверхностных насосов. Система оцифровывает заводские характеристики четырнадцати установок и преобразует их в интерактивные графики. На основе единой базовой кривой 60 Гц для каждого насоса она генерирует, используя законы подобия, кривую для любой частоты в диапазоне от 20 до 60 Гц. Используя полевые показания давления, расхода и частоты, она оценивает, находится ли рабочая точка в пределах кривой, и сообщает об отклонении, КПД, мощности и расстоянии до точки максимального КПД.",
+    "tecnologias": "React 19, TypeScript 5.8, TanStack Start (Router y Query), Vite 8, Nitro, Tailwind CSS 4, shadcn/ui sobre Radix UI, Recharts, Lucide, Zod, React Hook Form, ESLint y Prettier,",
+    "created_at": "2026-07-21T21:35:47.034Z"
+  }
+},
+{
+  "model": "portafolio_app.proyecto",
+  "pk": 8,
+  "fields": {
+    "titulo": "Doom Petrolero",
+    "titulo_es": "Doom Petrolero",
+    "titulo_en": "Doom Petrolero",
+    "titulo_ru": "Doom Petrolero",
+    "imagen": "portfolio/Gemini_Generated_Image_r00r3kr00r3kr00r_1_1.png",
+    "objetivo": "Difundir conceptos técnicos y teóricos sobre la industria petrolera.\r\nExplicar de manera simple y didactiva los diferentes equipos y procesos de la industria petrolera.\r\nContactar profesionales entre sí para una retroalimentación y evolución de la industria petrolera.",
+    "objetivo_es": "Difundir conceptos técnicos y teóricos sobre la industria petrolera.\r\nExplicar de manera simple y didactiva los diferentes equipos y procesos de la industria petrolera.\r\nContactar profesionales entre sí para una retroalimentación y evolución de la industria petrolera.",
+    "objetivo_en": "Disseminate technical and theoretical concepts about the oil industry.\r\nExplain the different equipment and processes of the oil industry in a simple and didactic manner.\r\nConnect professionals with each other for feedback and the evolution of the oil industry.",
+    "objetivo_ru": "Распространять технические и теоретические концепции нефтяной промышленности.\r\nОбъяснять в простой и доступной форме различное оборудование и процессы нефтяной промышленности.\r\nСвязывать профессионалов друг с другом для получения обратной связи и развития нефтяной промышленности.",
+    "descripcion": "El proyecto Doom petrolero es una excusa para la investigación y exploración de nuevas tecnologías de una forma condensada para la difusión del funcionamiento de equipos y procesos en la industria petrolera. Material especialmente digirido en el Upstream y midstream. Asi mismo, estableciendo un desafio en cuento a mis habilidades como programador.",
+    "descripcion_es": "El proyecto Doom petrolero es una excusa para la investigación y exploración de nuevas tecnologías de una forma condensada para la difusión del funcionamiento de equipos y procesos en la industria petrolera. Material especialmente digirido en el Upstream y midstream. Asi mismo, estableciendo un desafio en cuento a mis habilidades como programador.",
+    "descripcion_en": "The Petroleum Doom project is an excuse for the research and exploration of new technologies in a condensed manner to disseminate the operation of equipment and processes in the oil industry. This material is specifically targeted at the Upstream and Midstream sectors. Likewise, it establishes a challenge regarding my skills as a programmer.",
+    "descripcion_ru": "Проект «Нефтяной Doom» — это повод для исследования и изучения новых технологий в сжатой форме с целью распространения знаний о работе оборудования и процессов в нефтяной промышленности. Материал специально ориентирован на секторы Upstream и Midstream. Кроме того, это бросает вызов моим навыкам программиста.",
+    "tecnologias": ".web, python, redes sociales",
+    "created_at": "2026-07-21T21:35:47.036Z"
+  }
+},
+{
+  "model": "portafolio_app.proyecto",
+  "pk": 9,
+  "fields": {
+    "titulo": "Caso de Estudio: Culebra 21 — El manejo emergente de 16000 BFPD",
+    "titulo_es": "Caso de Estudio: Culebra 21 — El manejo emergente de 16000 BFPD",
+    "titulo_en": null,
+    "titulo_ru": null,
+    "imagen": "portfolio/Screenshot_2026-08-28_224723.png",
+    "objetivo": "Gestionar de manera eficiente el incremento de producción de fluidos (16,000 BFPD) asi como su respectiva deshidratación\r\nTratar eficazmente un crudo pesado (16-18° API) caracterizado por una emulsión compleja y un tamaño de gota de 20 a 80 micrones\r\nComparar las facilidades de superficie emergentes frente a las permanentes, demostrando que este enfoque modular permite una monetización más rápida de la producción y un mejor retorno de inversión bajo diversos escenarios de precios del crudo.",
+    "objetivo_es": "Gestionar de manera eficiente el incremento de producción de fluidos (16,000 BFPD) asi como su respectiva deshidratación\r\nTratar eficazmente un crudo pesado (16-18° API) caracterizado por una emulsión compleja y un tamaño de gota de 20 a 80 micrones\r\nComparar las facilidades de superficie emergentes frente a las permanentes, demostrando que este enfoque modular permite una monetización más rápida de la producción y un mejor retorno de inversión bajo diversos escenarios de precios del crudo.",
+    "objetivo_en": "Efficiently manage the increase in fluid production (16,000 BFPD) as well as its subsequent dehydration.\r\n\r\nEffectively treat heavy crude oil (16-18° API) characterized by a complex emulsion with a droplet size ranging from 20 to 80 microns.\r\n\r\nCompare early production facilities (EPF) against permanent installations, demonstrating that this modular approach enables faster monetization of production and an improved return on investment (ROI) under various crude oil price scenarios.",
+    "objetivo_ru": "Эффективно управлять увеличением добычи жидкости (16 000 баррелей в сутки) и ее последующим обезвоживанием.\r\nЭффективно подготавливать тяжелую нефть (16-18° API), характеризующуюся сложной эмульсией и размером капель от 20 до 80 микрон.\r\nСравнить объекты ранней добычи (модульные установки) с постоянными наземными сооружениями, продемонстрировав, что данный подход позволяет ускорить монетизацию добычи и повысить рентабельность инвестиций (ROI) при различных сценариях цен на нефть.",
+    "descripcion": "El proyecto Culebra 21, ubicado en el campo Auca, Ecuador, ejemplifica el uso exitoso de facilidades tempranas para la gestión de un incremento de producción de 16,000 barriles diarios de fluido neto. Ante la complejidad de una emulsión de crudo pesado y un tamaño de gota particularmente pequeño, se implementó una solución estratégica basada en tres pilares: temperatura, tiempo de residencia y química. La instalación de trenes de lavado en paralelo optimizó el tiempo de contacto a pesar del uso de tanques de 500 barriles y solo 7.4 metros de altura, permitiendo reducir el contenido de agua (BS&W) a menos del 1%. Este enfoque modular demostró mayor eficiencia en el retorno de inversión comparado con facilidades permanentes tradicionales para la posterior construccion de una facilidad permanente en casos de proyectos de larga duración.",
+    "descripcion_es": "El proyecto Culebra 21, ubicado en el campo Auca, Ecuador, ejemplifica el uso exitoso de facilidades tempranas para la gestión de un incremento de producción de 16,000 barriles diarios de fluido neto. Ante la complejidad de una emulsión de crudo pesado y un tamaño de gota particularmente pequeño, se implementó una solución estratégica basada en tres pilares: temperatura, tiempo de residencia y química. La instalación de trenes de lavado en paralelo optimizó el tiempo de contacto a pesar del uso de tanques de 500 barriles y solo 7.4 metros de altura, permitiendo reducir el contenido de agua (BS&W) a menos del 1%. Este enfoque modular demostró mayor eficiencia en el retorno de inversión comparado con facilidades permanentes tradicionales para la posterior construccion de una facilidad permanente en casos de proyectos de larga duración.",
+    "descripcion_en": "The Culebra 21 project, located in the Auca field, Ecuador, exemplifies the successful use of early production facilities for managing a production increase of 16,000 net barrels of fluid per day. Faced with the complexity of a heavy crude oil emulsion and a particularly small droplet size, a strategic solution was implemented based on three pillars: temperature, residence time, and chemistry. The installation of parallel wash trains optimized contact time despite the use of 500-barrel tanks with a height of only 7.4 meters, making it possible to reduce the basic sediment and water (BS&W) content to less than 1%. This modular approach demonstrated greater efficiency in the return on investment compared to traditional permanent facilities for the subsequent construction of a permanent facility in cases of long-duration projects.",
+    "descripcion_ru": "Проект Culebra 21, расположенный на месторождении Аука в Эквадоре, служит примером успешного использования объектов ранней добычи для управления увеличением добычи на 16 000 баррелей жидкости в сутки. Столкнувшись со сложностью эмульсии тяжелой нефти и особенно малым размером капель, было реализовано стратегическое решение, основанное на трех факторах: температуре, времени пребывания и химической обработке. Установка параллельных линий промывки оптимизировала время контакта, несмотря на использование резервуаров объемом 500 баррелей и высотой всего 7,4 метра, что позволило снизить содержание воды и механических примесей (BS&W) до уровня менее 1%. Этот модульный подход продемонстрировал более высокую эффективность окупаемости инвестиций по сравнению с традиционными постоянными сооружениями для последующего строительства постоянного объекта в случаях долгосрочных проектов.",
+    "tecnologias": "Investigación y escritura científica",
+    "created_at": "2026-07-21T21:35:47.038Z"
+  }
+},
+{
+  "model": "portafolio_app.proyecto",
+  "pk": 10,
+  "fields": {
+    "titulo": "BFW-9000",
+    "titulo_es": "BFW-9000",
+    "titulo_en": "BFW-9000",
+    "titulo_ru": "BFW-9000",
+    "imagen": "portfolio/BFW_RhU7Kiv.png",
+    "objetivo": "Predecir el tiempo de irrupción bajo desplazamiento inmiscible en un patrón areal heterogéneo.\r\nAcoplar la solución de flujo fraccional al flujo de caja para establecer el límite económico.\r\nMostrar por medio de gráficos interactivos el movimiento del frente inundado.\r\nDocumentar el proceso teórico del simulador.",
+    "objetivo_es": "Predecir el tiempo de irrupción bajo desplazamiento inmiscible en un patrón areal heterogéneo.\r\nAcoplar la solución de flujo fraccional al flujo de caja para establecer el límite económico.\r\nMostrar por medio de gráficos interactivos el movimiento del frente inundado.\r\nDocumentar el proceso teórico del simulador.",
+    "objetivo_en": "Predict the breakthrough time under immiscible displacement in a heterogeneous areal pattern.\r\nCouple the fractional flow solution to the cash flow to establish the economic limit.\r\nDisplay the movement of the flood front through interactive charts.\r\nDocument the theoretical process of the simulator.",
+    "objetivo_ru": "Предсказать время прорыва при несмешивающемся вытеснении в неоднородном площадном элементе.\r\nСвязать решение фракционного потока с денежным потоком для установления экономического предела.\r\nПоказать движение фронта заводнения с помощью интерактивных графиков.\r\nЗадокументировать теоретический процесс симулятора.",
+    "descripcion": "BFW-9000 es una aplicación web para el análisis de proyectos de inyección de agua mediante el método de Buckley-Leverett. Su aporte principal es extender la solución unidimensional a un patrón areal heterogéneo: el caudal de cada inyector se reparte entre azimuts con una densidad angular ponderada por la transmisibilidad de cada canal. \r\nEl comportamiento posterior a la irrupción se resuelve con la segunda parte de la construcción de Welge y alimenta directamente un modelo mensual de OPEX, de modo que el corte de agua que encarece el barril procede de la teoría de desplazamiento y no de una curva ajustada. El precio del crudo se consulta en línea por API REST, con caché y respaldo local.\r\n\r\nImplementación: Django sobre SQLite, con un modelo relacional de seis tablas donde el enlace inyector-productor es de cardinalidad muchos a muchos, cada canal con su permeabilidad direccional. El núcleo numérico es Python puro, sin dependencias científicas, y los gráficos son SVG generados a mano. Resultados deterministas y reproducibles entre arquitecturas, con despliegue en contenedor y lanzadores de escritorio.",
+    "descripcion_es": "BFW-9000 es una aplicación web para el análisis de proyectos de inyección de agua mediante el método de Buckley-Leverett. Su aporte principal es extender la solución unidimensional a un patrón areal heterogéneo: el caudal de cada inyector se reparte entre azimuts con una densidad angular ponderada por la transmisibilidad de cada canal. \r\nEl comportamiento posterior a la irrupción se resuelve con la segunda parte de la construcción de Welge y alimenta directamente un modelo mensual de OPEX, de modo que el corte de agua que encarece el barril procede de la teoría de desplazamiento y no de una curva ajustada. El precio del crudo se consulta en línea por API REST, con caché y respaldo local.\r\n\r\nImplementación: Django sobre SQLite, con un modelo relacional de seis tablas donde el enlace inyector-productor es de cardinalidad muchos a muchos, cada canal con su permeabilidad direccional. El núcleo numérico es Python puro, sin dependencias científicas, y los gráficos son SVG generados a mano. Resultados deterministas y reproducibles entre arquitecturas, con despliegue en contenedor y lanzadores de escritorio.",
+    "descripcion_en": "BFW-9000 is a web application for the analysis of waterflooding projects using the Buckley-Leverett method. Its main contribution is extending the one-dimensional solution to a heterogeneous areal pattern: the flow rate of each injector is distributed among azimuths with an angular density weighted by the transmissibility of each channel.\r\n\r\nThe post-breakthrough behavior is solved with the second part of the Welge construction and directly feeds a monthly OPEX model, so that the water cut that increases the cost per barrel comes from displacement theory and not from a fitted curve. The crude oil price is queried online via REST API, with caching and local backup.\r\n\r\nImplementation: Django on SQLite, with a six-table relational model where the injector-producer link has a many-to-many cardinality, each channel with its directional permeability. The numerical core is pure Python, without scientific dependencies, and the charts are hand-generated SVGs. Deterministic and reproducible results across architectures, with containerized deployment and desktop launchers.",
+    "descripcion_ru": "BFW-9000 — это веб-приложение для анализа проектов заводнения с использованием метода Бакли-Леверетта. Его основной вклад заключается в расширении одномерного решения на неоднородный площадной элемент: дебит каждой нагнетательной скважины распределяется по азимутам с угловой плотностью, взвешенной по проводимости каждого канала.\r\n\r\nПоведение после прорыва рассчитывается с помощью второй части построения Уэлджа и напрямую питает ежемесячную модель OPEX, так что обводненность, увеличивающая стоимость барреля, исходит из теории вытеснения, а не из аппроксимированной кривой. Цена на нефть запрашивается онлайн через REST API с кэшированием и локальным резервным копированием.\r\n\r\nРеализация: Django на SQLite с реляционной моделью из шести таблиц, где связь нагнетательной и добывающей скважин имеет кардинальность «многие ко многим», каждый канал со своей направленной проницаемостью. Численное ядро — чистый Python без научных зависимостей, а графики — это SVG, сгенерированные вручную. Детерминированные и воспроизводимые результаты на разных архитектурах, с контейнерным развертыванием и десктопными ярлыками запуска.",
+    "tecnologias": "Python, SQLite, django",
+    "created_at": "2026-08-28T10:04:42.922Z"
+  }
+},
+{
+  "model": "portafolio_app.proyecto",
+  "pk": 11,
+  "fields": {
+    "titulo": "Detección de derrames de tanques por medio de vision computarizada y transferencia de aprendizaje",
+    "titulo_es": "Detección de derrames de tanques por medio de vision computarizada y transferencia de aprendizaje",
+    "titulo_en": null,
+    "titulo_ru": null,
+    "imagen": "portfolio/val_batch0_labels.jpg",
+    "objetivo": "Detectar derrames en tanques de almacenamiento de petróleo no automatizados a\r\npartir de un dataset conformado por imágenes y etiquetas.\r\nSeleccionar el modelo con mejor desempeño según sus métricas.\r\nClasificar los tanques según la presencia o ausencia de eventos.",
+    "objetivo_es": "Detectar derrames en tanques de almacenamiento de petróleo no automatizados a\r\npartir de un dataset conformado por imágenes y etiquetas.\r\nSeleccionar el modelo con mejor desempeño según sus métricas.\r\nClasificar los tanques según la presencia o ausencia de eventos.",
+    "objetivo_en": "Tank spill detection using computer vision and transfer learning.\r\nDetect spills in non-automated oil storage tanks based on a dataset consisting of images and labels.\r\nSelect the best-performing model according to its metrics.\r\nClassify tanks based on the presence or absence of events.",
+    "objetivo_ru": "Обнаружение разливов из резервуаров с помощью компьютерного зрения и трансферного обучения.\r\nОбнаруживать разливы в неавтоматизированных резервуарах для хранения нефти на основе набора данных, состоящего из изображений и меток.\r\nВыбрать модель с наилучшей производительностью в соответствии с ее метриками.\r\nКлассифицировать резервуары на основе наличия или отсутствия событий.",
+    "descripcion": "Los derrames de petróleo, frecuentemente causados por errores humanos, exigen mejores controles para mitigar riesgos ambientales. La implementación de visión computarizada ofrece un monitoreo continuo en segundos, superando las limitaciones del seguimiento manual. El levantamiento de alertas tempranas permite una respuesta operativa rápida. Para clasificar estos eventos, el modelo específico importa menos que su desempeño, siendo vital el uso de datos representativos de alta calidad. Dado el alto costo de omitir un derrame real frente a una falsa alarma, la evaluación del modelo debe priorizar estrictamente la maximización de la métrica de recall sobre la especificidad.",
+    "descripcion_es": "Los derrames de petróleo, frecuentemente causados por errores humanos, exigen mejores controles para mitigar riesgos ambientales. La implementación de visión computarizada ofrece un monitoreo continuo en segundos, superando las limitaciones del seguimiento manual. El levantamiento de alertas tempranas permite una respuesta operativa rápida. Para clasificar estos eventos, el modelo específico importa menos que su desempeño, siendo vital el uso de datos representativos de alta calidad. Dado el alto costo de omitir un derrame real frente a una falsa alarma, la evaluación del modelo debe priorizar estrictamente la maximización de la métrica de recall sobre la especificidad.",
+    "descripcion_en": "Oil spills, frequently caused by human error, demand better controls to mitigate environmental risks. The implementation of computer vision offers continuous monitoring in seconds, overcoming the limitations of manual tracking. Generating early warnings allows for a rapid operational response. To classify these events, the specific model matters less than its performance, making the use of high-quality, representative data vital. Given the high cost of missing an actual spill compared to a false alarm, the model's evaluation must strictly prioritize maximizing the recall metric over specificity.",
+    "descripcion_ru": "Разливы нефти, часто вызванные человеческим фактором, требуют лучшего контроля для снижения экологических рисков. Внедрение компьютерного зрения обеспечивает непрерывный мониторинг за считанные секунды, преодолевая ограничения ручного отслеживания. Создание ранних предупреждений позволяет оперативно реагировать на ситуацию. Для классификации этих событий конкретная модель имеет меньшее значение, чем ее производительность, поэтому использование высококачественных, репрезентативных данных жизненно важно. Учитывая высокую стоимость пропуска реального разлива по сравнению с ложной тревогой, оценка модели должна строго отдавать приоритет максимизации метрики полноты (recall) над специфичностью.",
+    "tecnologias": "Ultralytics (YOLOv8n/s, RT-DETR), PyTorch, OpenCV, Pillow, Python, NumPy, pandas, Matplotlib, Seaborn, scikit-learn, ONNX, FastAPI, Uvicorn, Streamlit, Docker",
+    "created_at": "2026-08-29T04:56:30.994Z"
+  }
+},
+{
+  "model": "portafolio_app.proyectoimagen",
+  "pk": 7,
+  "fields": {
+    "proyecto": 10,
+    "imagen": "portfolio/Screenshot_2026-08-28_020431.png",
+    "titulo": "",
+    "orden": 0
+  }
+},
+{
+  "model": "portafolio_app.proyectoimagen",
+  "pk": 8,
+  "fields": {
+    "proyecto": 10,
+    "imagen": "portfolio/Screenshot_2026-08-28_021011.png",
+    "titulo": "",
+    "orden": 0
+  }
+},
+{
+  "model": "portafolio_app.proyectoimagen",
+  "pk": 9,
+  "fields": {
+    "proyecto": 10,
+    "imagen": "portfolio/Screenshot_2026-08-28_223108.png",
+    "titulo": "",
+    "orden": 0
+  }
+},
+{
+  "model": "portafolio_app.proyectoimagen",
+  "pk": 11,
+  "fields": {
+    "proyecto": 9,
+    "imagen": "portfolio/Screenshot_2026-08-28_224723_pQ0V1lQ.png",
+    "titulo": "",
+    "orden": 0
+  }
+},
+{
+  "model": "portafolio_app.proyectoimagen",
+  "pk": 12,
+  "fields": {
+    "proyecto": 8,
+    "imagen": "portfolio/IMG_1232.jpg",
+    "titulo": "",
+    "orden": 3
+  }
+},
+{
+  "model": "portafolio_app.proyectoimagen",
+  "pk": 13,
+  "fields": {
+    "proyecto": 8,
+    "imagen": "portfolio/IMG_1233.jpg",
+    "titulo": "",
+    "orden": 2
+  }
+},
+{
+  "model": "portafolio_app.proyectoimagen",
+  "pk": 14,
+  "fields": {
+    "proyecto": 8,
+    "imagen": "portfolio/IMG_1234.jpg",
+    "titulo": "",
+    "orden": 1
+  }
+},
+{
+  "model": "portafolio_app.proyectoimagen",
+  "pk": 15,
+  "fields": {
+    "proyecto": 7,
+    "imagen": "portfolio/Screenshot_2026-08-28_232524.png",
+    "titulo": "",
+    "orden": 0
+  }
+},
+{
+  "model": "portafolio_app.proyectoimagen",
+  "pk": 16,
+  "fields": {
+    "proyecto": 7,
+    "imagen": "portfolio/Screenshot_2026-08-28_232507.png",
+    "titulo": "",
+    "orden": 0
+  }
+},
+{
+  "model": "portafolio_app.proyectoimagen",
+  "pk": 17,
+  "fields": {
+    "proyecto": 7,
+    "imagen": "portfolio/Screenshot_2026-08-28_232453.png",
+    "titulo": "",
+    "orden": 0
+  }
+},
+{
+  "model": "portafolio_app.proyectoimagen",
+  "pk": 18,
+  "fields": {
+    "proyecto": 11,
+    "imagen": "portfolio/Screenshot_2026-08-28_235005.png",
+    "titulo": "",
+    "orden": 0
+  }
+},
+{
+  "model": "portafolio_app.proyectoimagen",
+  "pk": 19,
+  "fields": {
+    "proyecto": 11,
+    "imagen": "portfolio/Screenshot_2026-08-28_234955.png",
+    "titulo": "",
+    "orden": 0
+  }
+},
+{
+  "model": "portafolio_app.proyectoimagen",
+  "pk": 20,
+  "fields": {
+    "proyecto": 11,
+    "imagen": "portfolio/Screenshot_2026-08-28_235524.png",
+    "titulo": "",
+    "orden": 0
+  }
+},
+{
+  "model": "portafolio_app.proyectoimagen",
+  "pk": 21,
+  "fields": {
+    "proyecto": 11,
+    "imagen": "portfolio/Untitled-2025-12-13-1614.png",
+    "titulo": "",
+    "orden": 0
+  }
+}
+]
