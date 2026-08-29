@@ -545,40 +545,51 @@ img.signature{
 .timeline .timeline-inner .name {
     float: left;
     font-size: 18px;
-    padding-right: 4px;
+    /* El borde derecho coincide con la linea central (49.9%); el padding deja
+       hueco para el punto. Asi el punto no se desalinea al redimensionar. */
+    padding-right: 38px;
     position: relative;
     text-align: right;
-    width: 46%;
+    width: 49.9%;
 }
 
+/* Punto viejo: se desalineaba al redimensionar (offset fijo vs columnas en %).
+   Lo ocultamos y usamos el punto anclado a la linea central de abajo. */
 .timeline .timeline-inner .name:before {
-    background: #ffd42d;
-    border: 4px solid #fff;
+    display: none;
+}
+
+/* Punto NUEVO anclado a la LINEA CENTRAL: usa el mismo 49.9% que la linea,
+   sobre el contenedor de ancho completo (.timeline-inner). Por eso queda
+   siempre sobre la linea, sin importar el ancho de la pantalla. */
+.timeline .timeline-inner:before {
     content: " ";
-    height: 20px;
     position: absolute;
-    right: -2.1em;
+    left: 49.9%;
+    margin-left: -10px;
     top: 1px;
     width: 20px;
-	 background-clip: padding-box; 
-	 -moz-background-clip:padding; 
-	 background-clip:padding-box;
+    height: 20px;
+    background: #ffd42d;
+    border: 4px solid #fff;
+    border-radius: 50%;
+    background-clip: padding-box;
+    z-index: 3;
 }
 
-.timeline .timeline-inner .name.switched:before{
+/* Entrada marcada como 'switched' -> punto oscuro (requiere :has, soportado
+   por los navegadores modernos). */
+.timeline .timeline-inner:has(.name.switched):before {
     background: #2a2a2a;
-	 background-clip: padding-box; 
-	 -moz-background-clip:padding; 
-	 background-clip:padding-box;
-
 }
 
 .timeline .timeline-inner .detail {
-    margin-left: 41%;
-    padding-left: 94px;
+    /* Empieza en la linea central (49.9%), simetrico con .name */
+    margin-left: 49.9%;
+    padding-left: 38px;
     position: relative;
 	text-align:left;
-	width:56%;
+	width:50.1%;
 }
 
 .timeline .timeline-inner .name h4 {
@@ -1659,7 +1670,7 @@ ul.hb-list li h6 {
 	.block-content.mb-100.pb-10, .block-content.mb-100.pb-30{margin-bottom:80px !important;}
 	.listing-large .listing-large-inner{margin-bottom:0;}
 	.listing,.listing-large, .timeline{padding:0;margin-top:0 !important;}
-	.listing:after, .listing-inner:before, .listing-inner:after, .timeline:after, .timeline .timeline-inner .name:before, .listing-large-inner:before,
+	.listing:after, .listing-inner:before, .listing-inner:after, .timeline:after, .timeline .timeline-inner .name:before, .timeline .timeline-inner:before, .listing-large-inner:before,
 	.listing-large-inner:after, .listing-large:after, .services:before, .services:after, .filter li:not(:last-child):after, .main-nav ul li:first-child:after{content:none;}
 	.listing .listing-event .data.left{width:35%;margin-left: 5%;padding-right:0;}
 	.insta-Feed li, .insta-Feed li a{width:18%;}
@@ -1748,7 +1759,7 @@ ul.hb-list li h6 {
 	.block-content.mb-100.pb-10, .block-content.mb-100.pb-30{margin-bottom:80px !important;}
 	.listing-large .listing-large-inner{margin-bottom:0;}
 	.listing,.listing-large, .timeline{padding:0;margin-top:0 !important;}
-	.listing:after, .listing-inner:before, .listing-inner:after, .timeline:after, .timeline .timeline-inner .name:before, .listing-large-inner:before,
+	.listing:after, .listing-inner:before, .listing-inner:after, .timeline:after, .timeline .timeline-inner .name:before, .timeline .timeline-inner:before, .listing-large-inner:before,
 	.listing-large-inner:after, .listing-large:after, .services:before, .services:after, .filter li:not(:last-child):after, .main-nav ul li:first-child:after{content:none;}
 	.listing .listing-event .data.left, .listing .listing-event .data.right{width:auto;margin:0;padding:0;float:none;text-align:left;}
 	.insta-Feed li, .insta-Feed li a{width:45%;margin:0;}
