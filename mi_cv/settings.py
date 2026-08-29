@@ -120,19 +120,32 @@ WSGI_APPLICATION = 'mi_cv.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='cv_edgar'),
-        'USER': config('DB_USER', default='postgres'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='5432'),
-        # Reutiliza la conexion durante 60s en lugar de abrir una nueva
-        # en cada request.
-        'CONN_MAX_AGE': 60,
+# Motor de BD configurable:
+#   DB_ENGINE=postgres  -> PostgreSQL (desarrollo local)
+#   DB_ENGINE=sqlite    -> SQLite, un archivo (ideal para la VM de bajo trafico)
+DB_ENGINE = config('DB_ENGINE', default='sqlite')
+
+if DB_ENGINE == 'postgres':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config('DB_NAME', default='cv_edgar'),
+            'USER': config('DB_USER', default='postgres'),
+            'PASSWORD': config('DB_PASSWORD', default=''),
+            'HOST': config('DB_HOST', default='localhost'),
+            'PORT': config('DB_PORT', default='5432'),
+            # Reutiliza la conexion durante 60s en lugar de abrir una nueva
+            # en cada request.
+            'CONN_MAX_AGE': 60,
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -299,8 +312,10 @@ CSRF_TRUSTED_ORIGINS = config(
 )
 
 if not DEBUG:
-    # Fuerza HTTPS en todo el sitio.
-    SECURE_SSL_REDIRECT = True
+    # Fuerza HTTPS en todo el sitio. Durante el primer montaje (aun sin
+    # certificado) ponlo en False con SECURE_SSL_REDIRECT=False en el .env,
+    # y en True cuando ya tengas HTTPS con Certbot.
+    SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=True, cast=bool)
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
     # HSTS: el navegador recuerda durante un anio que este dominio es
