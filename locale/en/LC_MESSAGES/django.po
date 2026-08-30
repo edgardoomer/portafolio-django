@@ -480,31 +480,34 @@ msgid "Edgar Fernando Izurieta"
 msgstr "Edgar Fernando Izurieta"
 
 #: .\site_app\templates\home_view.html:30
-msgid "Ingeniero en Petroleos / Analista de Datos e Inteligencia Artificial"
-msgstr "Petroleum Engineer / Data Analyst and Artificial Intelligence"
+msgid "Ingeniero en Petroleos / Especialista en Datos e Inteligencia Artificial y EOR"
+msgstr "Petroleum Engineer / Data and IA Specialist and EOR"
 
 #: .\site_app\templates\home_view.html:48
-msgid "Quien soy?"
+msgid "¿Quien soy?"
 msgstr "Who am I?"
 
 #: .\site_app\templates\home_view.html:56
 msgid ""
-"\"Tengo el grado de ingeniero de Petróleos con 3 años de experiencia en "
-"operaciones de producción temprana, well testing y análisis de yacimientos "
-"con herramientas de Machine Learning. Me destaco por mi sólida disciplina y "
-"una gran iniciativa, lo cual demuestro con el dominio de cuatro idiomas y el "
-"aprendizaje por cuenta propia de lenguajes de programación y diseño "
-"ingenieril. Estoy comprometido y entusiasmado con aplicar mis conocimientos "
-"técnicos y habilidades analíticas para la optimizacion de procesos y "
-"garantizar la eficiencia operativa en entornos desafiantes. “"
+"Hace años me preguntaron: «Edgar, ¿qué valor agregado le darías a la "
+"empresa?» Me quedé en silencio. Ese silencio me cambió. Entendí que "
+"las oportunidades no llegan por aplicar, llegan por estar listo cuando "
+"aparecen. Empecé a estudiar programación e inglés por mi cuenta, a "
+"invertir en mi formación y a leer cosas que no sabía si algún día me "
+"servirían. Sin darme cuenta construí algo que rivaliza con lo que "
+"muchos llaman «talento»: disciplina. Ella me llevó a aprender cuatro "
+"idiomas y a prepararme para una oportunidad que aún no tenía. Hoy tengo "
+"la respuesta, porque hablar es barato; ejecutar es otra historia."
 msgstr ""
-"\"I hold a degree in Petroleum Engineering with 3 years of experience in "
-"early production operations, well testing, and reservoir analysis using "
-"Machine Learning tools. I stand out for my solid discipline and great "
-"initiative, demonstrated by my mastery of four languages and self-taught "
-"programming and engineering design skills. I am committed and enthusiastic "
-"about applying my technical knowledge and analytical skills to optimize "
-"processes and ensure operational efficiency in challenging environments.\""
+"Years ago, I was asked: 'Edgar, what added value would you bring to the "
+"company?' I remained silent. That silence changed me. I realized that "
+"opportunities don't just come from applying; they come from being ready "
+"when they arise. I started teaching myself programming and English, "
+"investing in my education, and reading things I wasn't sure I'd ever "
+"use. Without realizing it, I built something that rivals what many call "
+"'talent': discipline. It drove me to learn four languages and prepare "
+"for an opportunity I didn't even have yet. Today, I have the answer, "
+"because talk is cheap; execution is a whole different story."
 
 #: .\site_app\templates\home_view.html:72
 msgid "Algo de mi"
@@ -733,3 +736,145 @@ msgstr "ID Card (Not editable)"
 #: .\user_app\templates\profile.html:103
 msgid "Guardar Cambios"
 msgstr "Save Changes"
+
+# === Cadenas nuevas por traducir (rellena el msgstr) ===
+
+#: site_app/templates/curriculum_view.html
+msgid "Por qué tú, Edgar?"
+msgstr "Why you, Edgar?"
+
+#: site_app/templates/curriculum_view.html
+msgid "Operación y monitoreo de equipos de bombeo de alta presión con bombas centrífugas y reciprocantes."
+msgstr "Operation and monitoring of high-pressure pumping equipment with centrifugal and reciprocating pumps."
+
+#: site_app/templates/curriculum_view.html
+msgid "Manipulación de variadores de frecuencia."
+msgstr "Operation of variable frequency drives."
+
+#: site_app/templates/curriculum_view.html
+msgid "Diseño e interpretación de P&ID."
+msgstr "Design and interpretation of P&IDs."
+
+#: site_app/templates/curriculum_view.html
+msgid "Análisis de muestras de crudo y agua."
+msgstr "Analysis of crude oil and water samples."
+
+#: site_app/templates/curriculum_view.html
+msgid "Febrero 2024"
+msgstr "February 2024"
+
+#: site_app/templates/curriculum_view.html
+msgid "Diseño e implementación de pipelines en AWS, Azure y SQL."
+msgstr "Design and implementation of pipelines in AWS, Azure, and SQL."
+
+#: site_app/templates/curriculum_view.html
+msgid "Governanza de datos, ETL y ELT"
+msgstr "Data governance, ETL, and ELT"
+
+#: site_app/templates/curriculum_view.html
+msgid "Manipulación e ingesta de datos de variadores de frecuencia."
+msgstr "Data manipulation and ingestion from variable frequency drives."
+
+#: site_app/templates/curriculum_view.html
+msgid "Storytelling y generación de dashboards."
+msgstr "Storytelling and dashboard generation."
+
+#: site_app/templates/curriculum_view.html
+msgid "Automatización y conocimientos de Machine Learning supervisado, no supervisado, visión computizada e IA generativa."
+msgstr "Automation and knowledge of supervised and unsupervised Machine Learning, computer vision, and generative AI."
+
+#: site_app/templates/curriculum_view.html
+msgid "Lenguajes: Python, R, SQL, No SQL y habilidad en .web."
+msgstr "Languages: Python, R, SQL, NoSQL, and web development skills."
+
+#: site_app/templates/curriculum_view.html
+msgid "Toma de parámetros operativos en campo."
+msgstr "Collection of operational parameters in the field."
+
+#: site_app/templates/curriculum_view.html
+msgid "Elaboración de permisos de trabajo"
+msgstr "Preparation of work permits"
+
+#: site_app/templates/curriculum_view.html
+msgid "Análisis de proyectos de registros eléctricos y de sistemas de levantamiento artificial (ESP)."
+msgstr "Analysis of wireline logging projects and artificial lift systems (ESP)."
+
+#: site_app/templates/curriculum_view.html
+msgid "Marzo 2026 - Marzo 2027"
+msgstr "March 2026 - March 2027"
+
+#: site_app/templates/curriculum_view.html
+msgid "MAESTRÍA EN INTELIGENCIA ARTIFICIAL"
+msgstr "MASTER'S DEGREE IN ARTIFICIAL INTELLIGENCE"
+
+#: site_app/templates/curriculum_view.html
+msgid "Escuela Politecnica Nacional - EPN"
+msgstr "Escuela Politécnica Nacional - EPN"
+
+#: site_app/templates/curriculum_view.html
+msgid "DIPLOMADO EN PYTHON FULL STACK  "
+msgstr "DIPLOMA IN FULL STACK PYTHON  "
+
+#: site_app/templates/curriculum_view.html
+msgid "Universidad Hemisferios"
+msgstr "Universidad Hemisferios"
+
+#: site_app/templates/curriculum_view.html
+msgid "Septiembre 2023 - Junio 2024"
+msgstr "September 2023 - June 2024"
+
+#: site_app/templates/curriculum_view.html
+msgid "IDIOMA RUSO COMO EXTRANJERO"
+msgstr "RUSSIAN AS A FOREIGN LANGUAGE"
+
+#: site_app/templates/curriculum_view.html
+msgid "Universidad Estatal de San Petesburgo"
+msgstr "St. Petersburg State University"
+
+#: site_app/templates/curriculum_view.html
+msgid "Septiembre 2014 - Junio 2020"
+msgstr "September 2014 - June 2020"
+
+#: site_app/templates/curriculum_view.html
+msgid "INGENIERIA EN PETRÓLEOS"
+msgstr "PETROLEUM ENGINEERING"
+
+#: site_app/templates/curriculum_view.html
+msgid "Universidad Tecnológica Equinoccial - UTE"
+msgstr "Universidad Tecnológica Equinoccial - UTE"
+
+#: iachat_app/templates/askedgar_view.html
+msgid "Asistente IA"
+msgstr "AI Assistant"
+
+#: iachat_app/templates/askedgar_view.html
+msgid "Nueva conversación"
+msgstr "New conversation"
+
+#: iachat_app/templates/askedgar_view.html
+msgid "Conversaciones"
+msgstr "Conversations"
+
+#: iachat_app/templates/askedgar_view.html
+msgid "Escribe un mensaje..."
+msgstr "Type a message..."
+
+#: iachat_app/templates/askedgar_view.html
+msgid "Verifica que no eres un robot para empezar a chatear con el asistente."
+msgstr "Verify that you are not a robot to start chatting with the assistant."
+
+#: portafolio_app/templates/portafolio_view.html
+msgid "Sin Imagen"
+msgstr "No Image"
+
+#: portafolio_app/templates/portafolio_view.html
+msgid "Sin imágenes adicionales"
+msgstr "No additional images"
+
+#: portafolio_app/templates/portafolio_view.html
+msgid "Anterior"
+msgstr "Previous"
+
+#: portafolio_app/templates/portafolio_view.html
+msgid "Siguiente"
+msgstr "Next"

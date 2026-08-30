@@ -485,31 +485,35 @@ msgid "Edgar Fernando Izurieta"
 msgstr "Эдгар Фернандо Изурета"
 
 #: .\site_app\templates\home_view.html:30
-msgid "Ingeniero en Petroleos / Analista de Datos e Inteligencia Artificial"
-msgstr "Инженер-нефтяник / Аналитик данных и Искусственный Интеллект"
+msgid "Ingeniero en Petroleos / Especialista en Datos e Inteligencia Artificial y EOR"
+msgstr "Инженер-нефтяник / Специалист по данным, искусственному интеллекту и EOR"
 
 #: .\site_app\templates\home_view.html:48
-msgid "Quien soy?"
+msgid "¿Quien soy?"
 msgstr "Кто я?"
 
 #: .\site_app\templates\home_view.html:56
 msgid ""
-"\"Tengo el grado de ingeniero de Petróleos con 3 años de experiencia en "
-"operaciones de producción temprana, well testing y análisis de yacimientos "
-"con herramientas de Machine Learning. Me destaco por mi sólida disciplina y "
-"una gran iniciativa, lo cual demuestro con el dominio de cuatro idiomas y el "
-"aprendizaje por cuenta propia de lenguajes de programación y diseño "
-"ingenieril. Estoy comprometido y entusiasmado con aplicar mis conocimientos "
-"técnicos y habilidades analíticas para la optimizacion de procesos y "
-"garantizar la eficiencia operativa en entornos desafiantes. “"
+"Hace años me preguntaron: «Edgar, ¿qué valor agregado le darías a la "
+"empresa?» Me quedé en silencio. Ese silencio me cambió. Entendí que "
+"las oportunidades no llegan por aplicar, llegan por estar listo cuando "
+"aparecen. Empecé a estudiar programación e inglés por mi cuenta, a "
+"invertir en mi formación y a leer cosas que no sabía si algún día me "
+"servirían. Sin darme cuenta construí algo que rivaliza con lo que "
+"muchos llaman «talento»: disciplina. Ella me llevó a aprender cuatro "
+"idiomas y a prepararme para una oportunidad que aún no tenía. Hoy tengo "
+"la respuesta, porque hablar es barato; ejecutar es otra historia."
 msgstr ""
-"\"Я инженер-нефтяник с 3-летним опытом работы в операциях ранней добычи, "
-"испытании скважин и анализе пластов с использованием инструментов машинного "
-"обучения. Отличаюсь строгой дисциплиной и высокой инициативностью, что "
-"подтверждается владением четырьмя языками и самостоятельным изучением языков "
-"программирования и инженерного проектирования. Я полон энтузиазма и готов "
-"применять свои технические знания и аналитические навыки для оптимизации "
-"процессов и обеспечения операционной эффективности в сложных условиях.\""
+"Много лет назад меня спросили: «Эдгар, какую дополнительную ценность ты принесешь "
+"компании?» Я промолчал. Это молчание изменило меня. Я понял, что "
+"возможности появляются не от простой подачи заявок, они приходят, когда "
+"ты готов к их появлению. Я начал самостоятельно изучать программирование "
+"и английский, вкладывать в свое образование и читать вещи, о которых не "
+"знал, пригодятся ли они мне когда-нибудь. Сам того не осознавая, я выработал "
+"то, что может соперничать с тем, что многие называют «талантом»: дисциплину. "
+"Она помогла мне выучить четыре языка и подготовиться к возможности, которой "
+"у меня еще не было. Сегодня у меня есть ответ, потому что слова ничего "
+"не стоят; реальные действия — это совсем другое дело."
 
 #: .\site_app\templates\home_view.html:72
 msgid "Algo de mi"
@@ -738,3 +742,141 @@ msgstr "Удостоверение личности (не редактирует
 #: .\user_app\templates\profile.html:103
 msgid "Guardar Cambios"
 msgstr "Сохранить изменения"
+
+# === Cadenas nuevas por traducir (rellena el msgstr) ===
+
+#: site_app/templates/curriculum_view.html
+msgid "Operación y monitoreo de equipos de bombeo de alta presión con bombas centrífugas y reciprocantes."
+msgstr "Эксплуатация и мониторинг насосного оборудования высокого давления с центробежными и поршневыми насосами."
+
+#: site_app/templates/curriculum_view.html
+msgid "Manipulación de variadores de frecuencia."
+msgstr "Управление частотно-регулируемыми приводами."
+
+#: site_app/templates/curriculum_view.html
+msgid "Diseño e interpretación de P&ID."
+msgstr "Проектирование и чтение схем P&ID."
+
+#: site_app/templates/curriculum_view.html
+msgid "Análisis de muestras de crudo y agua."
+msgstr "Анализ проб сырой нефти и воды."
+
+#: site_app/templates/curriculum_view.html
+msgid "Febrero 2024"
+msgstr "Февраль 2024"
+
+#: site_app/templates/curriculum_view.html
+msgid "Diseño e implementación de pipelines en AWS, Azure y SQL."
+msgstr "Проектирование и внедрение конвейеров данных в AWS, Azure и SQL."
+
+#: site_app/templates/curriculum_view.html
+msgid "Governanza de datos, ETL y ELT"
+msgstr "Управление данными, ETL и ELT"
+
+#: site_app/templates/curriculum_view.html
+msgid "Manipulación e ingesta de datos de variadores de frecuencia."
+msgstr "Обработка и сбор данных с частотно-регулируемых приводов."
+
+#: site_app/templates/curriculum_view.html
+msgid "Storytelling y generación de dashboards."
+msgstr "Сторителлинг и создание дашбордов."
+
+#: site_app/templates/curriculum_view.html
+msgid "Automatización y conocimientos de Machine Learning supervisado, no supervisado, visión computizada e IA generativa."
+msgstr "Автоматизация и знание контролируемого и неконтролируемого машинного обучения, компьютерного зрения и генеративного ИИ."
+
+#: site_app/templates/curriculum_view.html
+msgid "Lenguajes: Python, R, SQL, No SQL y habilidad en .web."
+msgstr "Языки: Python, R, SQL, NoSQL и навыки веб-разработки."
+
+#: site_app/templates/curriculum_view.html
+msgid "Toma de parámetros operativos en campo."
+msgstr "Сбор эксплуатационных параметров на месторождении."
+
+#: site_app/templates/curriculum_view.html
+msgid "Elaboración de permisos de trabajo"
+msgstr "Оформление нарядов-допусков"
+
+#: site_app/templates/curriculum_view.html
+msgid "Análisis de proyectos de registros eléctricos y de sistemas de levantamiento artificial (ESP)."
+msgstr "Анализ проектов каротажа и систем механизированной добычи (УЭЦН)."
+
+#: site_app/templates/curriculum_view.html
+msgid "Marzo 2026 - Marzo 2027"
+msgstr "Март 2026 - Март 2027"
+
+#: site_app/templates/curriculum_view.html
+msgid "MAESTRÍA EN INTELIGENCIA ARTIFICIAL"
+msgstr "МАГИСТРАТУРА В ОБЛАСТИ ИСКУССТВЕННОГО ИНТЕЛЛЕКТА"
+
+#: site_app/templates/curriculum_view.html
+msgid "Escuela Politecnica Nacional - EPN"
+msgstr "Escuela Politécnica Nacional - EPN"
+
+#: site_app/templates/curriculum_view.html
+msgid "DIPLOMADO EN PYTHON FULL STACK  "
+msgstr "ДИПЛОМ PYTHON FULL STACK  "
+
+#: site_app/templates/curriculum_view.html
+msgid "Universidad Hemisferios"
+msgstr "Universidad Hemisferios"
+
+#: site_app/templates/curriculum_view.html
+msgid "Septiembre 2023 - Junio 2024"
+msgstr "Сентябрь 2023 - Июнь 2024"
+
+#: site_app/templates/curriculum_view.html
+msgid "IDIOMA RUSO COMO EXTRANJERO"
+msgstr "РУССКИЙ ЯЗЫК КАК ИНОСТРАННЫЙ"
+
+#: site_app/templates/curriculum_view.html
+msgid "Universidad Estatal de San Petesburgo"
+msgstr "Санкт-Петербургский государственный университет"
+
+#: site_app/templates/curriculum_view.html
+msgid "Septiembre 2014 - Junio 2020"
+msgstr "Сентябрь 2014 - Июнь 2020"
+
+#: site_app/templates/curriculum_view.html
+msgid "INGENIERIA EN PETRÓLEOS"
+msgstr "НЕФТЕГАЗОВОЕ ДЕЛО"
+
+#: site_app/templates/curriculum_view.html
+msgid "Universidad Tecnológica Equinoccial - UTE"
+msgstr "Universidad Tecnológica Equinoccial - UTE"
+
+#: iachat_app/templates/askedgar_view.html
+msgid "Asistente IA"
+msgstr "ИИ-ассистент"
+
+#: iachat_app/templates/askedgar_view.html
+msgid "Nueva conversación"
+msgstr "Новый чат"
+
+#: iachat_app/templates/askedgar_view.html
+msgid "Conversaciones"
+msgstr "Чаты"
+
+#: iachat_app/templates/askedgar_view.html
+msgid "Escribe un mensaje..."
+msgstr "Введите сообщение..."
+
+#: iachat_app/templates/askedgar_view.html
+msgid "Verifica que no eres un robot para empezar a chatear con el asistente."
+msgstr "Подтвердите, что вы не робот, чтобы начать общение с ассистентом."
+
+#: portafolio_app/templates/portafolio_view.html
+msgid "Sin Imagen"
+msgstr "Нет изображения"
+
+#: portafolio_app/templates/portafolio_view.html
+msgid "Sin imágenes adicionales"
+msgstr "Нет дополнительных изображений"
+
+#: portafolio_app/templates/portafolio_view.html
+msgid "Anterior"
+msgstr "Предыдущий"
+
+#: portafolio_app/templates/portafolio_view.html
+msgid "Siguiente"
+msgstr "Следующий"
