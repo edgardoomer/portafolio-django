@@ -44,8 +44,6 @@
   .cvchat-main { flex: 1; display: flex; flex-direction: column; min-width: 0; position: relative; background: var(--cvchat-bg); }
   .cvchat-header { padding: .75rem 1.2rem; border-bottom: 1px solid var(--cvchat-border); display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: var(--cvchat-bg); flex-shrink: 0; }
   .cvchat-header-title { font-weight: 700; font-size: 1rem; color: var(--cvchat-text); }
-  .cvchat-status { font-size: .78rem; color: var(--cvchat-text-secondary); white-space: nowrap; }
-  .cvchat-status b { color: var(--cvchat-primary-dark); }
 
   /* --- LISTA DE CONVERSACIONES (en la barra lateral izquierda) --- */
   .cvchat-recents-header { padding: .5rem .9rem .3rem; font-size: .72rem; font-weight: 600; color: var(--cvchat-text-secondary); text-transform: uppercase; letter-spacing: .03em; }
@@ -128,7 +126,6 @@
     <div class="cvchat-main">
       <div class="cvchat-header">
         <span class="cvchat-header-title">AskEdgar.IA</span>
-        <span class="cvchat-status" id="chatStatus"></span>
       </div>
 
       <div class="cvchat-messages" id="messagesArea"></div>
