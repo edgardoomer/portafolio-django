@@ -880,3 +880,25 @@ msgstr "Предыдущий"
 #: portafolio_app/templates/portafolio_view.html
 msgid "Siguiente"
 msgstr "Следующий"
+
+# === Seccion ¿Quien soy? (home) ===
+
+#: site_app/templates/home_view.html
+msgid "Hace años me preguntaron:"
+msgstr "Много лет назад меня спросили:"
+
+#: site_app/templates/home_view.html
+msgid "«Edgar, ¿qué valor agregado le darías a la empresa?»"
+msgstr "«Эдгар, какую дополнительную ценность ты принесешь компании?»"
+
+#: site_app/templates/home_view.html
+msgid "Me quedé en silencio. Ese silencio me cambió. Entendí que las oportunidades no llegan por aplicar, llegan por estar listo cuando aparecen. Empecé a estudiar programación e inglés por mi cuenta, a invertir en mi formación y a leer cosas que no sabía si algún día me servirían. Sin darme cuenta construí algo que rivaliza con lo que muchos llaman «talento»: disciplina. Ella me llevó a aprender cuatro idiomas y a prepararme para una oportunidad que aún no tenía. Hoy tengo la respuesta, porque hablar es barato; ejecutar es otra historia."
+msgstr "Я промолчал. Это молчание изменило меня. Я понял, что возможности появляются не от простой подачи заявок, они приходят, когда ты готов к их появлению. Я начал самостоятельно изучать программирование и английский, вкладывать в свое образование и читать вещи, о которых не знал, пригодятся ли они мне когда-нибудь. Сам того не осознавая, я выработал то, что может соперничать с тем, что многие называют «талантом»: дисциплину. Она помогла мне выучить четыре языка и подготовиться к возможности, которой у меня еще не было. Сегодня у меня есть ответ, потому что слова ничего не стоят; реальные действия — это совсем другое дело."
+
+#: site_app/templates/home_view.html
+msgid "Áreas de especialidad:"
+msgstr "Области специализации:"
+
+#: site_app/templates/home_view.html
+msgid "ingeniería de reservorios, recuperación mejorada (EOR), escritura científica, facilidades de superficie e Inteligencia Artificial."
+msgstr "разработка месторождений, методы повышения нефтеотдачи (EOR), написание научных статей, наземные сооружения и искусственный интеллект."

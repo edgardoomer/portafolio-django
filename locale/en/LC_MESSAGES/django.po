@@ -878,3 +878,24 @@ msgstr "Previous"
 #: portafolio_app/templates/portafolio_view.html
 msgid "Siguiente"
 msgstr "Next"
+# === Seccion ¿Quien soy? (home) ===
+
+#: site_app/templates/home_view.html
+msgid "Hace años me preguntaron:"
+msgstr "Years ago, I was asked:"
+
+#: site_app/templates/home_view.html
+msgid "«Edgar, ¿qué valor agregado le darías a la empresa?»"
+msgstr "'Edgar, what added value would you bring to the company?'"
+
+#: site_app/templates/home_view.html
+msgid "Me quedé en silencio. Ese silencio me cambió. Entendí que las oportunidades no llegan por aplicar, llegan por estar listo cuando aparecen. Empecé a estudiar programación e inglés por mi cuenta, a invertir en mi formación y a leer cosas que no sabía si algún día me servirían. Sin darme cuenta construí algo que rivaliza con lo que muchos llaman «talento»: disciplina. Ella me llevó a aprender cuatro idiomas y a prepararme para una oportunidad que aún no tenía. Hoy tengo la respuesta, porque hablar es barato; ejecutar es otra historia."
+msgstr "I remained silent. That silence changed me. I realized that opportunities don't just come from applying; they come from being ready when they arise. I started teaching myself programming and English, investing in my education, and reading things I wasn't sure I'd ever use. Without realizing it, I built something that rivals what many call 'talent': discipline. It drove me to learn four languages and prepare for an opportunity I didn't even have yet. Today, I have the answer, because talk is cheap; execution is a whole different story."
+
+#: site_app/templates/home_view.html
+msgid "Áreas de especialidad:"
+msgstr "Areas of expertise:"
+
+#: site_app/templates/home_view.html
+msgid "ingeniería de reservorios, recuperación mejorada (EOR), escritura científica, facilidades de superficie e Inteligencia Artificial."
+msgstr "reservoir engineering, enhanced oil recovery (EOR), scientific writing, surface facilities, and Artificial Intelligence."
