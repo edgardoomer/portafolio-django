@@ -41,7 +41,8 @@ def login_view(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+            # Se pasa request para que django-axes registre IP e intentos.
+            user = authenticate(request, username=username, password=password)
             
             if user is not None:
                 login(request, user)

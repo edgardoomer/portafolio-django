@@ -55,6 +55,11 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
 
+# Ruta del panel de administracion. Ponla en algo NO obvio en el .env de
+# produccion (ej. ADMIN_URL=panel-9f3x/), asi el admin no esta en /admin/,
+# el blanco #1 de los bots. Debe terminar en '/'.
+ADMIN_URL = config('ADMIN_URL', default='admin/')
+
 
 # Application definition
 
@@ -77,8 +82,9 @@ LOCAL_APPS= [
 ]
 
 THIRD_APPS = [
-    'widget_tweaks', 
-    'django_recaptcha',   
+    'widget_tweaks',
+    'django_recaptcha',
+    'axes',   # bloqueo tras N intentos fallidos de login (anti fuerza bruta)
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_APPS
@@ -88,6 +94,8 @@ MIDDLEWARE = [
     # Sirve los archivos estaticos comprimidos y cacheados sin necesidad
     # de nginx. Debe ir justo despues de SecurityMiddleware.
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    # Cabeceras de seguridad extra (Permissions-Policy y CSP en Report-Only).
+    'mi_cv.middleware.SecurityHeadersMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -95,7 +103,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # AxesMiddleware debe ir al final: registra los intentos de login.
+    'axes.middleware.AxesMiddleware',
 ]
+
+# --- django-axes: proteccion anti fuerza bruta en el login ---
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesStandaloneBackend',  # primero: controla los bloqueos
+    'django.contrib.auth.backends.ModelBackend',
+]
+AXES_FAILURE_LIMIT = 5           # bloquea tras 5 intentos fallidos
+AXES_COOLOFF_TIME = 1            # ...durante 1 hora
+AXES_RESET_ON_SUCCESS = True     # un login correcto reinicia el contador
+AXES_LOCKOUT_PARAMETERS = ['ip_address']
 
 ROOT_URLCONF = 'mi_cv.urls'
 

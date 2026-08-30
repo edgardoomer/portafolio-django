@@ -17,6 +17,7 @@ django-widget-tweaks==1.5.0
 # Configuracion y seguridad
 python-decouple==3.8
 django-ratelimit==4.1.0
+django-axes==7.0.2
 # Usa el almacen de certificados del SO (evita fallos SSL con antivirus/proxy)
 truststore==0.10.4
 
