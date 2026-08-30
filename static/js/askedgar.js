@@ -72,6 +72,9 @@
 
   // ---------------- render ----------------
   function renderStatus() {
+    // El contador de tokens/palabras de la cabecera se retiro; si no existe
+    // el elemento, no hacemos nada (los limites siguen aplicando por detras).
+    if (!chatStatus) return;
     const t = state.tokens;
     let txt = state.autenticado ? "" : "Invitado · ";
     txt += `Tokens: <b>${t.restantes}</b>/${t.limite}`;
