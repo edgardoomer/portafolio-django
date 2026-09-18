@@ -95,6 +95,15 @@ mi_cv/
 └── locale/          # Traducciones es / en / ru
 ```
 
+## Desarrollo
+
+Autor: **Ing. Edgar Izurieta**. El contenido del currículum, el diseño del sitio
+y las decisiones de arquitectura son propios.
+
+La implementación del código se hizo con asistencia de **Claude (Anthropic)**,
+usada como herramienta de apoyo en la escritura y revisión. La responsabilidad
+sobre el contenido es del autor.
+
 ## Licencia
 
 Proyecto personal. El código puede consultarse libremente; el contenido del
