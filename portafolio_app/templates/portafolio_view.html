@@ -114,6 +114,10 @@
     .btn-contact-project { display: block; width: 100%; text-align: center; background-color: #333; color: #fff; padding: 15px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 30px; transition: background 0.3s; }
     .btn-contact-project:hover { background-color: #ffd42d; color: #000; }
 
+    .modal-links { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
+    .modal-link { display: inline-flex; align-items: center; gap: 6px; background: #f2f2f2; color: #333; padding: 8px 14px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; font-weight: 600; border: 1px solid #e0e0e0; transition: background 0.3s, color 0.3s; }
+    .modal-link:hover { background: #ffd42d; color: #000; border-color: #ffd42d; }
+
     /* --- SLIDER --- */
     .slider {
         width: 100%;
@@ -234,6 +238,17 @@
 
                                     <div class="modal-subtitle">{% trans "Resumen" %}</div>
                                     <p class="modal-text">{{ pro.descripcion|linebreaks }}</p>
+
+                                    {% if pro.enlaces.all %}
+                                    <div class="modal-subtitle">{% trans "Enlaces" %}</div>
+                                    <div class="modal-links">
+                                        {% for enlace in pro.enlaces.all %}
+                                        <a href="{{ enlace.url }}" target="_blank" rel="noopener" class="modal-link">
+                                            <i class="bi bi-link-45deg"></i>{{ enlace.titulo }}
+                                        </a>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
 
                                     <a href="{% url 'contact_view' %}?asunto=Interés en proyecto {{ pro.titulo }}" class="btn-contact-project">
                                         {% trans "Saber más" %}

@@ -4,10 +4,10 @@ from .models import Proyecto
 
 def portafolio_index(request):
     # prefetch_related evita una consulta extra por cada proyecto al
-    # recorrer sus imágenes del slider en la plantilla.
+    # recorrer sus imágenes del slider y sus enlaces en la plantilla.
     proyectos = (
         Proyecto.objects
-        .prefetch_related('imagenes')
+        .prefetch_related('imagenes', 'enlaces')
         .order_by('-created_at')
     )
     context = {

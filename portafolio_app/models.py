@@ -44,3 +44,36 @@ class ProyectoImagen(models.Model):
 
     def __str__(self):
         return f"{self.proyecto.titulo} · imagen #{self.orden}"
+
+
+class ProyectoEnlace(models.Model):
+    """Enlace de un proyecto (repositorio, demo, artículo...).
+
+    Cada proyecto puede tener 0, 1 o varios. Se editan desde el admin y el
+    campo `orden` controla en qué orden aparecen (menor número = antes).
+    """
+    proyecto = models.ForeignKey(
+        Proyecto,
+        on_delete=models.CASCADE,
+        related_name='enlaces',
+        verbose_name="Proyecto",
+    )
+    titulo = models.CharField(
+        max_length=100,
+        verbose_name="Texto del enlace",
+        help_text="Lo que se muestra. Ej: GitHub, Demo en vivo, Artículo.",
+    )
+    url = models.URLField(max_length=500, verbose_name="URL")
+    orden = models.PositiveIntegerField(
+        default=0,
+        verbose_name="Orden",
+        help_text="Posición. Menor número aparece primero.",
+    )
+
+    class Meta:
+        ordering = ['orden', 'id']
+        verbose_name = "Enlace del proyecto"
+        verbose_name_plural = "Enlaces del proyecto"
+
+    def __str__(self):
+        return f"{self.proyecto.titulo} · {self.titulo}"
