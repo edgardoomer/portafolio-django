@@ -1,0 +1,87 @@
+<title>Taladro de Perforación 16-Bit</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=block">
+<style>
+  /* Layout: a letterboxed 16:9 stage that fills the window, with an SNES-window control bar pinned underneath. */
+  :root {
+    --bg: #05030f; --bar: #142064; --bar2: #2a42a6; --edge: #f8f8ff; --edge2: #9aa0c8; --ink: #0a0618;
+    --fg: #f8f8ff; --gold: #ffd27a; --cyan: #6ef0ff;
+    --pixel: "Press Start 2P", ui-monospace, monospace;
+    color-scheme: dark;
+  }
+  html, body { height: 100%; background: var(--bg); color: var(--fg); }
+  body { margin: 0; display: flex; flex-direction: column; font-family: var(--pixel); }
+  .stage { flex: 1; min-height: 0; display: grid; place-items: center; background: var(--bg); position: relative; padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); }
+  canvas { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; display: block; }
+  .bar { display: flex; align-items: center; gap: 12px; padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+    background: linear-gradient(var(--bar2), var(--bar)); border-top: 3px solid var(--edge); box-shadow: inset 0 3px 0 var(--edge2); }
+  button { font: inherit; font-size: 11px; color: var(--fg); background: var(--ink); border: 2px solid var(--edge); padding: 8px 10px; cursor: pointer; min-width: 44px; line-height: 1; }
+  button:hover { color: var(--gold); }
+  button:focus-visible, input:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+  button[aria-pressed="false"] { color: var(--edge2); }
+  input[type=range] { flex: 1; min-width: 0; accent-color: var(--gold); height: 22px; }
+  .time { font-size: 10px; color: var(--cyan); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .play-big { position: absolute; inset: 0; margin: auto; width: 112px; height: 112px; font-size: 28px; color: var(--gold); background: rgba(10, 6, 24, .82); border: 4px solid var(--edge); box-shadow: 0 0 0 4px var(--ink); }
+  @media (max-width: 520px) { .bar { gap: 8px; } button { font-size: 9px; padding: 7px 7px; } .time { font-size: 8px; } }
+</style>
+
+<div class="stage"><canvas id="c" width="1280" height="720" aria-label="Animación: los cinco sistemas de un taladro de perforación"></canvas><button class="play-big" id="big" aria-label="Reproducir">▶</button></div>
+<div class="bar">
+  <button id="play" aria-label="Reproducir">▶</button>
+  <input id="scrub" type="range" min="0" max="33.2" step="0.01" value="0" aria-label="Posición">
+  <span class="time" id="time">00.0 / 33.2</span>
+  <button id="snd" aria-pressed="true" aria-label="Sonido">SON ON</button>
+  <button id="loop" aria-pressed="true" aria-label="Repetir">LOOP</button>
+</div>
+
+<script src="lib/harness.js"></script>
+<script src="lib/sound.js"></script>
+<script src="taladro.js"></script>
+<script>
+const DURATION = TALADRO.DURATION, scoreSound = TALADRO.scoreSound;
+const canvas = document.getElementById('c'), ctx = canvas.getContext('2d', { willReadFrequently: true });
+const $ = (id) => document.getElementById(id), playBtn = $('play'), big = $('big'), scrub = $('scrub'), timeEl = $('time'), sndBtn = $('snd'), loopBtn = $('loop');
+let t = 0, playing = false, startPerf = 0, soundOn = true, loop = true, stopSound = null, lastTick = -1, ready = false;
+
+const draw = (tt) => { TALADRO.explainer(ctx, 1280, 720, tt); };
+const fmt = (s) => s.toFixed(1).padStart(4, '0');
+const ui = () => { scrub.value = t; timeEl.textContent = fmt(t) + ' / ' + DURATION.toFixed(1); playBtn.textContent = playing ? '❚❚' : '▶'; playBtn.setAttribute('aria-label', playing ? 'Pausa' : 'Reproducir'); };
+const killSound = () => { if (stopSound) { stopSound(); stopSound = null; } };
+const startSound = () => { killSound(); if (soundOn && playing) stopSound = SOUND.live(scoreSound, t, { voiceover: false }); };
+
+window.DURATION = DURATION;
+window.scoreSound = scoreSound;
+window.seek = (tt) => { t = Math.max(0, Math.min(DURATION, tt)); lastTick = Math.floor(t * 12 + 1e-6); draw(t); ui(); };
+
+function play() {
+  if (!ready) return;
+  if (t >= DURATION - 0.01) t = 0;
+  big.hidden = true; playing = true; startPerf = performance.now() - t * 1000; startSound(); ui(); requestAnimationFrame(frame);
+}
+function pause() { playing = false; killSound(); ui(); }
+function frame(now) {
+  if (!playing) return;
+  t = (now - startPerf) / 1000;
+  if (t >= DURATION) {
+    if (loop) { t = 0; startPerf = now; startSound(); }
+    else { t = DURATION; draw(t); pause(); return; }
+  }
+  const tick = Math.floor(t * 12 + 1e-6); // the piece runs on a 12 fps game tick; redraw only when it changes
+  if (tick !== lastTick) { lastTick = tick; draw(t); }
+  ui(); requestAnimationFrame(frame);
+}
+playBtn.onclick = () => (playing ? pause() : play());
+big.onclick = play;
+canvas.onclick = () => (playing ? pause() : play());
+scrub.addEventListener('input', () => { killSound(); window.seek(+scrub.value); if (playing) startPerf = performance.now() - t * 1000; });
+scrub.addEventListener('change', () => { if (playing) { startPerf = performance.now() - t * 1000; startSound(); } });
+sndBtn.onclick = () => { soundOn = !soundOn; sndBtn.setAttribute('aria-pressed', soundOn); sndBtn.textContent = soundOn ? 'SON ON' : 'SON OFF'; if (soundOn) startSound(); else killSound(); };
+loopBtn.onclick = () => { loop = !loop; loopBtn.setAttribute('aria-pressed', loop); };
+document.addEventListener('keydown', (e) => { if (e.code === 'Space' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON') { e.preventDefault(); playing ? pause() : play(); } });
+
+window.ready = (async () => {
+  try { for (const s of [8, 16, 32]) await document.fonts.load(s + 'px "Press Start 2P"', 'AZ09¿?¡!ÁÉÍÓÚÑ$,.:-'); await document.fonts.ready; } catch (e) {}
+  ready = true;
+  draw(1.7); timeEl.textContent = fmt(0) + ' / ' + DURATION.toFixed(1); // poster frame until the first play
+})();
+</script>

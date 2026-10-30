@@ -64,3 +64,4 @@ local_settings.py
 # ==========================================
 Thumbs.db
 Desktop.ini
+explainers/taladro/*.wav

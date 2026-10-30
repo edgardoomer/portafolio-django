@@ -786,5 +786,180 @@
     ctx.save(); ctx.imageSmoothingEnabled = false; ctx.drawImage(lc, 0, 0, W, H_); ctx.restore();
   }
 
-  window.TALADRO = { explainer, DURATION, LW, LH };
+
+  // ================= sound: SNES chip palette =================
+  // The picture runs on a 12 fps game tick (T = floor(t*12)/12), so the cues walk the same ticks and re-evaluate the
+  // same expressions as explainer(): every sound starts on the tick its event first shows. tk(t0) = first tick >= t0.
+  function scoreSound(k) {
+    const FPS = 12, END = DURATION;
+    const tk = (t0) => Math.ceil(t0 * FPS - 1e-6) / FPS;
+    const prog = (T, a, b) => H.clamp((T - a) / (b - a));
+    const sq = (t, f, dur, gain, pan) => k.tone(t, { f, type: 'square', dur, gain, a: 0.001, hold: dur * 0.6, pan });
+    const tri = (t, f, dur, gain, pan) => k.tone(t, { f, type: 'triangle', dur, gain, a: 0.002, hold: dur * 0.6, pan });
+    const crash = (t, dur, gain) => k.noise(t, { dur, filter: 'lowpass', f: 3200, gain, rate: 0.25, a: 0.001 }); // NES-style noise channel
+    const pan = (x) => H.clamp((x - 160) / 160, -0.8, 0.8); // view x -> stereo
+    // a label lands (pop) and its arrow completes (short high blip) 0.33 s later
+    const label = (t0, x, arrow = true) => { k.play('pop', tk(t0), { f: 760, gain: 0.5, pan: pan(x) }); if (arrow) k.withMinor(() => sq(tk(t0 + 0.33), 'E6', 0.035, 0.028, pan(x))); };
+    const panSwish = (t) => k.noise(t, { dur: 0.5, filter: 'bandpass', f: [[0, 300], [0.25, 1500], [0.5, 320]], q: 1.2, gain: 0.1, rate: 0.3, a: 0.2 });
+
+    // ---- music (chip), each section stops for the transition or the hit that ends it
+    k.music('chip', 0, 2.4, { bpm: 100, gain: 0.28, chords: [['C4', 'E4', 'G4', 'B4']] });
+    k.music('chip', 2.4, 4.7, { bpm: 240 / 2.3, gain: 0.3, chords: [['A3', 'C4', 'E4', 'G4']] });
+    k.music('chip', tk(5.35), 7.5, { bpm: 112, gain: 0.38, chords: [['F3', 'A3', 'C4', 'E4'], ['G3', 'B3', 'D4', 'G4']] });
+    k.music('chip', 8.1, 18.9, { bpm: 120, gain: 0.26, chords: [['C4', 'E4', 'G4', 'B4'], ['A3', 'C4', 'E4', 'G4'], ['F3', 'A3', 'C4', 'E4'], ['G3', 'B3', 'D4', 'F4']] });
+    k.music('chip', 20.3, 22.9, { bpm: 150, gain: 0.45, chords: [['A3', 'C4', 'E4', 'A4'], ['F3', 'A3', 'C4', 'F4']] });
+    k.music('chip', 23.5, 26.3, { bpm: 110, gain: 0.3, chords: [['F3', 'A3', 'C4', 'E4'], ['G3', 'B3', 'D4', 'G4']] });
+    k.music('chip', 26.9, 28.9, { bpm: 120, gain: 0.28, chords: [['C4', 'E4', 'G4', 'B4']] });
+    k.music('chip', tk(31.55), END, { bpm: 140, gain: 0.32, chords: [['C4', 'E4', 'G4', 'C5']] });
+    // ---- ambience beds: desert wind at the surface, rig noise in the tour, swell at sea
+    k.bed('room', 0, 4.8, { gain: 0.7 }); k.bed('room', 7.9, 20.0, { gain: 0.8 }); k.bed('room', 31.0, END, { gain: 0.7 });
+    for (let t = 23.3; t < 26.4; t += 1.1) k.noise(t, { dur: 1.4, color: 'pink', filter: 'lowpass', f: [[0, 380], [0.7, 1300], [1.4, 300]], gain: 0.07, a: 0.6, bus: 'amb' });
+    // rotation: top-drive hum while the string turns (10.6 - 18.8)
+    k.tone(10.6, { f: 55, type: 'sawtooth', dur: 8.3, gain: 0.045, a: 0.25, hold: 7.7, filter: 'lowpass', f2: 380, bus: 'amb' });
+    // power: diesel rumble under the power beat
+    k.noise(16.2, { dur: 2.7, color: 'brown', filter: 'lowpass', f: 200, gain: 0.22, a: 0.3, hold: 2.0, bus: 'amb' });
+    k.tone(16.2, { f: 38, type: 'sawtooth', dur: 2.7, gain: 0.05, a: 0.3, hold: 2.0, filter: 'lowpass', f2: 260, bus: 'amb' });
+
+    // ---- per-tick state machine (mirrors explainer)
+    const prev = new Map();
+    const edge = (key, v, fn) => { const p = prev.has(key) ? prev.get(key) : v === 0 ? 0 : -1e9; if (v !== p) fn(v, p); prev.set(key, v); };
+    const UP = ['C5', 'E5', 'G5', 'C6'];
+    const winSteps = (key, T, t0, notes = UP, g = 0.1) => edge(key, Math.floor(prog(T, t0, t0 + 0.25) * 4), (v, p) => { if (v > p && v >= 1) k.withMinor(() => tri(T, notes[v - 1], 0.06, g)); });
+    const Q1 = '¿QUÉ ES UN', Q2 = 'TALADRO?';
+    for (let f = 0; f <= END * FPS; f++) {
+      const T = f / FPS;
+      // beat 1: the driller's footsteps (each time the walk frame comes up)
+      const wk = prog(T, 0.15, 1.0), stepOn = wk > 0 && wk < 1 && Math.floor(T * 8) % 2 === 1 ? 1 : 0;
+      edge('walk', stepOn, (v) => { if (v) k.play('tock', T, { f: 240, gain: 0.3, pan: -0.6 + wk * 0.4, minor: true }); });
+      // dialog prints (chip text blips, one per glyph)
+      edge('q1', Math.floor(prog(T, 0.35, 0.95) * Q1.length), (v, p) => { if (v > p && p >= 0) k.play('text', T, { n: v - p, rate: 0.035, gain: 1.1, minor: true }); });
+      edge('q2', Math.floor(prog(T, 1.0, 1.4) * Q2.length), (v, p) => { if (v > p && p >= 0) k.play('text', T, { n: v - p, rate: 0.035, gain: 1.1, minor: true }); });
+      // the window slides up into the quest header in 6 steps
+      edge('up', Math.floor(prog(T, 1.85, 2.3) * 6), (v, p) => { if (v > p && v >= 1) k.withMinor(() => tri(T, ['G4', 'A4', 'C5', 'D5', 'E5', 'G5'][v - 1], 0.05, 0.12)); });
+      // beat 2: camera sinks into the ground in 9 whole-pixel steps
+      edge('sink', Math.floor(prog(T, 2.6, 3.5) * 9), (v, p) => { if (v > p && v >= 1) k.withMinor(() => tri(T, 330 * Math.pow(2, -v / 9), 0.06, 0.1, 0.2)); });
+      winSteps('cap', T, 2.65);
+      // drilling: a grinding chip crunch per tick while the bit cuts; the depth counter ticks, slowing as it settles
+      if (T >= 3.0 && T < 4.3) k.withMinor(() => k.noise(T, { dur: 0.05, filter: 'bandpass', f: 500 + (f % 3) * 140, q: 2, gain: 0.12, rate: 0.4, pan: 0.25 }));
+      if (T >= 3.0 && T <= 4.34) {
+        const m = Math.round(3000 * H.ease.inOut(prog(T, 3.0, 4.3)) / 10) * 10, gap = prog(T, 3.0, 4.3) > 0.8 ? 2 : 1;
+        if (m > (prev.get('m') || 0)) {
+          if (m >= 3000) k.play('coin', T, { gain: 0.9, pan: -0.5 });
+          else if (f - (prev.get('mt') || -9) >= gap) { k.withMinor(() => sq(T, 900 + 900 * prog(T, 3.0, 4.3), 0.022, 0.03, -0.5)); prev.set('mt', f); }
+          prev.set('m', m);
+        }
+      }
+      // mosaics (4.7-5.3 and 30.7-31.3): one square step per tick, pitch falls as blocks grow and rises as they shrink
+      for (const c of [5.0, 31.0]) if (T >= c - 0.3 && T < c + 0.3) { const n = Math.round(16 - Math.abs(T - c) / 0.3 * 15); if (n > 1) sq(T, 1500 / Math.sqrt(n), 0.075, 0.036); }
+      // beat 3: party window opens, then the five members join one by one (rising notes)
+      winSteps('party', T, 5.7);
+      for (let i = 0; i < 5; i++) edge('row' + i, T >= 5.95 + i * 0.3 ? 1 : 0, (v) => { if (v) { k.play('blip', T, { f: ['C5', 'E5', 'G5', 'B5', 'D6'][i], dur: 0.08, gain: 1.1 }); k.withMinor(() => tri(T, ['C4', 'E4', 'G4', 'B4', 'D5'][i], 0.12, 0.12)); } });
+      // the IZAJE label rises to the header slot (5 steps)
+      edge('rise', Math.floor(prog(T, 7.5, 7.75) * 5), (v, p) => { if (v > p && v >= 1) k.withMinor(() => tri(T, ['C5', 'D5', 'E5', 'G5', 'A5'][v - 1], 0.05, 0.11)); });
+      // system headers snap open as the camera arrives; their subtitle prints
+      [10.55, 13.15, 16.15, 18.35].forEach((t0, i) => winSteps('hdr' + i, T, t0));
+      // izaje: the drawworks drum turns while the block travels -> cable clicks every tick
+      const moving = (T > 8.4 && T < 9.4) || (T > 9.7 && T < 10.6);
+      if (moving) k.withMinor(() => k.play('tick', T, { f: 2600, gain: 0.3, pan: 0.2 }));
+      // rotation: rotary table tick every 3 ticks during the rotation beat
+      if (T >= 10.6 && T < 13.2 && f % 3 === 0) k.play('tock', T, { f: 520, gain: 0.12, pan: 0.3, minor: true });
+      winSteps('inset', T, 11.9, ['G4', 'B4', 'D5', 'G5']);
+      if (T >= 12.17 && T < 13.15 && f % 2 === 0) k.withMinor(() => k.noise(T, { dur: 0.06, color: 'brown', filter: 'lowpass', f: 900, gain: 0.25, pan: -0.5 })); // rock crunch in the inset
+      // circulation: triplex pump thumps (13.4 - 18.8), bubbles while the mud stream draws on, shaker rattle
+      if (T >= 13.4 && T < 18.8 && Math.floor(T / 0.375) !== Math.floor((T - 1 / FPS) / 0.375)) k.play('thud', T, { f: 75, gain: 0.2, pan: 0.6 });
+      if (T >= 13.6 && T < 15.0) k.withMinor(() => k.noise(T, { dur: 0.06, filter: 'bandpass', f: 380 + ((f * 37) % 7) * 90, q: 6, gain: 0.14, pan: -0.3 + prog(T, 13.6, 15.0) * 0.8 }));
+      if (T >= 13.6 && T < 16.2 && f % 2 === 1) k.play('tick', T, { f: 5200, gain: 0.12, pan: 0.4, minor: true });
+      // power: sparks crackle while they run along the cables
+      if (T >= 16.7 && T < 17.4) k.withMinor(() => k.noise(T, { dur: 0.03, filter: 'highpass', f: 3500, gain: 0.16 + 0.1 * ((f * 13) % 3), pan: -0.4 + ((f * 7) % 5) * 0.2 }));
+      // control: alarm (two-tone square) from the kick until the swirl
+      if (T >= 19.0 && T < 19.7) edge('alarm', Math.floor(T * 6) % 2, (v) => sq(T, v ? 'E5' : 'A5', 0.15, 0.045));
+      // battle: well HP drops in 3 steps
+      edge('hp', Math.floor(prog(T, 20.85, 21.05) * 3), (v, p) => { if (v > p && v >= 1) k.withMinor(() => sq(T, ['E4', 'C4', 'A3'][v - 1], 0.06, 0.05, 0.5)); });
+      // types: each rig starts rising (short square sweep) and lands with its label
+      [23.55, 24.05, 24.55, 25.05].forEach((t0, i) => edge('rig' + i, T >= t0 ? 1 : 0, (v) => { if (v) k.tone(T, { f: [[0, 160 + i * 40], [0.3, 520 + i * 80]], type: 'square', dur: 0.32, gain: 0.035, a: 0.01, hold: 0.2, pan: pan(40 + i * 78) }); }));
+      // importance: stat bars fill in 4 steps (stat-up blips), then drain / overflow after the failure
+      [27.1, 27.5, 27.9].forEach((t0, i) => edge('bar' + i, Math.floor(prog(T, t0, t0 + 0.3) * 4), (v, p) => { if (v > p && v >= 1) k.withMinor(() => sq(T, ['C5', 'E5', 'G5', 'C6'][v - 1] , 0.06, 0.045, 0.2)); }));
+      [29.2, 29.32, 29.44, 29.56].forEach((t0, i) => edge('grey' + i, T >= t0 ? 1 : 0, (v) => { if (v && i > 0) sq(T, ['E5', 'C5', 'A4'][i - 1], 0.08, 0.05, -0.3 + i * 0.15); }));
+      edge('drain', Math.floor(prog(T, 29.3, 29.9) * 6), (v, p) => { if (v > p && v >= 1) k.withMinor(() => sq(T, 660 * Math.pow(2, -v / 4), 0.05, 0.04, 0.3)); });
+      edge('cash', T >= 29.3 ? Math.floor(prog(T, 29.3, 30.6) * 4) + 1 : 0, (v, p) => { if (v > p && v >= 1 && v <= 4) k.play('coin', T, { gain: 0.45, pan: 0.5 }); });
+      // takeaway window opens in steps
+      winSteps('take', T, 31.3, ['C5', 'E5', 'G5', 'G5']);
+    }
+
+    // ---- one-off cues
+    k.play('select', 0.02, { gain: 0.6, minor: true });                       // dialog window on screen
+    // beat 2
+    k.noise(3.0, { dur: 1.35, color: 'brown', filter: 'bandpass', f: 140, q: 1.2, gain: 0.3, a: 0.1, hold: 1.0, pan: 0.25 }); // drilling rumble
+    label(3.1, 276); label(4.35, 222);
+    k.play('text', tk(2.65 + 0.25), { n: 6, rate: 0.04, gain: 0.9, minor: true });          // caption prints
+    // beat 3: the 5 stamps on (the biggest hit) with a held chord
+    const FIVE = tk(5.35);
+    k.play('impact', FIVE, { gain: 1.3 }); crash(FIVE, 0.4, 0.2);
+    ['C5', 'E5', 'G5', 'C6'].forEach((n, i) => sq(FIVE + 0.02 * i, n, 0.7, 0.035)); tri(FIVE, 'C3', 0.9, 0.25);
+    k.play('text', tk(5.55), { n: 5, rate: 0.03, gain: 0.8, minor: true });                // SISTEMAS / EN CONJUNTO
+    k.play('blip', tk(7.1), { f: 'A5', dur: 0.04, gain: 0.8, pan: -0.8 });                // cursor
+    k.play('select', tk(7.25), { gain: 1.1, pan: -0.5 });                                    // IZAJE chosen
+    // beat 4: hoist (rising drum whine) and lower (falling)
+    k.play('text', tk(8.2), { n: 6, rate: 0.04, gain: 0.8, minor: true });
+    k.tone(tk(8.4), { f: [[0, 150], [1.0, 420]], type: 'square', dur: 1.0, gain: 0.05, a: 0.05, hold: 0.85, filter: 'lowpass', f2: 900, pan: 0.3 });
+    k.tone(tk(9.7), { f: [[0, 420], [0.9, 150]], type: 'square', dur: 0.9, gain: 0.04, a: 0.05, hold: 0.75, filter: 'lowpass', f2: 900, pan: 0.3 });
+    label(8.5, 150); label(9.1, 150);
+    // camera travels between systems
+    [10.3, 12.9, 15.9, 18.1].forEach((t) => panSwish(t));
+    [10.55, 13.15, 16.15, 18.35].forEach((t0) => k.play('text', tk(t0 + 0.25), { n: 6, rate: 0.04, gain: 0.8, minor: true }));
+    // beat 5
+    label(11.0, 280); label(11.5, 160); k.withMinor(() => sq(tk(12.4), 'G6', 0.05, 0.03, 0.4)); // inset arrow lands on the bit
+    // beat 6: the mud circuit closes
+    label(13.9, 115); label(14.1, 290); label(14.5, 210); label(14.8, 200);
+    k.play('ding', tk(15.0), { f: 'C6', gain: 0.55, pan: 0.2 });
+    // beat 7: power on
+    label(16.5, 90); label(17.0, 150);
+    k.play('neon', tk(16.7), { dur: 0.7, gain: 0.45, pan: 0.2 });
+    k.play('powerup', tk(17.4), { gain: 0.8 });
+    // beat 8: BOP label, the kick rises, ¡BROTE!, pit gain
+    label(18.65, 130);
+    k.noise(tk(18.9), { dur: 0.75, filter: 'bandpass', f: [[0, 220], [0.7, 1500]], q: 3, gain: 0.2, a: 0.1, hold: 0.5, pan: 0.1 });
+    for (let i = 0; i < 6; i++) tri(tk(18.9) + i * 0.11, 160 * Math.pow(1.18, i), 0.07, 0.12, 0.1);    // gas bubbles glug upward
+    k.play('stamp', tk(18.95), { gain: 0.9, pan: 0.3 }); sq(tk(18.95), 'D3', 0.2, 0.05, 0.3);
+    label(19.2, 250);
+    // wavy battle swirl 19.7-20.3 (peak 20.0): warbling square + grainy noise sweep, crash on the cut
+    for (let f = Math.ceil(19.7 * FPS); f < 20.3 * FPS; f++) { const T = f / FPS, kk = 1 - Math.abs(T - 20.0) / 0.3; sq(T, 300 + kk * 900 * (f % 2 ? 1 : 1.26), 0.07, 0.04 + kk * 0.02); }
+    k.noise(19.7, { dur: 0.6, filter: 'bandpass', f: [[0, 400], [0.3, 3000], [0.6, 500]], q: 1.4, gain: 0.14, rate: 0.3, a: 0.28 });
+    crash(tk(20.05), 0.3, 0.12);
+    // battle
+    k.play('text', tk(20.3), { n: 8, rate: 0.035, gain: 0.9, minor: true });                // "¡EL BROTE SUBE POR EL POZO!"
+    k.noise(tk(20.5), { dur: 0.3, filter: 'bandpass', f: [[0, 300], [0.3, 1800]], q: 1, gain: 0.16, rate: 0.4, a: 0.2, pan: -0.3 }); // lunge
+    const HIT = tk(20.85);
+    k.play('hurt', HIT, { gain: 1.3, pan: 0.5 }); crash(HIT, 0.35, 0.22); k.play('error', HIT + 0.3, { gain: 0.8 });
+    k.play('text', tk(20.85) + 0.5, { n: 6, rate: 0.035, gain: 0.8, minor: true });         // "EL BOP CIERRA EL POZO..."
+    k.play('blip', tk(21.1), { f: 'A5', dur: 0.04, gain: 0.9, pan: -0.7 });               // cursor on CERRAR BOP
+    k.play('select', tk(21.4), { gain: 1.1, pan: -0.6 });                                 // command chosen
+    k.tone(tk(21.4), { f: [[0, 260], [0.2, 900]], type: 'square', dur: 0.2, gain: 0.04, a: 0.01, hold: 0.15, pan: 0.2 });   // rams drive in
+    k.tone(tk(21.4), { f: [[0, 330], [0.2, 1100]], type: 'square', dur: 0.2, gain: 0.04, a: 0.01, hold: 0.15, pan: 0.9 });
+    const SEAL = tk(21.6); // emphasis: the rams meet, the well is sealed
+    k.play('impact', SEAL, { gain: 1.4, pan: 0.5 }); k.play('stamp', SEAL, { gain: 0.8, pan: 0.5 }); crash(SEAL, 0.25, 0.2);
+    ['G5', 'C6', 'E6'].forEach((n, i) => sq(SEAL + 0.08 + i * 0.06, n, 0.07, 0.06)); sq(SEAL + 0.26, 'G6', 0.45, 0.05); tri(SEAL + 0.08, 'C4', 0.6, 0.18);
+    k.play('sparkle', tk(21.7), { n: 7, gain: 0.8 });
+    // iris: closes on the BOP (sweep down), opens on the world (sweep up)
+    k.tone(tk(22.9), { f: [[0, 1400], [0.27, 160]], type: 'square', dur: 0.28, gain: 0.042, a: 0.002, hold: 0.2, pan: 0.5 });
+    k.tone(tk(23.2), { f: [[0, 160], [0.27, 1400]], type: 'square', dur: 0.28, gain: 0.042, a: 0.002, hold: 0.2 });
+    k.play('text', tk(23.45), { n: 6, rate: 0.035, gain: 0.8, minor: true });
+    // types: labels land with each rig, notes climbing from land to deep water
+    [[23.85, 40, 'C5'], [24.35, 115, 'E5'], [24.85, 200, 'G5'], [25.35, 275, 'C6']].forEach(([t0, x, n]) => { label(t0, x, false); k.play('blip', tk(t0), { f: n, dur: 0.1, gain: 1, pan: pan(x) }); });
+    label(25.8, 240, false); k.play('select', tk(25.8), { gain: 0.6, pan: 0.5 });
+    // importance
+    k.play('text', tk(26.95), { n: 8, rate: 0.035, gain: 0.8, minor: true });
+    [27.1, 27.5, 27.9].forEach((t0) => k.play('text', tk(t0), { n: 3, rate: 0.03, gain: 0.7, minor: true }));
+    const FAIL = tk(28.9);
+    k.play('hurt', FAIL, { gain: 1.4, pan: 0.2 }); crash(FAIL, 0.4, 0.22);
+    k.tone(tk(29.3), { f: [[0, 400], [1.1, 55]], type: 'square', dur: 1.1, gain: 0.045, a: 0.01, hold: 0.6, filter: 'lowpass', f2: 1200 }); // the rig powers down
+    const STAMP = tk(29.95);
+    k.play('stamp', STAMP, { gain: 1.2 }); k.play('buzz', STAMP, { f: 70, dur: 0.5, gain: 0.9 });
+    // takeaway lands: resolving chip cadence (B -> C over a C bass), soft sparkle
+    const TAKE = tk(31.55);
+    sq(TAKE, 'B5', 0.08, 0.055); sq(TAKE + 0.08, 'C6', 0.8, 0.055); sq(TAKE + 0.08, 'G5', 0.8, 0.03); tri(TAKE, 'C4', 0.9, 0.22);
+    k.play('sparkle', TAKE + 0.12, { n: 5, gain: 0.5 });
+  }
+
+  window.TALADRO = { explainer, scoreSound, DURATION, LW, LH };
 })();
