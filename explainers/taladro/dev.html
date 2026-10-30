@@ -1,0 +1,10 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=block">
+<style>body{margin:0;background:#000}</style></head><body>
+<canvas id="c" width="1280" height="720"></canvas>
+<script src="lib/harness.js"></script><script src="taladro.js"></script>
+<script>
+window.ready = (async () => { for (const s of [8,16,32]) await document.fonts.load(s+'px "Press Start 2P"', 'AZ09¿?¡!ÁÉÍÓÚÑ$,.:'); await document.fonts.ready; })();
+const ctx = document.getElementById('c').getContext('2d', {willReadFrequently:true});
+window.seek = (t) => { const t0 = performance.now(); TALADRO.explainer(ctx, 1280, 720, t); return performance.now() - t0; };
+</script></body></html>
