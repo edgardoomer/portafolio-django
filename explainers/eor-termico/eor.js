@@ -2,7 +2,7 @@
 // One faceted block diorama at dawn: surface plant on top, the reservoir exposed on the cut face.
 // Every frame is a pure function of t: explainer(ctx, 1280, 720, t).
 (function () {
-  const DURATION = 27.5;
+  const DURATION = 32.5;
 
   // ---------- tiny 3D pipeline (from the reference) ----------
   const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
@@ -122,8 +122,10 @@
   const ph = (t, a, b) => H.clamp((t - a) / (b - a));
   const Ei = (t, a, b) => H.ease.inOut(ph(t, a, b));
   const steamS = (t) => Ei(t, 14.6, 16.8);
-  const sagdS = (t) => Ei(t, 18.5, 20.8);
-  const combXf = (t) => H.lerp(-23, 14, Ei(t, 22.3, 24.8));
+  // estimulación cíclica: huff (inyección) -> soak (remojo) -> puff (producción), un solo pozo
+  const cssR = (t) => 9.5 * Ei(t, 18.4, 19.8) * (1 - 0.35 * Ei(t, 20.9, 22.4));
+  const sagdS = (t) => Ei(t, 23.5, 25.8);
+  const combXf = (t) => H.lerp(-23, 14, Ei(t, 27.3, 29.8));
   const sagdChamber = (s) => ({ top: -27.5 + 5.2 * H.clamp(s * 1.7), k: 0.55 + 2.2 * s });
   function faceColor(x, y, t, mode) {
     const base = strata(x, y);
@@ -139,6 +141,16 @@
       return { col: base };
     }
     if (mode === 1) {
+      const R = cssR(t); if (R <= 0.05) return { col: base };
+      const soak = Ei(t, 19.8, 20.9), puff = Ei(t, 20.9, 22.4);
+      const d = Math.hypot(x, (y + 27) * 1.7) + j * 0.8, Re = R * (0.8 + 0.06 * (y + 27));
+      const core = H.mix(H.mix(HOT, WARM_OIL, soak * 0.75), H.mix(WARM_OIL, COLD_OIL, 0.25), puff * 0.6);
+      if (d < Re * 0.55) return { col: core };
+      if (d < Re) return { col: H.mix(core, WARM_OIL, H.smooth(Re * 0.55, Re, d)) };
+      if (d < Re + 4) return { col: H.mix(WARM_OIL, COLD_OIL, (d - Re) / 4) };
+      return { col: base };
+    }
+    if (mode === 2) {
       const s = sagdS(t), C = sagdChamber(s);
       const hw = (y + 28.6) * C.k + j * 0.4;
       if (y > -28.6 && y < C.top && Math.abs(x) < hw) return { col: H.mix(HOT, [255, 236, 226], H.clamp((y + 28) / 6)) };
@@ -146,7 +158,7 @@
       if (y > -31.8 && ex < 2.6 + (y < -28 ? 1.4 : 0) && (y < C.top + 1.2 || y < -27)) return { col: H.mix(WARM_OIL, COLD_OIL, H.clamp(ex / 3.2)) };
       return { col: base };
     }
-    const xf = combXf(t) + (y + 27) * 0.3 + j * 0.5, lit = t > 22.15;
+    const xf = combXf(t) + (y + 27) * 0.3 + j * 0.5, lit = t > 27.15;
     if (!lit || x <= -26) return { col: base };
     if (x < xf - 2.2 && x > -26) return { col: H.mix([214, 200, 186], [180, 160, 150], H.smooth(-26, xf - 2, x)) }; // zona quemada
     if (x < xf && x > -26) return { col: [255, 156, 72], emissive: true };                                       // frente de fuego
@@ -155,7 +167,7 @@
     return { col: base };
   }
   // face facets flip in place at each method change (the medium's own scene change)
-  const FLIPS = [17.6, 21.2];
+  const FLIPS = [17.6, 22.6, 26.2];
   function faceFlip(x, t) {
     let mode = 0, scale = 1;
     FLIPS.forEach((T) => { const at = T + (x + XB) / (2 * XB) * 0.55, u = ph(t, at, at + 0.42); if (u >= 0.5) mode++; if (u > 0 && u < 1) scale = Math.abs(1 - 2 * u); });
@@ -301,9 +313,10 @@
     [8.8, 10, 30, -46, 0.06, 0.5], [10.6, 8, 28, -42, 0.06, 0.5],
     [11.7, -9, 19, -34, -0.02, 0.4], [13.7, -7, 18, -32, -0.02, 0.4],
     [14.9, 2, -8, -64, 0, 0.12], [17.5, 2, -8.5, -66, 0, 0.12],
-    [18.4, 8, -26, -30, -0.17, 0.0], [21.1, 8, -26, -29, -0.17, 0.0],
-    [22.0, 2, -21, -52, 0, 0.05], [24.7, 2, -21, -54, 0, 0.05],
-    [26.0, 0, 56, -98, 0, 0.42], [DURATION, 0, 55, -95, 0, 0.42],
+    [18.4, 15, -11, -56, 0, 0.1], [22.3, 15, -11, -54, 0, 0.1],
+    [23.4, 8, -26, -30, -0.17, 0.0], [26.1, 8, -26, -29, -0.17, 0.0],
+    [27, 2, -21, -52, 0, 0.05], [29.7, 2, -21, -54, 0, 0.05],
+    [31, 0, 56, -98, 0, 0.42], [DURATION, 0, 55, -95, 0, 0.42],
   ];
   function camAt(t, W, H_) {
     let k = 0; while (k < KF.length - 2 && t > KF[k + 1][0]) k++;
@@ -439,7 +452,7 @@
 
     // ---------- dynamic objects (drawn as a second sorted pass, in front of the cut face) ----------
     const D = makeDyn();
-    const steamK = 1 - E(17.6, 17.95), sagdK = EO(18.0, 18.45) * (1 - E(21.2, 21.5)), combK = EO(21.65, 22.1);
+    const steamK = 1 - E(17.6, 17.95), cssK = EO(18.0, 18.45) * (1 - E(22.6, 22.95)), sagdK = EO(23.0, 23.45) * (1 - E(26.2, 26.5)), combK = EO(26.65, 27.1);
     const wellsIn = EO(0.9, 1.4);
     // vapor continuo: inyector (coral) + 2 productores (teal)
     if (steamK > 0) {
@@ -467,19 +480,37 @@
         D.blob(p, 0.7 * steamK, [150, 82, 44], { obj: true, sec: true }, 1.25);
       }
     }
+    // estimulación cíclica: un solo pozo que inyecta, se cierra y luego produce
+    if (cssK > 0) {
+      const wc = t < 19.8 ? CORAL : t < 20.9 ? H.mix(CORAL, [170, 166, 190], EO(19.8, 20.1)) : H.mix([170, 166, 190], TEAL, EO(20.9, 21.2));
+      D.tube([0, 4, -1.2], [0, -28, -1.2], 0.85 * cssK, wc, { sec: true }, 3); D.wellhead(0, cssK, wc);
+      for (let i = 0; i < 20; i++) {
+        const te = 18.35 + i * 0.12; if (te > 19.6) break;
+        const u = (t - te) / 0.8; if (u <= 0 || u > 1.6) continue;
+        let p; if (u <= 1) p = [0, H.lerp(4.5, -26.5, u), -2.2]; else { const a = i * 2.4, v = (u - 1) / 0.6; p = [Math.cos(a) * v * 7, -27 + Math.sin(a) * v * 3.2, -1.6]; }
+        D.blob(p, 0.95 * (u > 1 ? 1 - (u - 1) / 0.6 : 1) * cssK, STEAM, { puff: true, sec: true }, 0.85);
+      }
+      for (let i = 0; i < 24; i++) {
+        const te = 20.95 + i * 0.09; if (te > 22.25) break;
+        const u = (t - te) / 0.8; if (u <= 0 || u > 2.1) continue;
+        const a = i * 2.4, r0 = 6 + (i % 3);
+        const p = u <= 1 ? [H.lerp(Math.cos(a) * r0, 0, H.ease.inOut(u)), H.lerp(-27 + Math.sin(a) * r0 * 0.45, -27, H.ease.inOut(u)), -2.2] : [0, H.lerp(-27, 4, (u - 1) / 1.1), -2.3];
+        D.blob(p, 0.7 * cssK, [150, 82, 44], { obj: true, sec: true }, 1.25);
+      }
+    }
     // SAGD: two horizontal wells seen end-on, sticking out of the cut face
     if (sagdK > 0) {
       D.tube([0, -27.2, -7], [0, -27.2, 0.3], 0.95 * sagdK, CORAL, { sec: true, cap: true }, 2.5, 8);
       D.tube([0, -31, -7], [0, -31, 0.3], 0.95 * sagdK, TEAL, { sec: true, cap: true }, 2.5, 8);
       const s = sagdS(t), C = sagdChamber(s);
       for (let i = 0; i < 30; i++) {
-        const te = 18.5 + i * 0.13; if (te > 20.9) break;
+        const te = 23.5 + i * 0.13; if (te > 25.9) break;
         const u = (t - te) / 1.1; if (u <= 0 || u > 1) continue;
         const yTop = Math.max(-26.5, C.top - 0.8), y = H.lerp(-26.4, yTop, H.ease.out(u)), hw = Math.max(0.3, (y + 28.6) * C.k);
         D.blob([((i * 0.37) % 1 - 0.5) * 1.4 * hw, y, -1.4], 0.75 * (1 - u * 0.4) * sagdK, STEAM, { puff: true, sec: true }, 0.85);
       }
       for (let i = 0; i < 30; i++) {
-        const te = 18.9 + i * 0.12; if (te > 21.0) break;
+        const te = 23.9 + i * 0.12; if (te > 26) break;
         const u = (t - te) / 1.2; if (u <= 0 || u > 1) continue;
         const sd = i % 2 ? 1 : -1, yS = Math.max(-27, C.top - 0.6 - (i * 5) % 3), xS = sd * ((yS + 28.6) * C.k + 1.2);
         const e = H.ease.in(u), p = u < 0.8 ? [H.lerp(xS, sd * 1.8, e / H.ease.in(0.8)), H.lerp(yS, -30.2, e / H.ease.in(0.8)), -1.4] : [H.lerp(sd * 1.8, 0, (u - 0.8) / 0.2), -30.6, -1.4];
@@ -492,20 +523,20 @@
       D.tube([-24, 4, -1.2], [-24, -30, -1.2], 0.8 * k, [176, 206, 250], { sec: true }, 3);
       D.tube([24, 4, -1.2], [24, -30.5, -1.2], 0.8 * k, TEAL, { sec: true }, 3);
       D.wellhead(-24, k, [176, 206, 250]); D.wellhead(24, k, TEAL);
-      const xf = combXf(t), lit = EO(22.1, 22.5);
+      const xf = combXf(t), lit = EO(27.1, 27.5);
       if (lit > 0) for (let r = 0; r < 5; r++) {
         const y = -31 + r * 2.1, x = xf + (y + 27) * 0.3 - 1.0, fl = (1 + Math.sin(t * 30 + r * 2) * 0.12) * lit * (1 + Math.sin(t * 47 + r) * 0.06);
         const flame = (len, rr, col) => { const v = [[x + 0.6, y + len * fl, -1.0]]; for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI * 2; v.push([x + Math.cos(a) * rr, y, -1.0 + Math.sin(a) * rr * 0.6]); } for (let i = 0; i < 6; i++) D.push(v[0], v[1 + i], v[1 + (i + 1) % 6], H.mix(col, [255, 255, 230], (i % 3) * 0.18), { emissive: true, center: [x, y + len * 0.3, -1], bias: -2 }); };
         flame(3.4, 1.3, [255, 140, 60]); flame(2.0, 0.85, [255, 220, 120]);
       }
       for (let i = 0; i < 40; i++) { // air
-        const te = 21.9 + i * 0.11; if (te > 24.6) break;
+        const te = 26.9 + i * 0.11; if (te > 29.6) break;
         const u = (t - te) / 1.1; if (u <= 0 || u > 1.5) continue;
         const p = u <= 0.8 ? [-24, H.lerp(4, -27 - (i % 3), u / 0.8), -2.2] : [H.lerp(-24, xf - 2, (u - 0.8) / 0.7), -27 - (i % 3) - (i % 2) * 2, -1.8];
         D.blob(p, 0.55 * k, [200, 226, 255], { puff: true, sec: true }, 1);
       }
       for (let i = 0; i < 40; i++) { // displaced crude
-        const te = 22.5 + i * 0.1; if (te > 24.8) break;
+        const te = 27.5 + i * 0.1; if (te > 29.8) break;
         const u = (t - te) / 1.0; if (u <= 0 || u > 2) continue;
         const x0 = xf + 7 + (i * 5) % 6, y0 = -24 - (i * 7) % 7;
         const p = u <= 1 ? [H.lerp(x0, 23.6, H.ease.inOut(u)), H.lerp(y0, -29.5, H.ease.inOut(u)), -2.2] : [24, H.lerp(-29.5, 4, u - 1), -2.3];
@@ -532,7 +563,7 @@
     // boiler glow + flame glow
     { const p = pr([-9, 4, 5.8]); const on = EO(10.9, 11.3); if (p[2] > 1 && on > 0) { const r = sz(p, 6); const g = ctx.createRadialGradient(p[0], p[1], 2, p[0], p[1], r); g.addColorStop(0, `rgba(255,190,110,${0.5 * on})`); g.addColorStop(1, 'rgba(255,150,90,0)'); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(p[0] - r, p[1] - r, r * 2, r * 2); ctx.globalCompositeOperation = 'source-over'; } }
     renderTris(ctx, D.tris, cam, t, W, H_, false);
-    if (combK > 0 && t > 22.1) { const p = pr([combXf(t) - 1, -27, -1]); if (p[2] > 1) { const r = sz(p, 13); const g = ctx.createRadialGradient(p[0], p[1], 2, p[0], p[1], r); g.addColorStop(0, `rgba(255,190,110,${0.55 * EO(22.1, 22.5)})`); g.addColorStop(1, 'rgba(255,140,90,0)'); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(p[0] - r, p[1] - r, r * 2, r * 2); ctx.globalCompositeOperation = 'source-over'; } }
+    if (combK > 0 && t > 27.1) { const p = pr([combXf(t) - 1, -27, -1]); if (p[2] > 1) { const r = sz(p, 13); const g = ctx.createRadialGradient(p[0], p[1], 2, p[0], p[1], r); g.addColorStop(0, `rgba(255,190,110,${0.55 * EO(27.1, 27.5)})`); g.addColorStop(1, 'rgba(255,140,90,0)'); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(p[0] - r, p[1] - r, r * 2, r * 2); ctx.globalCompositeOperation = 'source-over'; } }
     if (gemK > 0) { const p = pr(GEM); if (p[2] > 1) { const r = sz(p, 6.5); const g = ctx.createRadialGradient(p[0], p[1], r * 0.4, p[0], p[1], r * 1.6); g.addColorStop(0, `rgba(255,${180 + 40 * GEM_HEAT | 0},150,${(0.12 + 0.4 * GEM_HEAT) * gemK})`); g.addColorStop(1, 'rgba(255,200,150,0)'); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(p[0] - r * 2, p[1] - r * 2, r * 4, r * 4); ctx.globalCompositeOperation = 'source-over'; } }
 
     // ---------- overlays that land on the 3D objects ----------
@@ -589,9 +620,10 @@
         const fly = E(10.45, 11.05), y = H.lerp(LIST_Y(0), CH_Y, fly);
         lpTagL(ctx, 56 - 8 * fly, y, METHODS[0], { k: BK(8.3, 8.62) * (1 - E(17.4, 17.75)), font: '700 30px "Space Grotesk"', bg: fly > 0.5 ? '#ff7060' : '#fff6f0', col: fly > 0.5 ? '#fff' : INK });
       }
-      chap(17.75, 21.0, '3 · SAGD', { bg: '#ff7060', col: '#fff' });
-      if (t > 17.9 && t < 21.4) lpTagL(ctx, 48, CH_Y + 62, 'drenaje por gravedad asistido por vapor', { k: BK(17.95, 18.25) * (1 - E(21.0, 21.35)) });
-      chap(21.35, 24.6, '4 · Combustión in situ', { bg: '#ff7060', col: '#fff' });
+      chap(17.75, 22.4, '2 · Estimulación cíclica (huff & puff)', { bg: '#ff7060', col: '#fff' });
+      chap(22.75, 26, '3 · SAGD', { bg: '#ff7060', col: '#fff' });
+      if (t > 22.9 && t < 26.4) lpTagL(ctx, 48, CH_Y + 62, 'drenaje por gravedad asistido por vapor', { k: BK(22.95, 23.25) * (1 - E(26, 26.35)) });
+      chap(26.35, 29.6, '4 · Combustión in situ', { bg: '#ff7060', col: '#fff' });
     }
     // beat 5 — surface: water -> boiler -> steam -> injector
     if (t > 11.0 && t < 14.6) {
@@ -620,33 +652,49 @@
       lpArrow(ctx, ua, [ua[0] + 12, (ua[1] + ub[1]) / 2], ub, E(16.4, 17.05) * out, [230, 140, 70], 12);
       const pl = pr([33, 9, 6]); lpTag(ctx, pl[0], Math.max(150, pl[1] - 20), 'a la planta', { k: BK(16.9, 17.2) * out });
     }
+    // beat 6b — cyclic steam stimulation: three phases on one well
+    if (t > 18.2 && t < 23.0) {
+      const out = 1 - E(22.45, 22.8);
+      const PH = [[18.4, '1 · Inyección de vapor', 'semanas'], [19.8, '2 · Remojo: pozo cerrado', 'días'], [20.9, '3 · Producción', 'meses']];
+      PH.forEach(([a, txt, dur], i) => {
+        const next = PH[i + 1] ? PH[i + 1][0] : 99, act = t >= a && t < next;
+        const w = lpTagL(ctx, 690, 300 + i * 80, txt, { k: BK(a, a + 0.3) * out, font: '700 30px "Space Grotesk"', bg: act ? '#ff7060' : '#fff6f0', col: act ? '#fff' : act || t < a ? INK : '#8a7fa0' });
+        if (t > a + 0.15) lpTagL(ctx, 690 + w + 12, 300 + i * 80, dur, { k: BK(a + 0.15, a + 0.45) * out, bg: INK, col: '#fff' });
+      });
+      const top = pr([0, 3, -1.2]), bot = pr([0, -24, -1.2]);
+      lpArrow(ctx, [top[0] - 34, top[1]], [top[0] - 46, (top[1] + bot[1]) / 2], [bot[0] - 34, bot[1]], E(18.4, 19.0) * (1 - E(19.7, 19.95)), [255, 246, 240], 12);
+      lpArrow(ctx, [bot[0] - 34, bot[1]], [bot[0] - 46, (top[1] + bot[1]) / 2], [top[0] - 34, top[1]], E(21.0, 21.6) * out, [230, 140, 70], 12);
+      const z = pr([0, -33.5, -1]); lpTag(ctx, z[0], z[1], 'el calor se reparte', { k: BK(20.0, 20.3) * (1 - E(20.85, 21.1)), bg: '#ff7060', col: '#fff' });
+      lpTag(ctx, z[0], z[1], 'el mismo pozo produce', { k: BK(21.15, 21.45) * out, bg: '#4d9da5', col: '#fff' });
+      lpTagL(ctx, 690, 540, '↻ se repite el ciclo', { k: BK(21.9, 22.2) * out, font: '700 30px "Space Grotesk"', bg: INK, col: '#fff' });
+    }
     // beat 7 — SAGD
-    if (t > 18.2 && t < 21.5) {
-      const out = 1 - E(21.0, 21.35);
+    if (t > 23.2 && t < 26.5) {
+      const out = 1 - E(26, 26.35);
       const pi = pr([0, -27.2, -7]), pp = pr([0, -31, -7]);
-      lpTag(ctx, pi[0] - 150, pi[1] - 4, 'inyector', { k: BK(18.35, 18.65) * out, bg: '#ff7060', col: '#fff' });
-      lpTag(ctx, pp[0] - 150, pp[1] + 24, 'productor', { k: BK(18.5, 18.8) * out, bg: '#4d9da5', col: '#fff' });
+      lpTag(ctx, pi[0] - 230, pi[1] - 30, 'inyector', { k: BK(23.35, 23.65) * out, bg: '#ff7060', col: '#fff' });
+      lpTag(ctx, pp[0] - 150, pp[1] + 24, 'productor', { k: BK(23.5, 23.8) * out, bg: '#4d9da5', col: '#fff' });
       const s = sagdS(t), C = sagdChamber(s);
       const ch = pr([0, (C.top - 27) / 2 + 0.5, -0.5]);
-      if (t > 19.4) lpTag(ctx, ch[0] - 140, ch[1] - 6, 'cámara de vapor', { k: BK(19.4, 19.7) * out });
+      if (t > 24.4) lpTag(ctx, ch[0] - 140, ch[1] - 6, 'cámara de vapor', { k: BK(24.4, 24.7) * out });
       // light steam rises, heavy crude drains
       const va = pr([0, -26, -1]), vb = pr([0, C.top - 0.2, -1]);
-      if (t > 19.0) lpArrow(ctx, [va[0] + 60, va[1]], [va[0] + 70, (va[1] + vb[1]) / 2], [vb[0] + 60, vb[1] + 10], E(19.0, 19.6) * out, [255, 246, 240], 11);
-      if (t > 19.7) lpTag(ctx, vb[0] + 250, vb[1] - 40, 'vapor liviano ↑', { k: BK(19.7, 20.0) * out });
-      for (const sd of [-1, 1]) { const hw = (C.top - 0.6 + 28.6) * C.k + 1.4, a = pr([sd * hw, C.top - 0.6, -1]), b = pr([sd * 2, -30.4, -1]); lpArrow(ctx, a, [(a[0] + b[0]) / 2 + sd * 30, (a[1] + b[1]) / 2 + 10], b, E(20.0, 20.6) * out, [230, 140, 70], 11); }
-      const ob = pr([12, -33.6, -1]); lpTag(ctx, ob[0] + 60, ob[1], 'crudo pesado ↓ por gravedad', { k: BK(20.3, 20.6) * out });
+      if (t > 24) lpArrow(ctx, [va[0] + 60, va[1]], [va[0] + 70, (va[1] + vb[1]) / 2], [vb[0] + 60, vb[1] + 10], E(24, 24.6) * out, [255, 246, 240], 11);
+      if (t > 24.7) lpTag(ctx, vb[0] + 250, vb[1] - 40, 'vapor liviano ↑', { k: BK(24.7, 25) * out });
+      for (const sd of [-1, 1]) { const hw = (C.top - 0.6 + 28.6) * C.k + 1.4, a = pr([sd * hw, C.top - 0.6, -1]), b = pr([sd * 2, -30.4, -1]); lpArrow(ctx, a, [(a[0] + b[0]) / 2 + sd * 30, (a[1] + b[1]) / 2 + 10], b, E(25, 25.6) * out, [230, 140, 70], 11); }
+      const ob = pr([12, -33.6, -1]); lpTag(ctx, ob[0] + 60, ob[1], 'crudo pesado ↓ por gravedad', { k: BK(25.3, 25.6) * out });
     }
     // beat 8 — in-situ combustion
-    if (t > 21.8 && t < 25.2) {
-      const out = 1 - E(24.6, 24.95);
-      const ai = pr([-24, 6.5, -1.2]); lpTag(ctx, ai[0], ai[1] - 40, 'aire', { k: BK(21.9, 22.2) * out, bg: '#b0cefa', col: INK });
+    if (t > 26.8 && t < 30.2) {
+      const out = 1 - E(29.6, 29.95);
+      const ai = pr([-24, 6.5, -1.2]); lpTag(ctx, ai[0], ai[1] - 40, 'aire', { k: BK(26.9, 27.2) * out, bg: '#b0cefa', col: INK });
       const xf = combXf(t), fp = pr([xf - 1, -21, -1]);
-      lpTag(ctx, fp[0], fp[1] - 24, 'frente de fuego', { k: BK(22.4, 22.7) * out, bg: '#ff7060', col: '#fff' });
-      const ob = pr([xf + 9.5, -33.6, -1]); lpTag(ctx, ob[0], ob[1] + 4, 'crudo empujado', { k: BK(23.0, 23.3) * out });
+      lpTag(ctx, fp[0], fp[1] - 24, 'frente de fuego', { k: BK(27.4, 27.7) * out, bg: '#ff7060', col: '#fff' });
+      const ob = pr([xf + 9.5, -33.6, -1]); lpTag(ctx, ob[0], ob[1] + 4, 'crudo empujado', { k: BK(28, 28.3) * out });
       const a = pr([xf + 4, -27, -1]), b = pr([21, -27, -1]);
-      if (t > 23.2) lpArrow(ctx, a, [(a[0] + b[0]) / 2, a[1] - 24], b, E(23.2, 23.7) * out, [230, 140, 70], 12);
-      const pp = pr([24, 6.5, -1.2]); lpTag(ctx, pp[0], pp[1] - 40, 'productor', { k: BK(23.6, 23.9) * out, bg: INK, col: '#fff' });
-      const bz = pr([-19, -21, -1]); lpTag(ctx, bz[0], bz[1] - 24, 'zona quemada', { k: BK(24.0, 24.3) * out, font: '700 28px "Space Grotesk"', bg: '#e4dcea', col: '#6a5f80' });
+      if (t > 28.2) lpArrow(ctx, a, [(a[0] + b[0]) / 2, a[1] - 24], b, E(28.2, 28.7) * out, [230, 140, 70], 12);
+      const pp = pr([24, 6.5, -1.2]); lpTag(ctx, pp[0], pp[1] - 40, 'productor', { k: BK(28.6, 28.9) * out, bg: INK, col: '#fff' });
+      const bz = pr([-19, -21, -1]); lpTag(ctx, bz[0], bz[1] - 24, 'zona quemada', { k: BK(29, 29.3) * out, font: '700 28px "Space Grotesk"', bg: '#e4dcea', col: '#6a5f80' });
     }
 
     // ---------- hook -> header ----------
@@ -668,8 +716,8 @@
       ctx.restore();
     }
     // ---------- takeaway ----------
-    if (t > 25.4) {
-      const kk = H.ease.back(P(25.4, 25.85));
+    if (t > 30.4) {
+      const kk = H.ease.back(P(30.4, 30.85));
       ctx.save(); ctx.translate(640, 610); ctx.scale(kk, kk);
       lpTag(ctx, 0, 0, 'Más calor → menos viscosidad → más crudo', { font: '700 46px "Space Grotesk"', h: 84 });
       ctx.restore();
@@ -679,4 +727,131 @@
   window.DURATION = DURATION;
   window.explainer = explainer;
   window.EOR = { DURATION, lpTag, lpArrow };
+})();
+
+// ---------- sound: dawn valley over a faceted diorama (air, glassy facets, steam hiss, fire) ----------
+(function () {
+  function scoreSound(k) {
+    const D = window.DURATION;
+    const ph = (t, a, b) => H.clamp((t - a) / (b - a));
+    // reference voices: struck glass facet, cut-corner tag knock, faceted gust of air
+    const glass = (t, f, g, p = 0, dur = 0.9, minor) => { const F = k.hz(f); k.tone(t, { f: F, type: 'triangle', dur, gain: 0.09 * g, a: 0.003, pan: p, verb: 0.35, minor }); k.tone(t, { f: F * 2.32, dur: dur * 0.5, gain: 0.03 * g, a: 0.002, pan: p, verb: 0.35, minor }); };
+    const facet = (t, f, g, p = 0, minor) => { k.play('tock', t, { f, gain: 0.45 * g, pan: p, minor }); k.noise(t, { dur: 0.02, filter: 'bandpass', f: f * 2.6, q: 3, gain: 0.18 * g, a: 0.001, pan: p, minor }); };
+    const gust = (t0, t1, g = 1) => {
+      const d = t1 - t0, steps = [260, 420, 610, 470, 300];
+      steps.forEach((f, i) => { const s = t0 + (d * i) / steps.length, dd = (d / steps.length) * 1.9; k.noise(s, { dur: dd, color: 'pink', filter: 'bandpass', f: [[0, f], [dd, f * 1.25]], q: 1.4, gain: 0.04 * g * Math.sin(((i + 0.5) / steps.length) * Math.PI), a: dd * 0.45, verb: 0.15 }); });
+    };
+    // facets flipping in a wave across the cut face: a dry cascade of small knocks, left to right
+    const flipWave = (t0, n = 12, g = 1) => { for (let i = 0; i < n; i++) { const t = t0 + 0.1 + i * 0.045; k.play('tick', t, { f: 2600 + (i % 4) * 300, gain: 0.5 * g, pan: -0.8 + 1.6 * i / (n - 1), minor: true }); if (i % 3 === 0) k.play('tock', t, { f: 380 + i * 12, gain: 0.18 * g, pan: -0.8 + 1.6 * i / (n - 1), minor: true }); } };
+    const steam = (t, dur, g = 1, fA = 2400, fB = 1200, p = 0) => k.noise(t, { dur, color: 'white', filter: 'bandpass', f: [[0, fA], [dur, fB]], q: 0.8, gain: 0.07 * g, a: Math.min(0.25, dur * 0.3), hold: dur * 0.4, pan: p, verb: 0.1 });
+    const plop = (t, f, g = 1, p = 0) => { k.tone(t, { f: [[0, f], [0.07, f * 0.55]], dur: 0.11, gain: 0.09 * g, pan: p, minor: true }); k.noise(t, { dur: 0.04, filter: 'bandpass', f: 1500, q: 1.5, gain: 0.05 * g, pan: p, minor: true }); };
+    const R = H.rng(404);
+
+    k.bed('room', 0, D, { gain: 0.2 });
+    k.noise(0, { dur: D, color: 'pink', filter: 'lowpass', f: [[0, 380], [D * 0.5, 520], [D, 360]], gain: 0.03, a: 0.8, hold: D - 1.6, bus: 'amb', minor: true });
+    k.music('pad', 0, D, { bpm: 96, gain: 0.25, chords: [['D4', 'F#4', 'A4', 'C#5'], ['B3', 'D4', 'F#4', 'A4'], ['G3', 'B3', 'D4', 'F#4'], ['A3', 'C#4', 'E4', 'G4'], ['D4', 'F#4', 'A4', 'D5']] });
+
+    // ---- 1 hook: diorama facets flip in, title lands, shrinks to the header, dive
+    for (let i = 0; i < 14; i++) k.play('tick', 0.04 + i * 0.07 + R() * 0.02, { f: 2200 + R() * 1600, gain: 0.35 * (1 - i / 18), pan: R() * 1.2 - 0.6, minor: true });
+    glass(0.12, 'A4', 1.1, 0, 1.4); glass(0.12, 'D4', 0.8, 0, 1.4);
+    k.play('pop', 1.0, { f: 520, gain: 0.35, pan: -0.2, minor: true }); k.play('pop', 1.12, { f: 600, gain: 0.3, pan: 0.3, minor: true });
+    k.noise(1.35, { dur: 1.0, color: 'pink', filter: 'lowpass', f: [[0, 650], [1.0, 280]], gain: 0.05, a: 0.4, minor: true });
+    gust(1.6, 3.4);
+
+    // ---- 2 the problem
+    glass(2.6, 'D3', 0.9, -0.3, 1.2); // the black drop rises
+    facet(2.62, 470, 0.8, -0.6); // "El problema"
+    facet(3.22, 420, 0.8, -0.5); k.play('swish', 3.3, { gain: 0.5, pan: -0.2, minor: true }); // yacimiento + magnifier
+    facet(3.52, 520, 0.8, -0.3); // crudo pesado
+    facet(3.92, 560, 0.9, 0.4); k.play('thud', 3.95, { f: 120, gain: 0.45, pan: 0.4 }); // the big viscosity number
+    k.play('thud', 4.4, { f: 110, gain: 0.55, pan: -0.3 }); k.play('error', 4.42, { f: 'G3', gain: 0.85, pan: -0.3 }); // no fluye
+
+    // ---- 3 heat lowers viscosity (key moment)
+    facet(5.27, 560, 0.8, -0.6);
+    k.noise(5.3, { dur: 0.6, color: 'pink', filter: 'bandpass', f: [[0, 500], [0.6, 1400]], q: 1.2, gain: 0.08, a: 0.3, pan: -0.4 }); // heat ribbon draws on
+    facet(5.52, 640, 0.8, -0.5, true); // "calor"
+    k.noise(5.6, { dur: 1.5, color: 'brown', filter: 'lowpass', f: [[0, 200], [1.4, 900]], gain: 0.22, a: 1.2, pan: -0.3 }); // the drop warms
+    { // counter 10 000 -> 10 cP, ticks at most 12/s, slowing as it settles
+      let last = -1;
+      const val = (t) => { const u = H.ease.inOut(ph(t, 5.6, 7.0)), v = Math.pow(10, 4 - 3 * u); return v >= 1000 ? Math.round(v / 100) : v >= 100 ? Math.round(v / 10) : Math.round(v); };
+      let lastV = val(5.6);
+      for (let t = 5.62; t < 6.97; t += 1 / 120) { const v = val(t); if (v === lastV) continue; const gap = 1 / 12 + 0.12 * ph(t, 6.4, 6.97); if (t - last >= gap) { k.play('tick', t, { f: 3000, gain: 1.0, pan: 0.4, minor: true }); last = t; } lastV = v; }
+    }
+    [6.7, 7.05, 7.4].forEach((t, i) => plop(t, 300 - i * 30, 1.1, -0.3)); // drips
+    k.play('impact', 7.0, { gain: 1.1 }); // 10 cP lands: the big hit
+    ['D4', 'A4', 'D5', 'F#5'].forEach((n, i) => glass(7.0 + i * 0.03, n, 1.7 - i * 0.25, (i - 1.5) * 0.25, 1.6));
+    k.play('success', 7.06, { f: 'D5', gain: 0.4, pan: -0.3 });
+    facet(7.17, 600, 0.6, 0.4, true); // agua ≈ 1 cP
+
+    // ---- 4 five methods
+    k.play('whoosh', 7.8, { dur: 0.6, gain: 0.5, top: 1400 });
+    gust(7.7, 8.9);
+    facet(7.97, 470, 0.8, -0.6);
+    [520, 560, 600, 640, 420].forEach((f, i) => facet(8.3 + i * 0.32, f, i === 4 ? 0.6 : 0.95, -0.5));
+    k.play('error', 9.97, { f: 'A3', gain: 0.45, pan: -0.1 }); // menos eficiente
+    k.play('swish', 10.45, { dur: 0.5, gain: 0.6, pan: -0.6 }); // item 1 becomes the chapter
+
+    // ---- 5 surface plant
+    gust(10.6, 11.8);
+    k.play('thud', 10.9, { f: 70, gain: 0.5 }); k.noise(10.9, { dur: 0.6, color: 'brown', filter: 'lowpass', f: [[0, 300], [0.5, 900]], gain: 0.25, a: 0.08 }); // burner lights
+    k.noise(11.0, { dur: 3.6, color: 'brown', filter: 'lowpass', f: 180, gain: 0.07, a: 0.3, hold: 2.8, bus: 'amb', pan: -0.2 }); // boiler roar, under
+    facet(11.22, 500, 0.8, -0.5);
+    k.noise(11.5, { dur: 0.5, color: 'pink', filter: 'bandpass', f: [[0, 700], [0.5, 1000]], q: 2, gain: 0.08, a: 0.1, pan: -0.4 }); // water pipe
+    facet(11.92, 440, 0.9, -0.2);
+    steam(12.3, 0.7, 1.1, 1500, 3800, 0.2); // high-pressure steam line
+    facet(12.62, 560, 0.8, 0.2);
+    facet(13.02, 480, 0.8, 0.4);
+
+    // ---- 6 down the well
+    gust(13.7, 15.0);
+    steam(14.0, 0.8, 1.2, 3600, 900, 0); // steam drops down the injector
+    k.noise(14.6, { dur: 2.8, color: 'white', filter: 'bandpass', f: 1100, q: 0.7, gain: 0.025, a: 0.5, hold: 1.8, bus: 'amb', minor: true }); // steady steam in the tubing
+    glass(15.0, 'F#4', 0.7, 0, 1.2, true); facet(15.02, 520, 0.8, 0); // cede su calor
+    for (let i = 0; i < 9; i++) plop(15.5 + i * 0.07, 260 + (i % 3) * 40, 0.8, i % 2 ? 0.5 : -0.5); // crude starts moving
+    facet(15.82, 470, 0.7, 0); facet(16.02, 430, 0.7, -0.6, true); facet(16.18, 450, 0.7, 0.6, true);
+    k.tone(16.4, { f: [[0, 160], [0.65, 420]], type: 'triangle', dur: 0.7, gain: 0.07, a: 0.4, pan: 0.6 }); // rising to the plant
+    facet(16.92, 600, 0.8, 0.6);
+
+    // ---- 6b cyclic steam (huff & puff): flip, inject, soak, produce
+    flipWave(17.6);
+    facet(17.77, 470, 0.9, -0.6);
+    facet(18.42, 560, 0.9, 0.4); steam(18.4, 1.3, 1.2, 3600, 900, -0.1); // huff
+    facet(18.57, 420, 0.5, 0.7, true);
+    k.play('press', 19.8, { gain: 0.6, pan: -0.1 }); facet(19.82, 500, 0.9, 0.4); // valve shuts: soak
+    facet(19.97, 420, 0.5, 0.7, true);
+    glass(20.02, 'A3', 0.8, 0, 1.4, true); facet(20.02, 470, 0.7, 0);
+    k.play('click', 20.9, { f: 1500, gain: 0.8, pan: -0.1 }); facet(20.92, 640, 0.9, 0.4); // valve opens: puff
+    facet(21.07, 420, 0.5, 0.7, true);
+    for (let i = 0; i < 8; i++) plop(21.0 + i * 0.08, 240 + (i % 3) * 50, 0.8, -0.1);
+    facet(21.17, 470, 0.8, 0);
+    ['D4', 'F#4', 'A4'].forEach((n, i) => glass(21.92 + i * 0.07, n, 0.8, 0.4, 0.9)); // cycle repeats
+
+    // ---- 7 SAGD
+    flipWave(22.6);
+    facet(22.77, 470, 0.9, -0.6); facet(22.97, 420, 0.6, -0.5, true);
+    facet(23.37, 520, 0.8, -0.3); facet(23.52, 420, 0.8, -0.3);
+    k.noise(23.5, { dur: 2.3, color: 'white', filter: 'bandpass', f: [[0, 700], [2.3, 1800]], q: 0.8, gain: 0.03, a: 0.5, hold: 1.4, minor: true }); // chamber grows
+    k.noise(24.0, { dur: 0.6, color: 'pink', filter: 'bandpass', f: [[0, 600], [0.6, 2200]], q: 1.2, gain: 0.07, a: 0.3, pan: 0.2 }); // light steam rises
+    facet(24.42, 500, 0.8, 0); facet(24.72, 600, 0.8, 0.4);
+    k.tone(25.0, { f: [[0, 520], [0.6, 160]], type: 'triangle', dur: 0.65, gain: 0.08, a: 0.05, pan: -0.4 }); k.tone(25.0, { f: [[0, 500], [0.6, 150]], type: 'triangle', dur: 0.65, gain: 0.07, a: 0.05, pan: 0.4 }); // heavy crude falls
+    for (let i = 0; i < 6; i++) plop(25.3 + i * 0.09, 220, 0.6, 0);
+    facet(25.32, 440, 0.8, 0.3);
+
+    // ---- 8 in-situ combustion
+    flipWave(26.2);
+    facet(26.37, 470, 0.9, -0.6);
+    facet(26.92, 520, 0.8, -0.5); k.play('whoosh', 26.95, { dur: 0.7, gain: 0.45, top: 1600, pan: -0.5 }); // air goes down
+    k.play('impact', 27.12, { gain: 0.7, pan: -0.1 }); k.noise(27.12, { dur: 0.5, color: 'pink', filter: 'lowpass', f: [[0, 400], [0.4, 2600]], gain: 0.2, a: 0.05 }); // ignition
+    k.noise(27.2, { dur: 2.6, color: 'brown', filter: 'lowpass', f: 300, gain: 0.12, a: 0.3, hold: 1.8, bus: 'amb' }); // fire roar
+    for (let t = 27.2; t < 29.8; t += 0.03 + R() * 0.07) k.noise(t, { dur: 0.008 + R() * 0.01, filter: 'highpass', f: 2200 + R() * 2000, gain: 0.06 + R() * 0.08, pan: R() * 0.8 - 0.2, bus: 'amb', minor: true }); // crackle
+    facet(27.42, 600, 0.9, 0); facet(28.02, 460, 0.8, 0.3);
+    k.noise(28.2, { dur: 0.5, color: 'brown', filter: 'bandpass', f: [[0, 250], [0.5, 500]], q: 1, gain: 0.25, a: 0.1, pan: 0.4 }); // crude pushed
+    facet(28.62, 480, 0.8, 0.6); facet(29.02, 400, 0.6, -0.5, true);
+
+    // ---- 9 takeaway
+    gust(29.8, 31.0, 0.9);
+    facet(30.48, 470, 0.9);
+    ['A4', 'D5'].forEach((n, i) => glass(30.65 + i * 0.09, n, 1, (i - 0.5) * 0.3, 1.4)); k.tone(30.65, { f: 'D3', type: 'triangle', dur: 1.6, gain: 0.12, a: 0.02 });
+  }
+  window.scoreSound = scoreSound;
 })();

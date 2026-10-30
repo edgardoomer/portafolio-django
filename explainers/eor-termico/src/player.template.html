@@ -1,0 +1,59 @@
+<title>EOR térmico</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=block">
+<style>
+/* Layout: the 16:9 canvas letterboxed in the window, a thin faceted control bar under it. */
+:root { --bg: #0f0c20; --bar: #1d1838; --fg: #f4ecf4; --muted: #a99fc6; --coral: #ff7060; --font: "Space Grotesk", "Segoe UI", system-ui, sans-serif; color-scheme: dark; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--fg); font: 14px var(--font); display: flex; flex-direction: column; overflow: hidden; }
+#stage { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
+#c { display: block; background: #000; }
+.bar { display: flex; align-items: center; gap: 12px; padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); background: var(--bar); }
+button { font: 700 14px var(--font); color: #fff; background: var(--coral); border: 0; padding: 8px 14px; cursor: pointer; clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px); min-width: 44px; }
+button.ghost { background: #3a3266; }
+button:focus-visible, input:focus-visible { outline: 2px solid #ffb08a; outline-offset: 2px; }
+#scrub { flex: 1; min-width: 60px; accent-color: var(--coral); }
+#time { font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
+label { display: flex; align-items: center; gap: 6px; color: var(--muted); white-space: nowrap; }
+</style>
+<div id="stage"><canvas id="c" width="1280" height="720" aria-label="Animación: EOR térmico"></canvas></div>
+<div class="bar">
+  <button id="play" aria-label="Reproducir">▶</button>
+  <input id="scrub" type="range" min="0" max="1000" value="0" aria-label="Posición">
+  <span id="time">0,0 / 0,0 s</span>
+  <button id="snd" class="ghost" aria-pressed="true">Sonido: sí</button>
+  <label><input id="loop" type="checkbox" checked> Bucle</label>
+</div>
+<script>/*LIBS*/</script>
+<script>
+(async () => {
+  const c = document.getElementById('c'), ctx = c.getContext('2d');
+  const D = window.DURATION, $ = (id) => document.getElementById(id);
+  let T = 0, playing = false, last = 0, soundOn = true, stopSound = null;
+  const fmt = (t) => t.toFixed(1).replace('.', ',');
+  function draw(t) { ctx.setTransform(c.width / 1280, 0, 0, c.height / 720, 0, 0); explainer(ctx, 1280, 720, t); $('time').textContent = `${fmt(t)} / ${fmt(D)} s`; $('scrub').value = Math.round(t / D * 1000); }
+  window.seek = (t) => { T = Math.max(0, Math.min(D, t)); draw(T); };
+  function fit() {
+    const s = $('stage'), k = Math.min(s.clientWidth / 1280, s.clientHeight / 720), dpr = Math.min(2, window.devicePixelRatio || 1);
+    c.style.width = Math.floor(1280 * k) + 'px'; c.style.height = Math.floor(720 * k) + 'px';
+    const pw = Math.round(1280 * Math.min(1.5, k * dpr)); if (c.width !== pw) { c.width = pw; c.height = Math.round(pw * 720 / 1280); }
+    draw(T);
+  }
+  const killSound = () => { if (stopSound) { stopSound(); stopSound = null; } };
+  const startSound = () => { killSound(); if (soundOn && playing) stopSound = SOUND.live(window.scoreSound, T, { voiceover: false }); };
+  function setPlaying(p) { playing = p; $('play').textContent = p ? '❚❚' : '▶'; $('play').setAttribute('aria-label', p ? 'Pausar' : 'Reproducir'); if (p) { if (T >= D) T = 0; last = performance.now(); startSound(); requestAnimationFrame(tick); } else killSound(); }
+  function tick(now) {
+    if (!playing) return;
+    T += (now - last) / 1000; last = now;
+    if (T >= D) { if ($('loop').checked) { T = 0; startSound(); } else { T = D; draw(T); setPlaying(false); return; } }
+    draw(T); requestAnimationFrame(tick);
+  }
+  $('play').onclick = () => setPlaying(!playing);
+  $('scrub').oninput = (e) => { killSound(); window.seek(e.target.value / 1000 * D); if (playing) { last = performance.now(); startSound(); } };
+  $('snd').onclick = () => { soundOn = !soundOn; $('snd').textContent = 'Sonido: ' + (soundOn ? 'sí' : 'no'); $('snd').setAttribute('aria-pressed', soundOn); if (soundOn) startSound(); else killSound(); };
+  window.addEventListener('keydown', (e) => { if (e.code === 'Space' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') { e.preventDefault(); setPlaying(!playing); } });
+  try { await Promise.all(['700 30px "Space Grotesk"', '400 16px "Space Grotesk"'].map((f) => document.fonts.load(f, 'AaZz09¿ñé→↻'))); } catch (e) {}
+  window.addEventListener('resize', fit); fit();
+  window.playerReady = true;
+})();
+</script>
