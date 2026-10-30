@@ -1,0 +1,1173 @@
+<title>EOR térmico · Storyboard</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@500&display=block">
+<style>
+/* Layout: a contact sheet of key frames, two columns on desktop, one on phones; notes sit under each frame like a shot list. */
+:root {
+  --bg: #17142e; --panel: #221d41; --line: #3a3266; --fg: #f4ecf4; --muted: #b8aed0;
+  --coral: #ff7060; --teal: #60c4ce; --sand: #ffb08a;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font: 15px/1.55 var(--body); }
+.wrap { max-width: 1320px; margin: 0 auto; padding-block: 40px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { display: grid; gap: 10px; margin-bottom: 28px; }
+.eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--sand); }
+h1 { font: 700 clamp(30px, 5vw, 52px)/1.05 var(--display); margin: 0; text-wrap: balance; }
+.lede { color: var(--muted); max-width: 70ch; margin: 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font: 500 13px var(--mono); color: var(--muted); }
+.meta b { color: var(--fg); font-weight: 500; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 24px; }
+@media (max-width: 860px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+.beat { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; min-width: 0; }
+.frame { position: relative; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; overflow: hidden; background: #0d0b1c; clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px); }
+.frame canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; }
+.num { position: absolute; right: 10px; top: 10px; font: 700 13px var(--mono); background: var(--coral); color: #fff; padding: 4px 8px; clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px); }
+.head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.head h2 { font: 700 21px/1.2 var(--display); margin: 0; }
+.tc { font: 500 13px var(--mono); color: var(--sand); white-space: nowrap; }
+dl { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 6px 14px; margin: 0; font-size: 14px; }
+dt { font: 500 11px/1.9 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+dd { margin: 0; min-width: 0; }
+.txt q { quotes: none; font-family: var(--display); font-weight: 700; background: #fff6f0; color: #2a1f4f; padding: 1px 7px; margin: 0 4px 4px 0; display: inline-block; font-size: 13px; }
+.tag-cut { font-family: var(--mono); font-size: 11px; color: var(--teal); text-transform: uppercase; letter-spacing: .06em; }
+.tag-cut.scene { color: var(--coral); }
+@media (max-width: 520px) { dl { grid-template-columns: minmax(0, 1fr); } dt { line-height: 1.2; } }
+section.assume { margin-top: 44px; border-top: 1px solid var(--line); padding-top: 24px; display: grid; gap: 14px; }
+section.assume h2 { font: 700 26px var(--display); margin: 0; }
+section.assume ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; max-width: 90ch; }
+section.assume li::marker { color: var(--coral); }
+.ask { background: var(--panel); padding: 16px 18px; max-width: 90ch; clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px); }
+code { font-family: var(--mono); font-size: .92em; color: var(--sand); }
+</style>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Storyboard · estilo Low-Poly Faceted</span>
+    <h1>EOR térmico: del crudo que no fluye a la planta</h1>
+    <p class="lede">Un solo diorama facetado al amanecer: la planta en superficie y el yacimiento expuesto en la cara de corte del bloque. La cámara vuela entre las dos zonas; cuando cambia el método, las facetas del corte giran y se recomponen. Cada cuadro de abajo es un fotograma clave dibujado con el mismo código que usará la animación final.</p>
+    <div class="meta"><span>Duración <b>27,5 s</b></span><span>Lienzo <b>1280 × 720</b></span><span>Fuente <b>Space Grotesk</b></span><span>Sonido <b>sin voz, mezcla completa</b></span></div>
+  </header>
+  <div class="grid" id="grid"></div>
+  <section class="assume">
+    <h2>Datos y supuestos que tuve que asumir</h2>
+    <ul>
+      <li><b>Viscosidad 10 000 cP → 10 cP.</b> Valores ilustrativos de un crudo pesado típico al calentarlo de la temperatura de yacimiento a unos 200 °C. cP = centipoise, la unidad de viscosidad; el agua tiene ≈ 1 cP. El bitumen real puede superar 1 000 000 cP, así que el número es un ejemplo, no un caso de campo.</li>
+      <li><b>Escala vertical y espaciamiento de pozos no están a escala.</b> El yacimiento se dibuja como una capa de arena con crudo bajo un sello de lutita (roca impermeable). Inyector y productores separados a la vista, no a distancia real.</li>
+      <li><b>Inyección continua:</b> la zona caliente se dibuja más ancha arriba que abajo porque el vapor, más liviano, tiende a subir (segregación gravitacional, la llamada <i>steam override</i>).</li>
+      <li><b>SAGD:</b> los dos pozos horizontales se ven de frente (salen de la cara de corte). El productor queda unos metros por debajo del inyector; en campo suele ser ≈ 5 m. La cámara de vapor se dibuja como una cuña invertida que sube hasta el sello y luego se ensancha.</li>
+      <li><b>Combustión in situ:</b> asumo combustión directa (el frente avanza del inyector de aire hacia el productor). Zonas mostradas: quemada, frente de fuego, vapor y crudo liviano, banco de crudo. El frente va un poco inclinado porque el aire tiende a correr por arriba.</li>
+      <li><b>Estimulación cíclica (huff &amp; puff) y agua caliente</b> solo aparecen nombradas en la lista de cinco métodos, sin animación propia, para mantener la pieza en 27,5 s. El agua caliente va atenuada con la etiqueta “menos eficiente”, como dice tu texto.</li>
+      <li><b>Superficie:</b> el “agua tratada” es un tanque; la “planta” es una pequeña instalación de separación junto a la línea de flujo del productor.</li>
+      <li><b>Código de color:</b> coral = inyector y calor, turquesa = productor, azul claro = aire, ámbar = crudo ya móvil, marrón oscuro = crudo frío.</li>
+    </ul>
+    <p class="ask"><b>Para seguir:</b> dime “OK” y construyo la animación completa con sonido tal cual este guion. Si quieres cambios (por ejemplo, darle su propio beat de ~3 s a la estimulación cíclica, otros valores de viscosidad o un texto distinto), indícalos y los ajusto antes.</p>
+  </section>
+</div>
+<script>// Shared helpers + style registry for the style-frame explorations.
+// Every style is a pure function of time: draw(ctx, W, H, t). Same t => same pixels.
+(function () {
+  const STYLES = (window.STYLES = window.STYLES || []);
+  window.registerStyle = (s) => STYLES.push(s);
+
+  const H = (window.H = {});
+
+  // ---------- seeded randomness ----------
+  // H.rng(seed) -> r() in [0,1). Extras: r.range(a,b), r.int(a,b), r.pick(arr), r.gauss(), r.chance(p)
+  H.rng = function (seed = 1) {
+    let a = typeof seed === 'string' ? hashStr(seed) : (seed >>> 0) || 1;
+    const r = function () {
+      a |= 0; a = (a + 0x6d2b79f5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+    r.range = (lo, hi) => lo + r() * (hi - lo);
+    r.int = (lo, hi) => Math.floor(lo + r() * (hi - lo + 1));
+    r.pick = (arr) => arr[Math.floor(r() * arr.length)];
+    r.chance = (p) => r() < p;
+    r.gauss = () => { let u = 0, v = 0; while (!u) u = r(); while (!v) v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+    return r;
+  };
+  function hashStr(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+
+  // ---------- gradient noise ----------
+  // H.makeNoise(seed) -> { n2(x,y), n3(x,y,z), fbm2(x,y,oct), fbm3(x,y,z,oct) }  (outputs roughly -1..1)
+  H.makeNoise = function (seed = 1) {
+    const r = H.rng(seed), p = new Uint8Array(512), perm = [...Array(256).keys()];
+    for (let i = 255; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [perm[i], perm[j]] = [perm[j], perm[i]]; }
+    for (let i = 0; i < 512; i++) p[i] = perm[i & 255];
+    const fade = (t) => t * t * t * (t * (t * 6 - 15) + 10);
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const g3 = (h, x, y, z) => { h &= 15; const u = h < 8 ? x : y, v = h < 4 ? y : h === 12 || h === 14 ? x : z; return ((h & 1) ? -u : u) + ((h & 2) ? -v : v); };
+    function n3(x, y, z) {
+      const X = Math.floor(x) & 255, Y = Math.floor(y) & 255, Z = Math.floor(z) & 255;
+      x -= Math.floor(x); y -= Math.floor(y); z -= Math.floor(z);
+      const u = fade(x), v = fade(y), w = fade(z);
+      const A = p[X] + Y, AA = p[A] + Z, AB = p[A + 1] + Z, B = p[X + 1] + Y, BA = p[B] + Z, BB = p[B + 1] + Z;
+      return lerp(lerp(lerp(g3(p[AA], x, y, z), g3(p[BA], x - 1, y, z), u), lerp(g3(p[AB], x, y - 1, z), g3(p[BB], x - 1, y - 1, z), u), v),
+        lerp(lerp(g3(p[AA + 1], x, y, z - 1), g3(p[BA + 1], x - 1, y, z - 1), u), lerp(g3(p[AB + 1], x, y - 1, z - 1), g3(p[BB + 1], x - 1, y - 1, z - 1), u), v), w);
+    }
+    const n2 = (x, y) => n3(x, y, 0.5);
+    const fbm3 = (x, y, z, oct = 4) => { let s = 0, a = 0.5, f = 1, norm = 0; for (let i = 0; i < oct; i++) { s += a * n3(x * f, y * f, z * f); norm += a; a *= 0.5; f *= 2; } return s / norm; };
+    const fbm2 = (x, y, oct = 4) => fbm3(x, y, 0.5, oct);
+    return { n2, n3, fbm2, fbm3 };
+  };
+
+  // ---------- math ----------
+  H.lerp = (a, b, t) => a + (b - a) * t;
+  H.clamp = (v, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, v));
+  H.map = (v, a, b, c, d) => c + ((v - a) / (b - a)) * (d - c);
+  H.smooth = (e0, e1, x) => { const t = H.clamp((x - e0) / (e1 - e0)); return t * t * (3 - 2 * t); };
+  H.ease = {
+    inOut: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+    out: (t) => 1 - Math.pow(1 - t, 3),
+    in: (t) => t * t * t,
+    back: (t) => { const c = 1.70158; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); },
+  };
+
+  // ---------- color ----------
+  H.hex = (h) => { h = h.replace('#', ''); if (h.length === 3) h = h.split('').map((c) => c + c).join(''); const n = parseInt(h, 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+  H.rgba = (hexOrArr, a = 1) => { const [r, g, b] = Array.isArray(hexOrArr) ? hexOrArr : H.hex(hexOrArr); return `rgba(${r | 0},${g | 0},${b | 0},${a})`; };
+  H.mix = (c1, c2, t) => { const a = Array.isArray(c1) ? c1 : H.hex(c1), b = Array.isArray(c2) ? c2 : H.hex(c2); return [0, 1, 2].map((i) => a[i] + (b[i] - a[i]) * t); };
+
+  // ---------- canvas utilities ----------
+  // Offscreen canvas of the same logical size (use for layers, masks, compositing).
+  H.layer = (W, H_, ) => { const c = document.createElement('canvas'); c.width = W; c.height = H_; return c; };
+  // Monochrome grain / film noise over the whole canvas. amount ~ 0.03-0.15
+  H.grain = function (ctx, W, Hh, amount = 0.08, seed = 7, mono = true) {
+    const img = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height), d = img.data, r = H.rng(seed), k = amount * 255;
+    for (let i = 0; i < d.length; i += 4) {
+      const n = (r() - 0.5) * k;
+      if (mono) { d[i] += n; d[i + 1] += n; d[i + 2] += n; }
+      else { d[i] += (r() - 0.5) * k; d[i + 1] += (r() - 0.5) * k; d[i + 2] += (r() - 0.5) * k; }
+    }
+    ctx.putImageData(img, 0, 0);
+  };
+  // Paper-ish texture tile: fills with base color + fibrous noise (cheap; drawn into ctx).
+  H.paper = function (ctx, W, Hh, base = '#f3ecdc', seed = 3, strength = 0.06) {
+    ctx.save(); ctx.fillStyle = base; ctx.fillRect(0, 0, W, Hh);
+    const nz = H.makeNoise(seed), cell = 4, [br, bg, bb] = H.hex(base);
+    for (let y = 0; y < Hh; y += cell) for (let x = 0; x < W; x += cell) {
+      const v = nz.fbm2(x * 0.01, y * 0.01, 3) * 0.6 + nz.n2(x * 0.15, y * 0.04) * 0.4;
+      const s = 1 + v * strength * 2;
+      ctx.fillStyle = `rgb(${br * s | 0},${bg * s | 0},${bb * s | 0})`; ctx.fillRect(x, y, cell, cell);
+    }
+    ctx.restore();
+  };
+  // Vignette
+  H.vignette = function (ctx, W, Hh, strength = 0.5, color = '0,0,0') {
+    const g = ctx.createRadialGradient(W / 2, Hh / 2, Math.min(W, Hh) * 0.3, W / 2, Hh / 2, Math.hypot(W, Hh) * 0.6);
+    g.addColorStop(0, `rgba(${color},0)`); g.addColorStop(1, `rgba(${color},${strength})`);
+    ctx.save(); ctx.fillStyle = g; ctx.fillRect(0, 0, W, Hh); ctx.restore();
+  };
+
+  // ---------- rendering entry ----------
+  // Renders style into canvas at logical 1280x720 (canvas can be any pixel size; it is scaled).
+  H.W = 1280; H.H = 720;
+  H.loadFonts = async function (style) {
+    const specs = style.fonts || [];
+    try { const sample = 'AaZz09' + (window.FONT_SAMPLE || '');
+      await Promise.all(specs.map((f) => document.fonts.load(f, sample))); await document.fonts.ready; } catch (e) { /* render anyway */ }
+  };
+  H.render = function (style, canvas, t) {
+    const ctx = canvas.getContext('2d', { willReadFrequently: !!style.readsPixels });
+    const sx = canvas.width / H.W, sy = canvas.height / H.H;
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none';
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save(); ctx.scale(sx, sy);
+    style.draw(ctx, H.W, H.H, t == null ? style.frameT || 0 : t);
+    ctx.restore();
+  };
+})();
+
+// sound.js: a small synthesized sound kit for the style explainers. Plain Web Audio, no audio files.
+// Voiceover mode: SOUND.kit(ctx, { voiceover: true }) drops beds and music, plays anything marked minor
+// (play(..., { minor: true }), tone/noise { minor: true }, or scheduled inside k.withMinor(() => ...)) at about 60%
+// volume instead of full, and sits all effects a little lower, so the narration stays on top while the piece still
+// sounds alive. In the full mix, minor sounds play at full volume. Scores can read k.vo to branch further.
+// A style adds   explainerSound(k) { k.bed('room', 0, D); k.play('pop', 1.25); ... }   and the same
+// call schedules into a live AudioContext (the player) or an OfflineAudioContext (the video render).
+// Times are seconds on the explainer's own clock. Randomness is seeded, so every render is identical.
+(function () {
+  'use strict';
+  const SOUND = (window.SOUND = {});
+  const TINY = 1e-4;
+
+  // seeded random in [0,1), keyed by any string
+  function rand(key) {
+    let h = 2166136261;
+    for (let i = 0; i < key.length; i++) { h ^= key.charCodeAt(i); h = Math.imul(h, 16777619); }
+    let a = h >>> 0 || 1;
+    return () => { a = (a + 0x6d2b79f5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  }
+
+  // note names to Hz: 'A4' = 440, 'C#5', 'Eb3'
+  const STEP = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+  function hz(n) {
+    if (typeof n === 'number') return n;
+    const m = /^([A-G])([#b]?)(-?\d)$/.exec(n);
+    const semis = STEP[m[1]] + (m[2] === '#' ? 1 : m[2] === 'b' ? -1 : 0) + (Number(m[3]) - 4) * 12 - 9;
+    return 440 * Math.pow(2, semis / 12);
+  }
+  SOUND.hz = hz;
+
+  SOUND.kit = function (ctx, opts) {
+    const o = opts || {};
+    const VO = !!o.voiceover;
+    const MINOR = 0.6; // voiceover-mode volume for minor sounds
+    let inMinor = false;
+    const gainOf = (p, d) => (p.gain == null ? d : p.gain) * (VO && (p.minor || inMinor) ? MINOR : 1);
+    const T0 = (o.start || 0) - 0; // explainer time that maps to ctx time `base`
+    const base = ctx.currentTime + (o.delay || 0);
+    // Start times snap to the sample grid (+ a quarter sample): in Chrome a source started a hair off the grid can
+    // spike to about twice its set level.
+    const SR = ctx.sampleRate;
+    const at = (t) => (Math.round((base + (t - T0)) * SR) + 0.25) / SR;
+
+    // ---- buses: sfx, amb, music -> compressor -> master; one shared reverb send
+    const master = ctx.createGain(); master.gain.value = o.master == null ? 0.9 : o.master;
+    const comp = ctx.createDynamicsCompressor();
+    comp.threshold.value = -16; comp.knee.value = 8; comp.ratio.value = 3; comp.attack.value = 0.004; comp.release.value = 0.18;
+    comp.connect(master); master.connect(o.dest || ctx.destination);
+    const bus = {};
+    for (const [name, g] of Object.entries({ sfx: VO ? 0.7 : 0.85, amb: 0.5, music: 0.45 })) { bus[name] = ctx.createGain(); bus[name].gain.value = g; bus[name].connect(comp); }
+
+    // generated room reverb: decaying stereo noise, darker toward the tail
+    const verb = ctx.createConvolver();
+    {
+      const secs = 1.6, n = Math.floor(secs * ctx.sampleRate), ir = ctx.createBuffer(2, n, ctx.sampleRate);
+      for (let c = 0; c < 2; c++) {
+        const r = rand('verb' + c), d = ir.getChannelData(c); let lp = 0;
+        for (let i = 0; i < n; i++) { const u = i / n; lp += (0.6 - 0.45 * u) * ((r() * 2 - 1) - lp); d[i] = lp * Math.pow(1 - u, 3); }
+      }
+      verb.buffer = ir;
+    }
+    const verbIn = ctx.createGain(); verbIn.gain.value = 0.9; verbIn.connect(verb); verb.connect(comp);
+
+    // seeded noise buffers: white, pink-ish and brown
+    const noiseBuf = {};
+    {
+      const n = Math.floor(2.5 * ctx.sampleRate);
+      for (const kind of ['white', 'pink', 'brown']) {
+        const b = ctx.createBuffer(1, n, ctx.sampleRate), d = b.getChannelData(0), r = rand('noise-' + kind);
+        let p0 = 0, p1 = 0, p2 = 0, br = 0;
+        for (let i = 0; i < n; i++) {
+          const w = r() * 2 - 1;
+          if (kind === 'white') d[i] = w;
+          else if (kind === 'pink') { p0 = 0.997 * p0 + 0.029 * w; p1 = 0.985 * p1 + 0.032 * w; p2 = 0.95 * p2 + 0.048 * w; d[i] = (p0 + p1 + p2 + w * 0.05) * 2.2; }
+          else { br = (br + 0.02 * w) / 1.02; d[i] = br * 3.2; }
+        }
+        noiseBuf[kind] = b;
+      }
+    }
+
+    // ---- automation helpers
+    // a value or [[dt, value], ...] from the voice start; ramps are exponential (frequencies)
+    function sweep(param, v, t) {
+      if (!Array.isArray(v)) { param.setValueAtTime(v, t); return; }
+      param.setValueAtTime(v[0][1], t + v[0][0]);
+      for (let i = 1; i < v.length; i++) param.exponentialRampToValueAtTime(Math.max(v[i][1], 1), t + v[i][0]);
+    }
+    // amplitude: linear attack to `gain`, optional hold, exponential release to silence by `dur`
+    function shape(param, t, gain, dur, a, hold) {
+      a = Math.min(a == null ? 0.004 : a, dur * 0.9);
+      hold = Math.min(hold || 0, dur - a);
+      param.setValueAtTime(0, t);
+      param.linearRampToValueAtTime(gain, t + a);
+      if (hold > 0) param.setValueAtTime(gain, t + a + hold);
+      param.exponentialRampToValueAtTime(TINY, t + dur);
+      param.setValueAtTime(0, t + dur + 0.001);
+    }
+    function out(node, p) {
+      const pan = ctx.createStereoPanner(); pan.pan.value = Math.max(-1, Math.min(1, p.pan || 0));
+      node.connect(pan); pan.connect(bus[p.bus || 'sfx']);
+      if (p.verb) { const s = ctx.createGain(); s.gain.value = p.verb; pan.connect(s); s.connect(verbIn); }
+    }
+    function filterNode(p, t) {
+      if (!p.filter) return null;
+      const f = ctx.createBiquadFilter(); f.type = p.filter; f.Q.value = p.q == null ? 1 : p.q;
+      sweep(f.frequency, p.f == null ? 1000 : p.f, t);
+      return f;
+    }
+
+    // ---- primitives
+    // tone(t, { f, type, dur, gain, a, hold, pan, verb, bus, filter, f2 (filter freq), q, detune })
+    function tone(time, p) {
+      const t = at(time), dur = p.dur || 0.2;
+      if (t + dur < ctx.currentTime || (time < T0 - 0.001 && dur < 1.5)) return;
+      const osc = ctx.createOscillator(); osc.type = p.type || 'sine';
+      sweep(osc.frequency, Array.isArray(p.f) ? p.f.map(([d, v]) => [d, hz(v)]) : hz(p.f || 440), t);
+      if (p.detune) osc.detune.value = p.detune;
+      const g = ctx.createGain(); shape(g.gain, t, gainOf(p, 0.3), dur, p.a, p.hold);
+      let node = osc;
+      if (p.filter) { const f = ctx.createBiquadFilter(); f.type = p.filter; f.Q.value = p.q == null ? 0.8 : p.q; sweep(f.frequency, p.f2 || 2000, t); osc.connect(f); node = f; }
+      node.connect(g); out(g, p);
+      osc.start(t); osc.stop(t + dur + 0.02);
+    }
+    // noise(t, { dur, color, filter, f, q, gain, a, hold, pan, verb, bus, rate })
+    function noise(time, p) {
+      const t = at(time), dur = p.dur || 0.2;
+      if (t + dur < ctx.currentTime || (time < T0 - 0.001 && dur < 1.5)) return;
+      const src = ctx.createBufferSource(); src.buffer = noiseBuf[p.color || 'white']; src.loop = true;
+      if (p.rate) src.playbackRate.value = p.rate;
+      const g = ctx.createGain(); shape(g.gain, t, gainOf(p, 0.3), dur, p.a, p.hold);
+      const f = filterNode(p, t);
+      if (f) { src.connect(f); f.connect(g); } else src.connect(g);
+      out(g, p);
+      const off = rand('off' + time + (p.f || ''))() * 2;
+      src.start(t, off); src.stop(t + dur + 0.02);
+    }
+
+    // ---- named sounds. play(name, t, opts): opts.gain scales the whole sound, opts.pan places it.
+    const S = {
+      // UI / motion graphics
+      pop: (t, o) => { tone(t, { f: [[0, o.f || 620], [0.07, (o.f || 620) * 0.45]], dur: 0.1, gain: 0.32 * o.g, pan: o.pan }); noise(t, { dur: 0.012, filter: 'highpass', f: 3000, gain: 0.12 * o.g, pan: o.pan }); },
+      tick: (t, o) => noise(t, { dur: 0.018, filter: 'bandpass', f: o.f || 4200, q: 2.5, gain: 0.3 * o.g, pan: o.pan }),
+      click: (t, o) => { tone(t, { f: o.f || 1900, type: 'square', dur: 0.02, gain: 0.08 * o.g, filter: 'lowpass', f2: 3000, pan: o.pan }); noise(t, { dur: 0.01, filter: 'highpass', f: 2500, gain: 0.15 * o.g, pan: o.pan }); },
+      tock: (t, o) => { tone(t, { f: o.f || 820, dur: 0.07, gain: 0.25 * o.g, pan: o.pan }); noise(t, { dur: 0.05, filter: 'bandpass', f: o.f || 820, q: 9, gain: 0.35 * o.g, pan: o.pan }); },
+      blip: (t, o) => tone(t, { f: o.f || 'E6', type: o.type || 'square', dur: o.dur || 0.07, gain: 0.07 * o.g, a: 0.002, hold: (o.dur || 0.07) * 0.6, pan: o.pan }),
+      whoosh: (t, o) => { const d = o.dur || 0.45; noise(t, { dur: d, color: 'pink', filter: 'bandpass', f: [[0, 350], [d * 0.55, o.top || 2600], [d, 700]], q: 0.9, gain: 0.32 * o.g, a: d * 0.5, pan: o.pan, verb: 0.15 }); },
+      swish: (t, o) => { const d = o.dur || 0.18; noise(t, { dur: d, filter: 'highpass', f: [[0, 1800], [d, 5200]], q: 0.7, gain: 0.22 * o.g, a: d * 0.35, pan: o.pan }); },
+      riser: (t, o) => { const d = o.dur || 0.8; noise(t, { dur: d, color: 'pink', filter: 'bandpass', f: [[0, 300], [d, 4000]], q: 1.2, gain: 0.25 * o.g, a: d * 0.95, pan: o.pan, verb: 0.2 }); tone(t, { f: [[0, 180], [d, 720]], type: 'triangle', dur: d, gain: 0.06 * o.g, a: d * 0.9 }); },
+      thud: (t, o) => { tone(t, { f: [[0, o.f || 130], [0.16, 42]], dur: 0.26, gain: 0.55 * o.g, pan: o.pan }); noise(t, { dur: 0.09, color: 'brown', filter: 'lowpass', f: 500, gain: 0.35 * o.g, pan: o.pan }); },
+      impact: (t, o) => { S.thud(t, o); noise(t, { dur: 0.7, color: 'pink', filter: 'lowpass', f: [[0, 2400], [0.6, 300]], gain: 0.3 * o.g, verb: 0.35, pan: o.pan }); },
+      stamp: (t, o) => { S.thud(t, { ...o, f: 160 }); noise(t, { dur: 0.05, filter: 'bandpass', f: 1300, q: 1.2, gain: 0.4 * o.g, pan: o.pan }); noise(t + 0.004, { dur: 0.012, filter: 'highpass', f: 3500, gain: 0.25 * o.g, pan: o.pan }); },
+      ding: (t, o) => { const f = hz(o.f || 'E6'); tone(t, { f, dur: 1.3, gain: 0.2 * o.g, verb: 0.3, pan: o.pan }); tone(t, { f: f * 2.76, dur: 0.5, gain: 0.05 * o.g, verb: 0.3, pan: o.pan }); },
+      success: (t, o) => { S.ding(t, { ...o, f: o.f || 'C6' }); S.ding(t + 0.09, { ...o, f: hz(o.f || 'C6') * 1.5, g: o.g * 0.9 }); },
+      error: (t, o) => { tone(t, { f: o.f || 'A3', type: 'square', dur: 0.13, gain: 0.09 * o.g, hold: 0.08, filter: 'lowpass', f2: 1400, pan: o.pan }); tone(t + 0.15, { f: hz(o.f || 'A3') * 0.8, type: 'square', dur: 0.22, gain: 0.09 * o.g, hold: 0.14, filter: 'lowpass', f2: 1200, pan: o.pan }); },
+      buzz: (t, o) => { const d = o.dur || 0.3; tone(t, { f: o.f || 110, type: 'sawtooth', dur: d, gain: 0.12 * o.g, hold: d * 0.7, filter: 'lowpass', f2: 900, pan: o.pan }); tone(t, { f: (o.f || 110) * 1.01, type: 'sawtooth', dur: d, gain: 0.1 * o.g, hold: d * 0.7, filter: 'lowpass', f2: 900, pan: o.pan }); },
+      sparkle: (t, o) => { const r = rand('sparkle' + t), notes = ['C6', 'D6', 'E6', 'G6', 'A6', 'C7']; for (let i = 0; i < (o.n || 6); i++) { const ti = t + i * 0.04 + r() * 0.01, f = hz(notes[Math.floor(r() * notes.length)]), pan = r() * 1.2 - 0.6; tone(ti, { f, dur: 0.6, gain: 0.04 * o.g, a: 0.002, verb: 0.35, pan }); tone(ti, { f: f * 2.76, dur: 0.2, gain: 0.012 * o.g, a: 0.002, pan }); } },
+      glitch: (t, o) => { const r = rand('glitch' + t); for (let i = 0; i < 7; i++) tone(t + i * 0.022, { f: 200 + r() * 1800, type: 'square', dur: 0.02, gain: 0.07 * o.g, a: 0.001, hold: 0.015, pan: r() * 1.4 - 0.7 }); noise(t, { dur: 0.16, filter: 'bandpass', f: 2500, q: 0.6, gain: 0.12 * o.g }); },
+      shutter: (t, o) => { S.click(t, o); noise(t + 0.06, { dur: 0.04, filter: 'bandpass', f: 2200, q: 1, gain: 0.2 * o.g, pan: o.pan }); },
+      count: (t, o) => S.tick(t, { ...o, f: o.f || 5200, g: o.g * 0.7 }),
+
+      // hand-made media
+      // stroke: a pen/marker/chalk/pencil stroke over `dur` seconds. material sets the surface sound.
+      stroke: (t, o) => {
+        const d = o.dur || 0.4, m = o.material || 'marker', r = rand('stroke' + m + t);
+        const M = {
+          marker: { f: 2900, q: 2.2, g: 0.16, grain: 0.05 },
+          chalk: { f: 1700, q: 0.6, g: 0.22, grain: 0.028 },
+          pencil: { f: 4600, q: 0.8, g: 0.16, grain: 0.04, filter: 'highpass' },
+          pen: { f: 4200, q: 1.6, g: 0.08, grain: 0.06 },
+          brush: { f: 900, q: 0.5, g: 0.1, grain: 0.09, color: 'pink' },
+          sharpie: { f: 2400, q: 1.4, g: 0.2, grain: 0.045 },
+        }[m];
+        for (let x = 0; x < d; x += M.grain * (0.7 + r() * 0.6)) {
+          const gd = M.grain * (0.8 + r() * 0.9);
+          noise(t + x, { dur: gd, color: M.color, filter: M.filter || 'bandpass', f: M.f * (0.8 + r() * 0.4), q: M.q, gain: M.g * o.g * (0.6 + r() * 0.5), a: gd * 0.3, pan: (o.pan || 0) + (r() - 0.5) * 0.2 });
+        }
+      },
+      // paper: picking up / slapping down / turning a sheet
+      paper: (t, o) => { const d = o.dur || 0.35, r = rand('paper' + t); for (let x = 0; x < d; x += 0.025 + r() * 0.03) noise(t + x, { dur: 0.05, filter: 'bandpass', f: 1200 + r() * 2600, q: 0.9, gain: 0.12 * o.g * (1 - x / d * 0.5), pan: o.pan }); },
+      slap: (t, o) => { noise(t, { dur: 0.07, filter: 'highpass', f: 900, gain: 0.45 * o.g, a: 0.001, pan: o.pan }); tone(t, { f: [[0, 180], [0.06, 70]], dur: 0.1, gain: 0.25 * o.g, pan: o.pan }); },
+      tape: (t, o) => { noise(t, { dur: o.dur || 0.5, filter: 'bandpass', f: [[0, 900], [o.dur || 0.5, 2200]], q: 1.8, gain: 0.18 * o.g, a: 0.02, pan: o.pan }); },
+      press: (t, o) => { S.thud(t, { ...o, f: 95, g: o.g * 0.9 }); noise(t + 0.01, { dur: 0.25, color: 'brown', filter: 'lowpass', f: 700, gain: 0.25 * o.g, pan: o.pan }); },
+      roller: (t, o) => { const d = o.dur || 0.6; noise(t, { dur: d, color: 'brown', filter: 'bandpass', f: 380, q: 1.5, gain: 0.3 * o.g, a: 0.05, hold: d * 0.6, pan: o.pan }); for (let x = 0; x < d; x += 0.07) S.tock(t + x, { f: 300, g: o.g * 0.15, pan: o.pan }); },
+      erase: (t, o) => { const d = o.dur || 0.6, r = rand('erase' + t); for (let x = 0; x < d; x += 0.06 + r() * 0.04) noise(t + x, { dur: 0.08, color: 'pink', filter: 'bandpass', f: 700 + r() * 500, q: 0.8, gain: 0.22 * o.g, a: 0.03, pan: (r() - 0.5) * 0.5 }); },
+
+      // machines and screens
+      key: (t, o) => { const r = rand('key' + t); noise(t, { dur: 0.025, filter: 'bandpass', f: 2600 + r() * 1200, q: 2, gain: 0.25 * o.g, a: 0.001, pan: o.pan }); tone(t, { f: 160 + r() * 40, dur: 0.04, gain: 0.12 * o.g, pan: o.pan }); },
+      typing: (t, o) => { const r = rand('typing' + t), n = o.n || 8, rate = o.rate || 0.09; for (let i = 0; i < n; i++) S.key(t + i * rate * (0.75 + r() * 0.5), { g: o.g * (0.7 + r() * 0.4), pan: o.pan }); },
+      typebar: (t, o) => { S.key(t, o); noise(t + 0.008, { dur: 0.03, filter: 'bandpass', f: 1100, q: 4, gain: 0.35 * o.g, pan: o.pan }); },
+      bell: (t, o) => S.ding(t, { ...o, f: o.f || 'A6' }),
+      boot: (t, o) => { tone(t, { f: [[0, 80], [0.35, 1600]], type: 'sine', dur: 0.5, gain: 0.08 * o.g, a: 0.3 }); S.blip(t + 0.45, { ...o, f: 'C6', dur: 0.12 }); },
+      crtOn: (t, o) => { noise(t, { dur: 0.25, filter: 'highpass', f: 2000, gain: 0.2 * o.g, a: 0.001 }); tone(t, { f: 15700, dur: 1.5, gain: 0.02 * o.g, a: 0.1, hold: 1 }); S.thud(t, { ...o, f: 90, g: o.g * 0.5 }); },
+      neon: (t, o) => { const d = o.dur || 0.25, r = rand('neon' + t); for (let x = 0; x < d; x += 0.035 + r() * 0.04) tone(t + x, { f: 120, type: 'sawtooth', dur: 0.03, gain: 0.3 * o.g * (0.5 + r() * 0.5), filter: 'bandpass', f2: 1200, q: 1.2, pan: o.pan }); },
+      // chip (8-bit console) sounds: raw square/triangle, no filtering
+      coin: (t, o) => { tone(t, { f: 'B5', type: 'square', dur: 0.07, gain: 0.07 * o.g, a: 0.001, hold: 0.06 }); tone(t + 0.07, { f: 'E6', type: 'square', dur: 0.3, gain: 0.07 * o.g, a: 0.001, hold: 0.1 }); },
+      jump: (t, o) => tone(t, { f: [[0, 260], [0.16, 820]], type: 'square', dur: 0.18, gain: 0.07 * o.g, a: 0.001, hold: 0.12 }),
+      hurt: (t, o) => { tone(t, { f: [[0, 600], [0.25, 90]], type: 'square', dur: 0.28, gain: 0.08 * o.g, a: 0.001, hold: 0.2 }); noise(t, { dur: 0.2, filter: 'lowpass', f: 1800, gain: 0.15 * o.g, rate: 0.25 }); },
+      powerup: (t, o) => ['C5', 'E5', 'G5', 'C6', 'E6', 'G6', 'C7'].forEach((n, i) => tone(t + i * 0.045, { f: n, type: 'square', dur: 0.06, gain: 0.06 * o.g, a: 0.001, hold: 0.05 })),
+      select: (t, o) => { S.blip(t, { ...o, f: 'A5', dur: 0.04 }); S.blip(t + 0.05, { ...o, f: 'E6', dur: 0.05 }); },
+      text: (t, o) => { const n = o.n || 10, rate = o.rate || 0.05; for (let i = 0; i < n; i++) tone(t + i * rate, { f: i % 2 ? 'C6' : 'G5', type: 'square', dur: 0.025, gain: 0.04 * o.g, a: 0.001, hold: 0.015 }); },
+    };
+
+    function play(name, t, opts) {
+      const fn = S[name];
+      if (!fn) throw new Error('unknown sound: ' + name);
+      const o2 = Object.assign({}, opts); o2.g = o2.gain == null ? 1 : o2.gain;
+      if (opts && opts.minor) withMinor(() => fn(t, o2)); else fn(t, o2);
+    }
+
+    // everything scheduled inside fn counts as minor (quieter in voiceover mode)
+    function withMinor(fn) { const was = inMinor; inMinor = true; try { fn(); } finally { inMinor = was; } }
+
+    // ---- beds: continuous sound under a stretch of time. bed(name, t0, t1, opts)
+    function bed(name, t0, t1, p) {
+      if (VO) return;
+      p = p || {}; const g = p.gain == null ? 1 : p.gain, d = t1 - t0, fade = Math.min(0.4, d / 4);
+      const long = (q) => Object.assign({ dur: d, a: fade, hold: d - fade * 2, bus: 'amb' }, q);
+      if (name === 'room') noise(t0, long({ color: 'brown', filter: 'lowpass', f: 320, gain: 0.12 * g }));
+      else if (name === 'hiss') noise(t0, long({ color: 'pink', filter: 'highpass', f: 5000, gain: 0.02 * g }));
+      else if (name === 'hum') { tone(t0, long({ f: 60, gain: 0.05 * g })); tone(t0, long({ f: 120, gain: 0.025 * g })); tone(t0, long({ f: 180, type: 'triangle', gain: 0.012 * g })); }
+      else if (name === 'rain') { noise(t0, long({ color: 'pink', filter: 'bandpass', f: 2500, q: 0.4, gain: 0.08 * g })); const r = rand('rain'); for (let x = 0; x < d; x += 0.04 + r() * 0.08) noise(t0 + x, { dur: 0.01, filter: 'highpass', f: 4000, gain: 0.04 * g * r(), bus: 'amb', pan: r() * 1.6 - 0.8 }); }
+      else if (name === 'projector') { noise(t0, long({ color: 'pink', filter: 'highpass', f: 3000, gain: 0.03 * g })); for (let x = 0; x < d; x += 1 / 24) S.tock(t0 + x, { f: 700, g: 0.04 * g, pan: 0.3 }); }
+      else if (name === 'vinyl') { noise(t0, long({ color: 'pink', filter: 'bandpass', f: 1500, q: 0.5, gain: 0.025 * g })); const r = rand('vinyl'); for (let x = 0; x < d; x += 0.08 + r() * 0.4) noise(t0 + x, { dur: 0.006, filter: 'highpass', f: 2500, gain: 0.08 * g * r(), bus: 'amb' }); }
+      else throw new Error('unknown bed: ' + name);
+    }
+
+    // ---- music: optional light beds that sit under the effects. music(name, t0, t1, { bpm, chords, gain })
+    // chords: list of note arrays, one per bar, cycled. e.g. [['C4','E4','G4','B4'], ['A3','C4','E4','G4']]
+    function music(name, t0, t1, p) {
+      if (VO) return;
+      p = p || {}; const g = p.gain == null ? 1 : p.gain, bpm = p.bpm || 100, beat = 60 / bpm, bar = beat * 4;
+      const chords = p.chords || [['C4', 'E4', 'G4', 'B4'], ['A3', 'C4', 'E4', 'G4'], ['F3', 'A3', 'C4', 'E4'], ['G3', 'B3', 'D4', 'F4']];
+      let i = 0;
+      for (let t = t0; t < t1 - 0.05; t += bar, i++) {
+        const ch = chords[i % chords.length], len = Math.min(bar, t1 - t);
+        if (name === 'pad' || name === 'pulse') ch.forEach((n, k) => { tone(t, { f: n, type: 'triangle', dur: len + 0.3, gain: 0.035 * g, a: 0.25, hold: len - 0.3, bus: 'music', filter: 'lowpass', f2: 1400, pan: (k - 1.5) * 0.25, verb: 0.25 }); tone(t, { f: hz(n) * 1.004, type: 'sine', dur: len + 0.3, gain: 0.03 * g, a: 0.3, hold: len - 0.3, bus: 'music' }); });
+        if (name === 'pulse') for (let b = 0; b < 4 && t + b * beat < t1 - 0.05; b++) {
+          const tb = t + b * beat;
+          tone(tb, { f: [[0, 110], [0.1, 50]], dur: 0.18, gain: (b % 2 ? 0.16 : 0.26) * g, bus: 'music' });
+          noise(tb + beat / 2, { dur: 0.04, filter: 'highpass', f: 7000, gain: 0.05 * g, bus: 'music' });
+          tone(tb + beat / 2, { f: hz(ch[0]) / 2, type: 'triangle', dur: beat * 0.45, gain: 0.08 * g, bus: 'music' });
+        }
+        if (name === 'chip') for (let s = 0; s < 8 && t + s * beat / 2 < t1 - 0.05; s++) {
+          const ts = t + s * beat / 2;
+          tone(ts, { f: hz(ch[0]) / 2, type: 'triangle', dur: beat * 0.45, gain: 0.12 * g, a: 0.001, hold: beat * 0.35, bus: 'music' });
+          tone(ts, { f: ch[[0, 1, 2, 3, 2, 1, 2, 3][s]], type: 'square', dur: beat * 0.4, gain: 0.03 * g, a: 0.001, hold: beat * 0.25, bus: 'music' });
+        }
+      }
+    }
+
+    return { play, bed, music, tone, noise, withMinor, hz, vo: VO, sounds: Object.keys(S) };
+  };
+
+  // Live playback for a player: SOUND.live(scoreFn, fromT, { voiceover, master }) starts the score from explainer time
+  // fromT right now and returns stop(). Call stop() on pause or seek, and SOUND.live again on play.
+  SOUND.live = function (fn, fromT, opts) {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    fn(SOUND.kit(ctx, Object.assign({}, opts, { start: fromT || 0, delay: 0.03 })));
+    return () => { try { ctx.close(); } catch (e) {} };
+  };
+
+  // Render a style's explainerSound into an OfflineAudioContext; returns interleaved float stereo.
+  SOUND.renderOffline = async function (fn, duration, sampleRate, kitOpts) {
+    const sr = sampleRate || 48000, len = Math.ceil(duration * sr);
+    const ctx = new OfflineAudioContext(2, len, sr);
+    fn(SOUND.kit(ctx, kitOpts || {}));
+    const buf = await ctx.startRendering();
+    const L = buf.getChannelData(0), R = buf.getChannelData(1), inter = new Float32Array(len * 2);
+    let peak = 0;
+    for (let i = 0; i < len; i++) { inter[2 * i] = L[i]; inter[2 * i + 1] = R[i]; peak = Math.max(peak, Math.abs(L[i]), Math.abs(R[i])); }
+    return { inter, peak, frames: len, sr };
+  };
+})();
+
+// EOR térmico — explainer in the "Low-Poly Faceted" style.
+// One faceted block diorama at dawn: surface plant on top, the reservoir exposed on the cut face.
+// Every frame is a pure function of t: explainer(ctx, 1280, 720, t).
+(function () {
+  const DURATION = 27.5;
+
+  // ---------- tiny 3D pipeline (from the reference) ----------
+  const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+  const add3 = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+  const scl = (a, k) => [a[0] * k, a[1] * k, a[2] * k];
+  const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+  const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+  const norm = (a) => { const l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0] / l, a[1] / l, a[2] / l]; };
+  const ICO = (() => {
+    const t = (1 + Math.sqrt(5)) / 2;
+    const v = [[-1, t, 0], [1, t, 0], [-1, -t, 0], [1, -t, 0], [0, -1, t], [0, 1, t], [0, -1, -t], [0, 1, -t], [t, 0, -1], [t, 0, 1], [-t, 0, -1], [-t, 0, 1]].map(norm);
+    const f = [[0, 11, 5], [0, 5, 1], [0, 1, 7], [0, 7, 10], [0, 10, 11], [1, 5, 9], [5, 11, 4], [11, 10, 2], [10, 7, 6], [7, 1, 8], [3, 9, 4], [3, 4, 2], [3, 2, 6], [3, 6, 8], [3, 8, 9], [4, 9, 5], [2, 4, 11], [6, 2, 10], [8, 6, 7], [9, 8, 1]];
+    return { v, f };
+  })();
+  function makeCamYaw(pos, yaw, pitch, f, W, Hh) {
+    const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+    return {
+      pos,
+      proj(p) {
+        const dx = p[0] - pos[0], dy = p[1] - pos[1], dz = p[2] - pos[2];
+        const x1 = dx * cy - dz * sy, z1 = dx * sy + dz * cy;
+        const y2 = dy * cp + z1 * sp, z2 = -dy * sp + z1 * cp;
+        return [W / 2 + (f * x1) / z2, Hh / 2 - (f * y2) / z2, z2];
+      },
+    };
+  }
+
+  // ---------- reference 2D pieces: cut-corner tag, two-tone ribbon arrow ----------
+  function lpTag(ctx, x, y, text, o = {}) {
+    ctx.save();
+    ctx.font = o.font || '700 28px "Space Grotesk"';
+    const fsz = parseInt((ctx.font.match(/(\d+)px/) || [0, 28])[1]);
+    const w = ctx.measureText(text).width + fsz * 1.3, h = o.h || Math.round(fsz * 1.75), k = o.k ?? 1, ch = h * 0.32;
+    ctx.translate(x, y); ctx.scale(k, k);
+    const pts = [[-w / 2 + ch, -h / 2], [w / 2, -h / 2], [w / 2, h / 2 - ch], [w / 2 - ch, h / 2], [-w / 2, h / 2], [-w / 2, -h / 2 + ch]];
+    ctx.fillStyle = o.shadow || 'rgba(40,20,70,0.35)'; ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0] + 4, p[1] + 4) : ctx.moveTo(p[0] + 4, p[1] + 4)); ctx.closePath(); ctx.fill();
+    const bg = H.hex(o.bg || '#fff6f0');
+    ctx.fillStyle = H.rgba(bg); ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = H.rgba(H.mix(bg, [255, 255, 255], 0.5)); ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]); ctx.lineTo(pts[1][0], pts[1][1]); ctx.lineTo(w / 2 - h * 0.6, 0); ctx.lineTo(-w / 2, 0); ctx.lineTo(pts[5][0], pts[5][1]); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = o.col || '#2a1f4f'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(text, 0, 1);
+    ctx.restore();
+  }
+  // same tag, anchored by its left edge
+  function lpTagL(ctx, x, y, text, o = {}) {
+    ctx.save(); ctx.font = o.font || '700 28px "Space Grotesk"';
+    const fsz = parseInt((ctx.font.match(/(\d+)px/) || [0, 28])[1]);
+    const w = ctx.measureText(text).width + fsz * 1.3; ctx.restore();
+    lpTag(ctx, x + w / 2 * (o.k ?? 1), y, text, o);
+    return w;
+  }
+  function lpArrow(ctx, a, c, b, prog, colA, w = 12) {
+    if (prog <= 0) return null;
+    const q = (u) => [(1 - u) * (1 - u) * a[0] + 2 * u * (1 - u) * c[0] + u * u * b[0], (1 - u) * (1 - u) * a[1] + 2 * u * (1 - u) * c[1] + u * u * b[1]];
+    const N = 7, pts = []; for (let i = 0; i <= N; i++) pts.push(q(prog * i / N));
+    const light = H.rgba(H.mix(colA, [255, 255, 255], 0.3)), dark = H.rgba(H.mix(colA, [40, 20, 70], 0.25));
+    const end = pts.length - 1;
+    for (let i = 0; i < end; i++) {
+      const p0 = pts[i], p1 = pts[i + 1], dx = p1[0] - p0[0], dy = p1[1] - p0[1], L = Math.hypot(dx, dy) || 1;
+      const nx = -dy / L * w / 2, ny = dx / L * w / 2;
+      const shrink = i === end - 1 ? 0.35 : 0;
+      const p1b = [p1[0] - dx * shrink, p1[1] - dy * shrink];
+      ctx.fillStyle = light; ctx.beginPath(); ctx.moveTo(p0[0] + nx, p0[1] + ny); ctx.lineTo(p1b[0] + nx, p1b[1] + ny); ctx.lineTo(p1b[0], p1b[1]); ctx.lineTo(p0[0], p0[1]); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = dark; ctx.beginPath(); ctx.moveTo(p0[0] - nx, p0[1] - ny); ctx.lineTo(p1b[0] - nx, p1b[1] - ny); ctx.lineTo(p1b[0], p1b[1]); ctx.lineTo(p0[0], p0[1]); ctx.closePath(); ctx.fill();
+    }
+    const e = pts[end], e0 = pts[end - 1], ang = Math.atan2(e[1] - e0[1], e[0] - e0[0]);
+    ctx.save(); ctx.translate(e[0], e[1]); ctx.rotate(ang);
+    ctx.fillStyle = light; ctx.beginPath(); ctx.moveTo(4, 0); ctx.lineTo(-w * 1.4, -w * 1.1); ctx.lineTo(-w * 1.4, 0); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = dark; ctx.beginPath(); ctx.moveTo(4, 0); ctx.lineTo(-w * 1.4, w * 1.1); ctx.lineTo(-w * 1.4, 0); ctx.closePath(); ctx.fill();
+    ctx.restore();
+    return q;
+  }
+  // hex verdict badge (reference check/cross)
+  function hexBadge(ctx, x, y, k, right) {
+    if (k <= 0) return;
+    ctx.save(); ctx.translate(x, y); ctx.scale(k, k); ctx.rotate(0.12);
+    const hexR = 30; ctx.fillStyle = right ? '#3ccf9a' : '#ff5a4a';
+    ctx.beginPath(); for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI * 2; ctx.lineTo(Math.cos(a) * hexR, Math.sin(a) * hexR); } ctx.closePath(); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.beginPath(); ctx.moveTo(0, 0); for (let i = 3; i <= 6; i++) { const a = i / 6 * Math.PI * 2; ctx.lineTo(Math.cos(a) * hexR, Math.sin(a) * hexR); } ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 6; ctx.lineJoin = 'miter'; ctx.beginPath();
+    if (right) { ctx.moveTo(-12, 0); ctx.lineTo(-4, 10); ctx.lineTo(13, -11); } else { ctx.moveTo(-10, -10); ctx.lineTo(10, 10); ctx.moveTo(10, -10); ctx.lineTo(-10, 10); }
+    ctx.stroke(); ctx.restore();
+  }
+
+  // ---------- palette ----------
+  const SUN_DIR = norm([0.75, 0.55, 0.45]);
+  const SUN_COL = [255, 226, 190], AMB = [104, 98, 150];
+  const FOG = [236, 160, 150], FOG_HI = [180, 140, 190];
+  const INK = '#2a1f4f';
+  const CORAL = [255, 112, 96], TEAL = [96, 196, 206], STEAM = [250, 236, 240];
+  const COLD_OIL = [66, 46, 42], WARM_OIL = [206, 118, 58], HOT = [255, 214, 186];
+  const WATER = -0.6;
+  const XB = 64, ZB = 140, YB = -48; // block: x in [-XB, XB], z in [0, ZB], floor at YB; the cut face is z = 0
+
+  const nz = H.makeNoise(31);
+  // ---------- world ----------
+  function height(x, z) {
+    let h = 2 + nz.fbm2(x * 0.08, z * 0.08, 3) * 0.35;
+    const back = H.smooth(22, 62, z);
+    h += back * (8 + nz.fbm2(x * 0.045 + 3, z * 0.045, 4) * 11 + H.smooth(75, 135, z) * 16 + Math.pow(Math.abs(x) / XB, 2) * 6);
+    const rv = Math.exp(-Math.pow((z - 40 - 4 * Math.sin(x * 0.06)) / 5.5, 2));
+    return H.lerp(h, -1.6, rv * 0.92);
+  }
+  // rock column of the cut face (strata), y up
+  function strata(x, y) {
+    const w = nz.fbm2(x * 0.03, y * 0.05 + 7, 2) * 1.6, wr = nz.fbm2(x * 0.02, 9.3, 2) * 0.8, yy = y + w;
+    if (y > -1.6 + w * 0.5) return [150, 112, 100];       // suelo
+    if (yy > -8.5) return [226, 186, 140];                // arenisca
+    if (yy > -12) return [146, 126, 146];                 // lutita
+    if (yy > -17) return [204, 164, 128];                 // arenisca 2
+    if (y > -22 + wr) return [106, 94, 126];              // sello (lutita)
+    if (y > -32 + wr * 0.6) return COLD_OIL;              // yacimiento: arena con crudo pesado
+    return [128, 114, 138];                               // basamento
+  }
+  const inRes = (x, y) => { const wr = nz.fbm2(x * 0.02, 9.3, 2) * 0.8; return y < -22 + wr && y > -32 + wr * 0.6; };
+
+  // ---------- thermal states of the reservoir (pure functions of t) ----------
+  const ph = (t, a, b) => H.clamp((t - a) / (b - a));
+  const Ei = (t, a, b) => H.ease.inOut(ph(t, a, b));
+  const steamS = (t) => Ei(t, 14.6, 16.8);
+  const sagdS = (t) => Ei(t, 18.5, 20.8);
+  const combXf = (t) => H.lerp(-23, 14, Ei(t, 22.3, 24.8));
+  const sagdChamber = (s) => ({ top: -27.5 + 5.2 * H.clamp(s * 1.7), k: 0.55 + 2.2 * s });
+  function faceColor(x, y, t, mode) {
+    const base = strata(x, y);
+    if (!inRes(x, y)) return { col: base };
+    const j = nz.n2(x * 0.3, y * 0.3) * 1.5;
+    if (mode === 0) {
+      const s = steamS(t); if (s <= 0) return { col: base };
+      const R = 3 + 21 * s, Ry = R * (0.55 + 0.45 * (y + 32) / 10), d = Math.abs(x) + j;
+      for (const px of [-24, 24]) { const dp = Math.hypot(x - px, (y + 31) * 1.5); if (s > 0.55 && dp < 3 + 4 * (s - 0.55)) return { col: H.mix(WARM_OIL, COLD_OIL, 0.25) }; }
+      if (d < Ry * 0.5) return { col: HOT };
+      if (d < Ry) return { col: H.mix(HOT, WARM_OIL, H.smooth(Ry * 0.5, Ry, d)) };
+      if (d < Ry + 5) return { col: H.mix(WARM_OIL, COLD_OIL, (d - Ry) / 5) };
+      return { col: base };
+    }
+    if (mode === 1) {
+      const s = sagdS(t), C = sagdChamber(s);
+      const hw = (y + 28.6) * C.k + j * 0.4;
+      if (y > -28.6 && y < C.top && Math.abs(x) < hw) return { col: H.mix(HOT, [255, 236, 226], H.clamp((y + 28) / 6)) };
+      const ex = Math.abs(x) - Math.max(0, hw);
+      if (y > -31.8 && ex < 2.6 + (y < -28 ? 1.4 : 0) && (y < C.top + 1.2 || y < -27)) return { col: H.mix(WARM_OIL, COLD_OIL, H.clamp(ex / 3.2)) };
+      return { col: base };
+    }
+    const xf = combXf(t) + (y + 27) * 0.3 + j * 0.5, lit = t > 22.15;
+    if (!lit || x <= -26) return { col: base };
+    if (x < xf - 2.2 && x > -26) return { col: H.mix([214, 200, 186], [180, 160, 150], H.smooth(-26, xf - 2, x)) }; // zona quemada
+    if (x < xf && x > -26) return { col: [255, 156, 72], emissive: true };                                       // frente de fuego
+    if (x < xf + 6) return { col: H.mix([240, 170, 100], WARM_OIL, (x - xf) / 6) };                                // vapor + crudo liviano
+    if (x < xf + 13) return { col: [44, 28, 26] };                                                                   // banco de crudo
+    return { col: base };
+  }
+  // face facets flip in place at each method change (the medium's own scene change)
+  const FLIPS = [17.6, 21.2];
+  function faceFlip(x, t) {
+    let mode = 0, scale = 1;
+    FLIPS.forEach((T) => { const at = T + (x + XB) / (2 * XB) * 0.55, u = ph(t, at, at + 0.42); if (u >= 0.5) mode++; if (u > 0 && u < 1) scale = Math.abs(1 - 2 * u); });
+    return { mode, scale };
+  }
+
+  // ---------- static geometry: terrain, cut face, side walls, trees, plant (cached) ----------
+  let STATIC = null;
+  function buildStatic() {
+    const tris = [];
+    const push = (a, b, c, col, opt = {}) => tris.push({ p: [a, b, c], col, ...opt });
+    const jr = H.rng(5);
+    // terrain grid
+    const CELL = 4, nx = Math.round(2 * XB / CELL), nzc = Math.round(ZB / CELL), V = [];
+    for (let j = 0; j <= nzc; j++) { const row = []; for (let i = 0; i <= nx; i++) { const x = -XB + i * CELL + (i > 0 && i < nx ? jr.range(-0.38, 0.38) * CELL : 0), z = j * CELL + (j > 0 && j < nzc ? jr.range(-0.38, 0.38) * CELL : 0); row.push([x, height(x, z), z]); } V.push(row); }
+    const pad = (x, z) => (x > -30 && x < 6 && z > 3 && z < 16) || (x > 31 && x < 50 && z > 3 && z < 17);
+    const tc = (y, slope, x, z) => {
+      let c;
+      if (y < WATER + 0.6) c = [214, 196, 150];
+      else if (y < 6) c = H.mix([86, 160, 112], [60, 128, 96], H.clamp(y / 6));
+      else if (y < 14) c = H.mix([60, 128, 96], [110, 112, 120], H.smooth(9, 14, y));
+      else if (y < 22) c = [118, 110, 128]; else c = [244, 238, 248];
+      if (slope > 0.55 && y > 3 && y < 22) c = H.mix(c, [124, 112, 124], 0.6);
+      if (pad(x, z) && y < 3) c = [186, 176, 178];
+      return c;
+    };
+    for (let j = 0; j < nzc; j++) for (let i = 0; i < nx; i++) {
+      const a = V[j][i], b = V[j][i + 1], c = V[j + 1][i], d = V[j + 1][i + 1];
+      const faces = (i + j) % 2 ? [[a, c, b], [b, c, d]] : [[a, c, d], [a, d, b]];
+      for (const f of faces) {
+        if (Math.max(f[0][1], f[1][1], f[2][1]) < WATER) { push(...f.map(p => [p[0], WATER + nz.n2(p[0] * 0.4, p[2] * 0.4) * 0.35, p[2]]), [96, 120, 190], { water: true }); continue; }
+        let n = norm(cross(sub(f[1], f[0]), sub(f[2], f[0]))); if (n[1] < 0) n = scl(n, -1);
+        const cx = (f[0][0] + f[1][0] + f[2][0]) / 3, cz = (f[0][2] + f[1][2] + f[2][2]) / 3;
+        push(f[0], f[1], f[2], tc((f[0][1] + f[1][1] + f[2][1]) / 3, 1 - Math.abs(n[1]), cx, cz), { terrain: true });
+      }
+    }
+    // cut face (z = 0): jittered grid from the floor to the terrain edge; coloured per frame
+    {
+      const CX = 2.6, cols = Math.round(2 * XB / CX), rows = 17, G = [];
+      for (let i = 0; i <= cols; i++) {
+        const x = -XB + i * CX + (i > 0 && i < cols ? jr.range(-0.35, 0.35) * CX : 0), top = height(x, 0), col = [];
+        for (let r = 0; r <= rows; r++) { const y = r === rows ? top : YB + r * (top - YB) / rows + (r > 0 ? jr.range(-0.32, 0.32) * 2.5 : 0); col.push([x, y, 0]); }
+        G.push(col);
+      }
+      for (let i = 0; i < cols; i++) for (let r = 0; r < rows; r++) {
+        const a = G[i][r], b = G[i + 1][r], c = G[i][r + 1], d = G[i + 1][r + 1];
+        const faces = (i + r) % 2 ? [[a, b, c], [b, d, c]] : [[a, b, d], [a, d, c]];
+        for (const f of faces) { const cx = (f[0][0] + f[1][0] + f[2][0]) / 3, cy = (f[0][1] + f[1][1] + f[2][1]) / 3; push(f[0], f[1], f[2], null, { face: true, cx, cy, jit: jr() }); }
+      }
+    }
+    // side walls x = ±XB (static strata)
+    for (const sx of [-1, 1]) {
+      const CZ = 4, cols = Math.round(ZB / CZ), rows = 10, G = [];
+      for (let i = 0; i <= cols; i++) { const z = i * CZ, top = height(sx * XB, z), col = []; for (let r = 0; r <= rows; r++) col.push([sx * XB, r === rows ? top : YB + r * (top - YB) / rows + (r > 0 ? jr.range(-0.3, 0.3) * 3 : 0), z]); G.push(col); }
+      for (let i = 0; i < cols; i++) for (let r = 0; r < rows; r++) {
+        const a = G[i][r], b = G[i + 1][r], c = G[i][r + 1], d = G[i + 1][r + 1];
+        for (const f of [[a, b, d], [a, d, c]]) { const cy = (f[0][1] + f[1][1] + f[2][1]) / 3, cz = (f[0][2] + f[1][2] + f[2][2]) / 3; push(f[0], f[1], f[2], strata(cz * 0.7 + sx * 50, cy), { side: true, nrm: [sx, 0, 0] }); }
+      }
+    }
+    // trees
+    const tr = H.rng(9);
+    const cone = (base, r, h, col, rot) => { const vs = [add3(base, [0, h, 0])]; for (let i = 0; i < 5; i++) { const a = rot + i / 5 * Math.PI * 2; vs.push(add3(base, [Math.cos(a) * r, 0, Math.sin(a) * r])); } for (let i = 0; i < 5; i++) push(vs[0], vs[1 + i], vs[1 + (i + 1) % 5], col, { center: add3(base, [0, h * 0.3, 0]), tree: true }); };
+    for (let kk = 0, placed = 0; kk < 1600 && placed < 150; kk++) {
+      const x = tr.range(-XB + 3, XB - 3), z = tr.range(4, 120), y = height(x, z);
+      if (y < 0.8 || y > 13) continue;
+      if (z < 24 && Math.abs(x) < 54) continue;
+      if (nz.fbm2(x * 0.05 + 40, z * 0.05, 2) < -0.08) continue;
+      const s = tr.range(1.5, 2.4), g = H.mix([40, 110, 90], [70, 140, 100], tr()), rot = tr() * 6;
+      cone([x, y - 0.2, z], s * 0.75, s * 1.6, g, rot); cone([x, y + s * 0.85, z], s * 0.55, s * 1.4, H.mix(g, [120, 180, 120], 0.25), rot + 0.6);
+      placed++;
+    }
+    // surface plant
+    const P = { obj: true };
+    const prism = (cx, y0, cz, r, h, sides, col, rot = 0, opt = P) => {
+      const vs = []; for (let i = 0; i < sides; i++) { const a = rot + i / sides * Math.PI * 2; vs.push([cx + Math.cos(a) * r, y0, cz + Math.sin(a) * r]); }
+      for (let i = 0; i < sides; i++) { const a = rot + i / sides * Math.PI * 2; vs.push([cx + Math.cos(a) * r, y0 + h, cz + Math.sin(a) * r]); }
+      const cen = [cx, y0 + h / 2, cz];
+      for (let i = 0; i < sides; i++) { const j = (i + 1) % sides; push(vs[i], vs[j], vs[sides + j], col, { center: cen, ...opt }); push(vs[i], vs[sides + j], vs[sides + i], col, { center: cen, ...opt }); }
+      for (let i = 1; i < sides - 1; i++) push(vs[sides], vs[sides + i], vs[sides + i + 1], col, { center: cen, ...opt });
+    };
+    const box = (x0, y0, z0, x1, y1, z1, col) => {
+      const v = [[x0, y0, z0], [x1, y0, z0], [x1, y0, z1], [x0, y0, z1], [x0, y1, z0], [x1, y1, z0], [x1, y1, z1], [x0, y1, z1]];
+      const f = [[4, 5, 6], [4, 6, 7], [0, 1, 5], [0, 5, 4], [1, 2, 6], [1, 6, 5], [2, 3, 7], [2, 7, 6], [3, 0, 4], [3, 4, 7]];
+      const cen = [(x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2];
+      for (const [i, j, k] of f) push(v[i], v[j], v[k], col, { center: cen, obj: true });
+    };
+    // tanque de agua tratada
+    prism(-22, 2, 10, 3.4, 6, 10, [150, 186, 226], 0.2);
+    { const vs = [[-22, 10, 10]]; for (let i = 0; i < 10; i++) { const a = 0.2 + i / 10 * Math.PI * 2; vs.push([-22 + Math.cos(a) * 3.4, 8, 10 + Math.sin(a) * 3.4]); } for (let i = 0; i < 10; i++) push(vs[0], vs[1 + i], vs[1 + (i + 1) % 10], [190, 210, 240], { center: [-22, 8.5, 10], obj: true }); }
+    // caldera + chimenea
+    box(-13, 2, 6, -5, 7.5, 12, [214, 92, 82]);
+    box(-13.4, 7.5, 5.6, -4.6, 8.3, 12.4, [150, 70, 80]);
+    prism(-7, 8.3, 10, 0.9, 7, 6, [160, 150, 176], 0.3);
+    // planta de separación
+    prism(40, 2, 11, 3.2, 5.5, 10, [236, 220, 196], 0.1);
+    prism(46, 2, 9, 2.4, 8, 8, [236, 220, 196], 0.4);
+    box(33, 2, 4, 38, 4.5, 8, [180, 176, 200]);
+    // tuberías (cortas para ordenar bien)
+    const tube = (a, b, r, col, seg = 2.5) => {
+      const L = Math.hypot(...sub(b, a)), n = Math.max(1, Math.round(L / seg)), d = norm(sub(b, a));
+      const u = norm(Math.abs(d[1]) > 0.9 ? cross(d, [1, 0, 0]) : cross(d, [0, 1, 0])), v = cross(d, u);
+      for (let s = 0; s < n; s++) {
+        const p0 = add3(a, scl(sub(b, a), s / n)), p1 = add3(a, scl(sub(b, a), (s + 1) / n)), cen = scl(add3(p0, p1), 0.5), ring = (p) => { const r6 = []; for (let i = 0; i < 6; i++) { const ang = i / 6 * Math.PI * 2; r6.push(add3(p, add3(scl(u, Math.cos(ang) * r), scl(v, Math.sin(ang) * r)))); } return r6; };
+        const A = ring(p0), B = ring(p1);
+        for (let i = 0; i < 6; i++) { const j = (i + 1) % 6; push(A[i], A[j], B[j], col, { center: cen, obj: true }); push(A[i], B[j], B[i], col, { center: cen, obj: true }); }
+      }
+    };
+    tube([-18.6, 3.6, 10], [-13, 3.6, 10], 0.5, [176, 170, 196]);
+    tube([-5, 5.5, 9], [0, 5.5, 9], 0.6, [244, 236, 244]);
+    tube([0, 5.5, 9], [0, 5.5, 0.4], 0.6, [244, 236, 244]);
+    tube([24, 3.4, 0.4], [24, 3.4, 7], 0.5, [176, 170, 196]);
+    tube([24, 3.4, 7], [33, 3.4, 7], 0.5, [176, 170, 196]);
+    tube([-24, 3.4, 0.4], [-24, 3.4, 18], 0.5, [176, 170, 196]);
+    tube([-24, 3.4, 18], [33, 3.4, 18], 0.5, [176, 170, 196], 3);
+    tube([33, 3.4, 18], [38, 3.4, 13], 0.5, [176, 170, 196]);
+    STATIC = { tris };
+  }
+
+  // ---------- per-frame dynamic geometry (wells, particles, gem) ----------
+  function makeDyn() {
+    const tris = [];
+    const push = (a, b, c, col, opt = {}) => tris.push({ p: [a, b, c], col, ...opt });
+    const tube = (a, b, r, col, opt = {}, seg = 2.5, sides = 6) => {
+      if (r <= 0.01) return;
+      const L = Math.hypot(...sub(b, a)), n = Math.max(1, Math.round(L / seg)), d = norm(sub(b, a));
+      const u = norm(Math.abs(d[1]) > 0.9 ? cross(d, [1, 0, 0]) : cross(d, [0, 1, 0])), v = cross(d, u);
+      const ring = (p) => { const rr = []; for (let i = 0; i < sides; i++) { const ang = 0.3 + i / sides * Math.PI * 2; rr.push(add3(p, add3(scl(u, Math.cos(ang) * r), scl(v, Math.sin(ang) * r)))); } return rr; };
+      for (let s = 0; s < n; s++) {
+        const p0 = add3(a, scl(sub(b, a), s / n)), p1 = add3(a, scl(sub(b, a), (s + 1) / n)), cen = scl(add3(p0, p1), 0.5), A = ring(p0), B = ring(p1);
+        for (let i = 0; i < sides; i++) { const j = (i + 1) % sides; push(A[i], A[j], B[j], col, { center: cen, obj: true, ...opt }); push(A[i], B[j], B[i], col, { center: cen, obj: true, ...opt }); }
+        if (opt.cap && s === 0) for (let i = 1; i < sides - 1; i++) push(A[0], A[i], A[i + 1], H.mix(col, [40, 30, 60], 0.35), { center: cen, obj: true });
+      }
+    };
+    const blob = (c, r, col, opt = {}, sy = 1) => { if (r <= 0.02) return; const vs = ICO.v.map(v => [c[0] + v[0] * r, c[1] + v[1] * r * sy, c[2] + v[2] * r]); for (const [i, j, k] of ICO.f) push(vs[i], vs[j], vs[k], col, { center: c, ...opt }); };
+    const wellhead = (x, k, col) => { if (k <= 0.01) return; tube([x, 2, -1.2], [x, 2 + 3.2 * k, -1.2], 1.1 * k, [190, 184, 206]); tube([x - 1.6 * k, 4.2, -1.2], [x + 1.6 * k, 4.2, -1.2], 0.5 * k, col); blob([x, 5.4 * k + 2 * (1 - k), -1.2], 0.9 * k, col, { obj: true }); };
+    return { tris, push, tube, blob, wellhead };
+  }
+
+  // ---------- camera flight ----------
+  const KF = [
+    [0, 0, 56, -98, 0, 0.42], [1.7, 0, 54, -94, 0, 0.42],
+    [3.3, -5, -18.5, -52, 0, 0.035], [7.6, -3, -18, -48, 0, 0.035],
+    [8.8, 10, 30, -46, 0.06, 0.5], [10.6, 8, 28, -42, 0.06, 0.5],
+    [11.7, -9, 19, -34, -0.02, 0.4], [13.7, -7, 18, -32, -0.02, 0.4],
+    [14.9, 2, -8, -64, 0, 0.12], [17.5, 2, -8.5, -66, 0, 0.12],
+    [18.4, 8, -26, -30, -0.17, 0.0], [21.1, 8, -26, -29, -0.17, 0.0],
+    [22.0, 2, -21, -52, 0, 0.05], [24.7, 2, -21, -54, 0, 0.05],
+    [26.0, 0, 56, -98, 0, 0.42], [DURATION, 0, 55, -95, 0, 0.42],
+  ];
+  function camAt(t, W, H_) {
+    let k = 0; while (k < KF.length - 2 && t > KF[k + 1][0]) k++;
+    const A = KF[k], B = KF[k + 1], u = H.ease.inOut(H.clamp((t - A[0]) / (B[0] - A[0])));
+    const L = (i) => H.lerp(A[i], B[i], u);
+    return makeCamYaw([L(1), L(2), L(3)], L(4), L(5), 760, W, H_);
+  }
+
+  // ---------- shade, cull, project, sort, draw ----------
+  function renderTris(ctx, tris, cam, t, W, H_, intro) {
+    const out = [];
+    for (const tri of tris) {
+      const [a, b, c] = tri.p;
+      let n = tri.nrm || norm(cross(sub(b, a), sub(c, a)));
+      const cen = scl(add3(add3(a, b), c), 1 / 3);
+      if (tri.terrain || tri.water) { if (n[1] < 0) n = scl(n, -1); }
+      else if (tri.face) n = [0, 0, -1];
+      else if (tri.center) { if (dot(n, sub(cen, tri.center)) < 0) n = scl(n, -1); }
+      const toCam = sub(cam.pos, cen);
+      if (tri.twoSided) { if (dot(n, toCam) < 0) n = scl(n, -1); }
+      else if (dot(n, toCam) <= 0) continue;
+      let pa = cam.proj(a), pb = cam.proj(b), pc = cam.proj(c);
+      if (pa[2] < 0.5 || pb[2] < 0.5 || pc[2] < 0.5) continue;
+      const mnx = Math.min(pa[0], pb[0], pc[0]), mxx = Math.max(pa[0], pb[0], pc[0]), mny = Math.min(pa[1], pb[1], pc[1]), mxy = Math.max(pa[1], pb[1], pc[1]);
+      if (mxx < -20 || mnx > W + 20 || mxy < -20 || mny > H_ + 20) continue;
+      const depth = (pa[2] + pb[2] + pc[2]) / 3 + (tri.bias || 0);
+      // facet flips: intro (camera out to the horizon) and the face re-layouts
+      let sq = 1, flash = 0, fmode = 0;
+      if (intro && !tri.emissive) {
+        const jit = (Math.sin(cen[0] * 12.9898 + cen[2] * 78.233) * 43758.5453) % 1;
+        const at = 0.02 + H.clamp(depth / 260) * 0.95 + Math.abs(jit) * 0.15 + (tri.tree || tri.obj ? 0.25 : 0);
+        sq = H.ease.out(ph(t, at, at + 0.36)); if (sq <= 0) continue; flash = (1 - sq) * 0.7;
+      }
+      if (tri.face) { const ff = faceFlip(tri.cx, t); fmode = ff.mode; if (ff.scale < 1) { sq *= ff.scale; flash = Math.max(flash, (1 - ff.scale) * 0.6); } if (sq <= 0.01) continue; }
+      if (sq < 1) {
+        const mx = (pa[0] + pb[0] + pc[0]) / 3, my = (pa[1] + pb[1] + pc[1]) / 3;
+        const s2 = (p) => [mx + (p[0] - mx) * sq, my + (p[1] - my) * sq, p[2]];
+        pa = s2(pa); pb = s2(pb); pc = s2(pc);
+      }
+      let col, emissive = tri.emissive;
+      if (tri.face) {
+        const fc = faceColor(tri.cx, tri.cy, t, fmode);
+        emissive = fc.emissive;
+        col = emissive ? H.mix(fc.col, [255, 236, 170], tri.jit * 0.45 * (0.5 + 0.5 * Math.sin(t * 19 + tri.cy * 3))) : scl(fc.col, 0.84 + 0.2 * tri.jit);
+        col = H.mix(col, [255, 196, 178], 0.06);
+      } else if (emissive) col = tri.col;
+      else if (tri.gem) col = gemShade(tri, n, toCam, cen, t);
+      else {
+        const lam = Math.max(0, dot(n, SUN_DIR));
+        let kk = tri.side ? 0.45 + 0.55 * lam : tri.obj ? 0.32 + 0.85 * lam : tri.puff ? 0.7 + 0.4 * lam : lam;
+        if (tri.terrain && lam > 0) {
+          const e2 = Math.max((pa[0] - pb[0]) ** 2 + (pa[1] - pb[1]) ** 2, (pb[0] - pc[0]) ** 2 + (pb[1] - pc[1]) ** 2, (pc[0] - pa[0]) ** 2 + (pc[1] - pa[1]) ** 2);
+          const area2 = Math.abs((pb[0] - pa[0]) * (pc[1] - pa[1]) - (pc[0] - pa[0]) * (pb[1] - pa[1]));
+          if (e2 > 3600) kk *= H.lerp(0.15, 1, H.smooth(0.06, 0.2, area2 / e2));
+        }
+        const fillP = tri.obj || tri.side ? Math.max(0, dot(n, norm([-0.55, 0.6, -0.6]))) * 0.45 : 0;
+        col = [0, 1, 2].map(i => tri.col[i] * (AMB[i] / 255 * (tri.obj ? 0.6 : 0.85) + SUN_COL[i] / 255 * kk * 0.95 + [176, 186, 255][i] / 255 * fillP));
+        if (tri.water) {
+          const v = norm(toCam), rf = sub(scl(n, 2 * dot(n, v)), v);
+          const spec = Math.pow(Math.max(0, dot(rf, norm([0.5, 0.2, 1]))), 12);
+          col = H.mix(H.mix([120, 110, 190], [250, 170, 165], H.clamp(0.45 + n[0] * 4 + n[2] * 2)), [255, 236, 200], spec);
+        }
+        if (tri.puff) col = H.mix(col, [255, 220, 214], 0.2);
+      }
+      const fogK = emissive ? 0 : H.clamp(Math.pow(H.smooth(40, 260, depth), 1.15) * 0.9) * (tri.face || tri.gem || tri.sec ? 0.35 : 1);
+      col = H.mix(col, H.mix(FOG, FOG_HI, H.clamp(cen[1] / 30)), fogK);
+      if (flash) col = H.mix(col, [255, 236, 226], flash);
+      out.push({ pa, pb, pc, depth, col, gem: tri.gem });
+    }
+    out.sort((p, q) => q.depth - p.depth);
+    ctx.lineJoin = 'round';
+    for (const o of out) {
+      const fs = `rgb(${o.col[0] | 0},${o.col[1] | 0},${o.col[2] | 0})`;
+      ctx.fillStyle = fs; ctx.lineWidth = 0.9;
+      ctx.strokeStyle = o.gem ? `rgb(${Math.min(255, o.col[0] * 1.18 + 14) | 0},${Math.min(255, o.col[1] * 1.18 + 14) | 0},${Math.min(255, o.col[2] * 1.18 + 14) | 0})` : fs;
+      if (o.gem) ctx.lineWidth = Math.max(1, Math.min(2, 1400 / o.depth / 20));
+      ctx.beginPath(); ctx.moveTo(o.pa[0], o.pa[1]); ctx.lineTo(o.pb[0], o.pb[1]); ctx.lineTo(o.pc[0], o.pc[1]); ctx.closePath(); ctx.fill(); ctx.stroke();
+    }
+  }
+  // the oil drop: reference cut-glass shading, ramp from cold black crude to hot amber
+  let GEM_HEAT = 0, GEM_SPIN = 0;
+  function gemShade(tri, n, toCam, cen, t) {
+    const cold = H.mix([46, 32, 30], [96, 70, 92], H.clamp(0.4 + 0.6 * n[1]));
+    const hot = H.mix(H.mix([196, 90, 40], [255, 186, 96], H.clamp(0.45 + 0.7 * n[1])), [255, 128, 96], H.clamp(-n[0] * 0.9) * 0.4);
+    const base = H.mix(H.mix(cold, tri.col, 0.25), hot, GEM_HEAT);
+    const lam = Math.max(0, dot(n, SUN_DIR));
+    const v = norm(toCam), F2 = norm([-0.55, 0.6, -0.6]), fill = Math.max(0, dot(n, F2));
+    const rl = sub(scl(n, 2 * dot(n, SUN_DIR)), SUN_DIR), spec = Math.pow(Math.max(0, dot(rl, v)), 20) * 0.6;
+    const fl2 = sub(scl(n, 2 * dot(n, F2)), F2), spec2 = Math.pow(Math.max(0, dot(fl2, v)), 24) * 0.55;
+    const rim = Math.pow(1 - Math.max(0, dot(n, v)), 3) * 0.28 * (0.4 + lam);
+    const kk = 0.35 + 1.0 * lam, jit = 0.9 + 0.2 * (0.5 + 0.5 * Math.sin(cen[0] * 7.1 + cen[1] * 3.7 + cen[2] * 5.3 - GEM_SPIN * 9));
+    let col = [0, 1, 2].map(i => base[i] * jit * (AMB[i] / 255 * 0.6 + SUN_COL[i] / 255 * kk * 0.75 + [176, 186, 255][i] / 255 * fill * 0.7));
+    return H.mix(col, [255, 244, 236], H.clamp(spec + spec2 + rim));
+  }
+  let GEM_MESH = null;
+  function gemMesh() {
+    if (GEM_MESH) return GEM_MESH;
+    const vs = ICO.v.map(v => v.slice()), fs = [], mid = {};
+    const m = (a, b) => { const key = a < b ? a + '_' + b : b + '_' + a; if (mid[key] == null) { vs.push(scl(norm(add3(vs[a], vs[b])), 0.93)); mid[key] = vs.length - 1; } return mid[key]; };
+    for (const [a, b, c] of ICO.f) { const ab = m(a, b), bc = m(b, c), ca = m(c, a); fs.push([a, ab, ca], [b, bc, ab], [c, ca, bc], [ab, bc, ca]); }
+    // teardrop: pull the top into a point
+    GEM_MESH = { v: vs.map(([x, y, z]) => { const up = Math.max(0, y), s = 1 - 0.62 * Math.pow(up, 1.4); return [x * s, y * 1.05 + Math.pow(up, 3) * 1.15, z * s]; }), f: fs };
+    return GEM_MESH;
+  }
+
+  // ---------- sky (reference) ----------
+  function drawSky(ctx, W, H_, cam) {
+    const sky = ctx.createLinearGradient(0, 0, 0, H_ * 0.62);
+    sky.addColorStop(0, '#1b2350'); sky.addColorStop(0.38, '#4d3f84'); sky.addColorStop(0.7, '#c06a93'); sky.addColorStop(1, '#ffb08a');
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H_);
+    const R0 = H.rng(77);
+    for (let i = 0; i < 90; i++) { const x = R0() * W, y = R0() * 160, a = (1 - y / 160) * R0() * 0.8; ctx.fillStyle = `rgba(255,240,255,${a})`; ctx.fillRect(x, y, 1, 1); }
+    const sp = cam.proj([cam.pos[0] + 30, cam.pos[1] + 12, cam.pos[2] + 400]);
+    const g = ctx.createRadialGradient(sp[0], sp[1], 30, sp[0], sp[1], 320);
+    g.addColorStop(0, 'rgba(255,214,160,0.5)'); g.addColorStop(1, 'rgba(255,214,160,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H_);
+    for (let i = 0; i < 14; i++) {
+      const a0 = (i / 14) * Math.PI * 2, a1 = ((i + 1) / 14) * Math.PI * 2;
+      ctx.fillStyle = H.rgba(H.mix('#ffd49a', '#fff4d8', 0.5 + 0.5 * Math.cos(a0 - 2.3)));
+      ctx.beginPath(); ctx.moveTo(sp[0], sp[1]); ctx.lineTo(sp[0] + Math.cos(a0) * 50, sp[1] + Math.sin(a0) * 50); ctx.lineTo(sp[0] + Math.cos(a1) * 50, sp[1] + Math.sin(a1) * 50); ctx.closePath(); ctx.fill();
+    }
+  }
+
+  // =============================== EXPLAINER ===============================
+  const GEM = [-11, -15.5, -18];
+  function explainer(ctx, W, H_, t) {
+    const P = (a, b) => ph(t, a, b), E = (a, b) => Ei(t, a, b), EO = (a, b) => H.ease.out(P(a, b)), BK = (a, b) => H.ease.back(P(a, b));
+    if (!STATIC) buildStatic();
+    const cam = camAt(t, W, H_);
+    const pr = (p) => cam.proj(p);
+    const sz = (p, wu) => wu * 760 / p[2];
+    drawSky(ctx, W, H_, cam);
+
+    // ---------- dynamic objects (drawn as a second sorted pass, in front of the cut face) ----------
+    const D = makeDyn();
+    const steamK = 1 - E(17.6, 17.95), sagdK = EO(18.0, 18.45) * (1 - E(21.2, 21.5)), combK = EO(21.65, 22.1);
+    const wellsIn = EO(0.9, 1.4);
+    // vapor continuo: inyector (coral) + 2 productores (teal)
+    if (steamK > 0) {
+      const k = steamK * wellsIn;
+      D.tube([0, 4, -1.2], [0, -27, -1.2], 0.8 * k, CORAL, { sec: true }, 3);
+      for (const x of [-24, 24]) D.tube([x, 4, -1.2], [x, -30.5, -1.2], 0.8 * k, TEAL, { sec: true }, 3);
+      D.wellhead(0, k, CORAL); D.wellhead(-24, k, TEAL); D.wellhead(24, k, TEAL);
+      // steam puffs down the injector, then out into the formation
+      for (let i = 0; i < 40; i++) {
+        const te = 14.0 + i * 0.12; if (te > 17.3) break;
+        const u = (t - te) / 0.9; if (u <= 0 || u > 1.7) continue;
+        let p;
+        if (u <= 1) p = [0, H.lerp(4.5, -26, u), -2.2];
+        else { const v = u - 1, sd = i % 2 ? 1 : -1; p = [sd * v * 16, -24.5 - (i % 3) * 1.6 - v * 1.5, -1.6]; }
+        D.blob(p, 0.95 * (u > 1 ? 1 - (u - 1) / 0.7 : 1) * steamK, STEAM, { puff: true, sec: true }, 0.85);
+      }
+      // mobile crude to the producers and up to the plant
+      for (let i = 0; i < 40; i++) {
+        const te = 15.3 + i * 0.1; if (te > 17.1) break;
+        const u = (t - te) / 0.9; if (u <= 0 || u > 2.2) continue;
+        const sd = i % 2 ? 1 : -1, x0 = sd * (5 + (i * 7) % 6), y0 = -23.5 - (i * 13) % 7;
+        let p;
+        if (u <= 1) { const e = H.ease.inOut(u); p = [H.lerp(x0, sd * 23.6, e), H.lerp(y0, -29.5, e), -2.2]; }
+        else p = [sd * 24, H.lerp(-29.5, 4, (u - 1) / 1.2), -2.3];
+        D.blob(p, 0.7 * steamK, [150, 82, 44], { obj: true, sec: true }, 1.25);
+      }
+    }
+    // SAGD: two horizontal wells seen end-on, sticking out of the cut face
+    if (sagdK > 0) {
+      D.tube([0, -27.2, -7], [0, -27.2, 0.3], 0.95 * sagdK, CORAL, { sec: true, cap: true }, 2.5, 8);
+      D.tube([0, -31, -7], [0, -31, 0.3], 0.95 * sagdK, TEAL, { sec: true, cap: true }, 2.5, 8);
+      const s = sagdS(t), C = sagdChamber(s);
+      for (let i = 0; i < 30; i++) {
+        const te = 18.5 + i * 0.13; if (te > 20.9) break;
+        const u = (t - te) / 1.1; if (u <= 0 || u > 1) continue;
+        const yTop = Math.max(-26.5, C.top - 0.8), y = H.lerp(-26.4, yTop, H.ease.out(u)), hw = Math.max(0.3, (y + 28.6) * C.k);
+        D.blob([((i * 0.37) % 1 - 0.5) * 1.4 * hw, y, -1.4], 0.75 * (1 - u * 0.4) * sagdK, STEAM, { puff: true, sec: true }, 0.85);
+      }
+      for (let i = 0; i < 30; i++) {
+        const te = 18.9 + i * 0.12; if (te > 21.0) break;
+        const u = (t - te) / 1.2; if (u <= 0 || u > 1) continue;
+        const sd = i % 2 ? 1 : -1, yS = Math.max(-27, C.top - 0.6 - (i * 5) % 3), xS = sd * ((yS + 28.6) * C.k + 1.2);
+        const e = H.ease.in(u), p = u < 0.8 ? [H.lerp(xS, sd * 1.8, e / H.ease.in(0.8)), H.lerp(yS, -30.2, e / H.ease.in(0.8)), -1.4] : [H.lerp(sd * 1.8, 0, (u - 0.8) / 0.2), -30.6, -1.4];
+        D.blob(p, 0.62 * sagdK, [150, 82, 44], { obj: true, sec: true }, 1.25);
+      }
+    }
+    // combustión in situ: inyector de aire (-24) y productor (+24)
+    if (combK > 0) {
+      const k = combK;
+      D.tube([-24, 4, -1.2], [-24, -30, -1.2], 0.8 * k, [176, 206, 250], { sec: true }, 3);
+      D.tube([24, 4, -1.2], [24, -30.5, -1.2], 0.8 * k, TEAL, { sec: true }, 3);
+      D.wellhead(-24, k, [176, 206, 250]); D.wellhead(24, k, TEAL);
+      const xf = combXf(t), lit = EO(22.1, 22.5);
+      if (lit > 0) for (let r = 0; r < 5; r++) {
+        const y = -31 + r * 2.1, x = xf + (y + 27) * 0.3 - 1.0, fl = (1 + Math.sin(t * 30 + r * 2) * 0.12) * lit * (1 + Math.sin(t * 47 + r) * 0.06);
+        const flame = (len, rr, col) => { const v = [[x + 0.6, y + len * fl, -1.0]]; for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI * 2; v.push([x + Math.cos(a) * rr, y, -1.0 + Math.sin(a) * rr * 0.6]); } for (let i = 0; i < 6; i++) D.push(v[0], v[1 + i], v[1 + (i + 1) % 6], H.mix(col, [255, 255, 230], (i % 3) * 0.18), { emissive: true, center: [x, y + len * 0.3, -1], bias: -2 }); };
+        flame(3.4, 1.3, [255, 140, 60]); flame(2.0, 0.85, [255, 220, 120]);
+      }
+      for (let i = 0; i < 40; i++) { // air
+        const te = 21.9 + i * 0.11; if (te > 24.6) break;
+        const u = (t - te) / 1.1; if (u <= 0 || u > 1.5) continue;
+        const p = u <= 0.8 ? [-24, H.lerp(4, -27 - (i % 3), u / 0.8), -2.2] : [H.lerp(-24, xf - 2, (u - 0.8) / 0.7), -27 - (i % 3) - (i % 2) * 2, -1.8];
+        D.blob(p, 0.55 * k, [200, 226, 255], { puff: true, sec: true }, 1);
+      }
+      for (let i = 0; i < 40; i++) { // displaced crude
+        const te = 22.5 + i * 0.1; if (te > 24.8) break;
+        const u = (t - te) / 1.0; if (u <= 0 || u > 2) continue;
+        const x0 = xf + 7 + (i * 5) % 6, y0 = -24 - (i * 7) % 7;
+        const p = u <= 1 ? [H.lerp(x0, 23.6, H.ease.inOut(u)), H.lerp(y0, -29.5, H.ease.inOut(u)), -2.2] : [24, H.lerp(-29.5, 4, u - 1), -2.3];
+        D.blob(p, 0.7 * k, [70, 44, 36], { obj: true, sec: true }, 1.25);
+      }
+    }
+    // the oil drop (beats 2-3)
+    const gemK = EO(2.5, 3.2) * (1 - E(7.8, 8.4));
+    GEM_HEAT = E(5.6, 7.0); GEM_SPIN = t * 0.4;
+    if (gemK > 0) {
+      const M = gemMesh(), r = 4.2 * gemK, wob = GEM_HEAT * Math.sin(t * 5) * 0.06;
+      const cr = H.rng(44), pal = [[60, 40, 36], [90, 60, 80], [40, 30, 34], [120, 80, 60]];
+      const c = [GEM[0], GEM[1] + Math.sin(t * 1.6) * 0.4, GEM[2]];
+      const vs = M.v.map(([x, y, z]) => { const xr = x * Math.cos(GEM_SPIN) - z * Math.sin(GEM_SPIN), zr = x * Math.sin(GEM_SPIN) + z * Math.cos(GEM_SPIN); return [c[0] + xr * r * (1 + wob), c[1] + y * r * (1.15 - wob), c[2] + zr * r]; });
+      M.f.forEach((f) => D.push(vs[f[0]], vs[f[1]], vs[f[2]], cr.pick(pal), { center: c, gem: true }));
+      for (let i = 0; i < 3; i++) { // drips once it flows
+        const te = 6.7 + i * 0.35, u = t - te; if (u <= 0 || u > 1.3) continue;
+        D.blob([c[0] + (i - 1) * 0.8, c[1] - r * 1.1 - u * u * 9, c[2]], 0.75 * gemK, [200, 110, 50], { gem: true });
+      }
+    }
+
+    // ---------- draw both passes ----------
+    renderTris(ctx, STATIC.tris, cam, t, W, H_, t < 1.7);
+    // boiler glow + flame glow
+    { const p = pr([-9, 4, 5.8]); const on = EO(10.9, 11.3); if (p[2] > 1 && on > 0) { const r = sz(p, 6); const g = ctx.createRadialGradient(p[0], p[1], 2, p[0], p[1], r); g.addColorStop(0, `rgba(255,190,110,${0.5 * on})`); g.addColorStop(1, 'rgba(255,150,90,0)'); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(p[0] - r, p[1] - r, r * 2, r * 2); ctx.globalCompositeOperation = 'source-over'; } }
+    renderTris(ctx, D.tris, cam, t, W, H_, false);
+    if (combK > 0 && t > 22.1) { const p = pr([combXf(t) - 1, -27, -1]); if (p[2] > 1) { const r = sz(p, 13); const g = ctx.createRadialGradient(p[0], p[1], 2, p[0], p[1], r); g.addColorStop(0, `rgba(255,190,110,${0.55 * EO(22.1, 22.5)})`); g.addColorStop(1, 'rgba(255,140,90,0)'); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(p[0] - r, p[1] - r, r * 2, r * 2); ctx.globalCompositeOperation = 'source-over'; } }
+    if (gemK > 0) { const p = pr(GEM); if (p[2] > 1) { const r = sz(p, 6.5); const g = ctx.createRadialGradient(p[0], p[1], r * 0.4, p[0], p[1], r * 1.6); g.addColorStop(0, `rgba(255,${180 + 40 * GEM_HEAT | 0},150,${(0.12 + 0.4 * GEM_HEAT) * gemK})`); g.addColorStop(1, 'rgba(255,200,150,0)'); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(p[0] - r * 2, p[1] - r * 2, r * 4, r * 4); ctx.globalCompositeOperation = 'source-over'; } }
+
+    // ---------- overlays that land on the 3D objects ----------
+    const fadeWin = (a0, a1, b0, b1) => BK(a0, a1) * (1 - E(b0, b1));
+    // beat 2 — the problem
+    if (t > 3.0 && t < 8.0) {
+      const kRes = fadeWin(3.2, 3.55, 7.6, 7.95);
+      const pR = pr([-33, -29.5, -1]); lpTag(ctx, pR[0], pR[1], 'yacimiento', { k: kRes, bg: INK, col: '#fff' });
+      // magnifier callout: a spot on the reservoir to the drop
+      const spot = pr([-6, -27, -0.5]), g = pr(GEM), gr = sz(g, 4.2);
+      ctx.save(); ctx.globalAlpha = EO(3.3, 3.7) * (1 - E(7.6, 7.95)); ctx.strokeStyle = 'rgba(255,246,240,0.85)'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(spot[0] - 14, spot[1]); ctx.lineTo(g[0] - gr * 0.9, g[1] + gr * 0.4); ctx.moveTo(spot[0] + 14, spot[1]); ctx.lineTo(g[0] + gr * 0.9, g[1] + gr * 0.4); ctx.stroke();
+      ctx.beginPath(); for (let i = 0; i <= 6; i++) { const a = i / 6 * Math.PI * 2; ctx.lineTo(spot[0] + Math.cos(a) * 15, spot[1] + Math.sin(a) * 10); } ctx.stroke(); ctx.restore();
+      lpTag(ctx, g[0], g[1] - gr * 1.75, 'crudo pesado', { k: fadeWin(3.5, 3.85, 7.6, 7.95) });
+    }
+    // viscosity counter: 10 000 cP -> 10 cP
+    if (t > 3.9 && t < 8.0) {
+      const u = E(5.6, 7.0), v = Math.pow(10, 4 - 3 * u), vr = v >= 1000 ? Math.round(v / 100) * 100 : v >= 100 ? Math.round(v / 10) * 10 : Math.round(v);
+      const txt = String(vr).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' cP';
+      const hit = t > 7.0, pop = hit ? 1 + 0.2 * Math.sin(Math.min(1, (t - 7.0) / 0.35) * Math.PI) : 1;
+      const k = fadeWin(3.9, 4.25, 7.6, 7.95) * pop, x = 905, y = 300;
+      lpTag(ctx, x, y - 92, 'viscosidad', { k, bg: INK, col: '#fff' });
+      lpTag(ctx, x, y, txt, { k, font: '700 72px "Space Grotesk"', h: 108, bg: hit ? '#ff7060' : '#fff6f0', col: hit ? '#fff' : INK });
+      if (t > 7.0) { ctx.save(); ctx.globalAlpha = 1 - P(7.0, 7.7); ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; const rr = 150 + 80 * EO(7.0, 7.7); ctx.beginPath(); for (let k2 = 0; k2 <= 6; k2++) { const a = k2 / 6 * Math.PI * 2; ctx.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr * 0.62); } ctx.stroke(); ctx.restore(); }
+      lpTag(ctx, x, y + 92, 'agua ≈ 1 cP', { k: fadeWin(7.15, 7.45, 7.6, 7.95), font: '700 28px "Space Grotesk"' });
+      // verdict: cold = no flow (wrong), hot = flows (right)
+      const g = pr(GEM), gr = sz(g, 4.2);
+      if (t < 5.75) { hexBadge(ctx, g[0] + gr * 1.05, g[1] - gr * 0.6, BK(4.4, 4.7) * (1 - E(5.5, 5.75)), false); lpTag(ctx, g[0], g[1] + gr * 1.75, 'no fluye', { k: BK(4.5, 4.8) * (1 - E(5.5, 5.75)), bg: '#ff5a4a', col: '#fff' }); }
+      else { hexBadge(ctx, g[0] + gr * 1.05, g[1] - gr * 0.6, fadeWin(7.0, 7.3, 7.6, 7.95), true); lpTag(ctx, g[0], g[1] + gr * 1.75, 'fluye', { k: fadeWin(7.05, 7.35, 7.6, 7.95), bg: '#3ccf9a', col: '#fff' }); }
+      // heat ribbon into the drop
+      if (t > 5.3) { const a = [g[0] - gr * 2.9, g[1] + gr * 1.0], b = [g[0] - gr * 1.0, g[1] + gr * 0.1]; lpArrow(ctx, a, [a[0] + 40, b[1] - 6], b, E(5.3, 5.9) * (1 - E(7.6, 7.95)), CORAL, 13); lpTag(ctx, a[0], a[1] + 40, 'calor', { k: fadeWin(5.5, 5.8, 7.6, 7.95), bg: '#ff7060', col: '#fff' }); }
+    }
+    // beat 4 — five methods
+    const METHODS = ['1 · Inyección continua de vapor', '2 · Estimulación cíclica (huff & puff)', '3 · SAGD: drenaje por gravedad con vapor', '4 · Combustión in situ', '5 · Agua caliente'];
+    const LIST_Y = (i) => 196 + i * 78;
+    if (t > 8.1 && t < 11.3) {
+      METHODS.forEach((m, i) => {
+        if (i === 0) return; // item 1 is drawn below (it becomes the chapter tag)
+        const k = BK(8.3 + i * 0.32, 8.62 + i * 0.32) * (1 - E(10.4, 10.8));
+        if (k <= 0) return;
+        const w = lpTagL(ctx, 56, LIST_Y(i), m, { k, font: '700 30px "Space Grotesk"', bg: i === 4 ? '#e4dcea' : '#fff6f0', col: i === 4 ? '#6a5f80' : INK });
+        if (i === 4) lpTagL(ctx, 56 + w * k + 16, LIST_Y(i), 'menos eficiente', { k: BK(9.95, 10.25) * (1 - E(10.4, 10.8)), bg: '#ff5a4a', col: '#fff' });
+      });
+    }
+    // chapter tags (top-left, under the header)
+    const CH_Y = 128;
+    {
+      const chap = (a, b, text, o = {}) => { if (t < a || t > b + 0.4) return; lpTagL(ctx, 48, CH_Y, text, { k: BK(a, a + 0.3) * (1 - E(b, b + 0.35)), font: '700 30px "Space Grotesk"', ...o }); };
+      chap(2.6, 5.1, 'El problema');
+      chap(5.25, 7.7, 'La solución: calentar', { bg: '#ff7060', col: '#fff' });
+      chap(7.95, 10.5, 'Cinco métodos');
+      // item 1 of the list flies up and becomes the chapter tag of beats 5-6
+      if (t > 8.3 && t < 17.95) {
+        const fly = E(10.45, 11.05), y = H.lerp(LIST_Y(0), CH_Y, fly);
+        lpTagL(ctx, 56 - 8 * fly, y, METHODS[0], { k: BK(8.3, 8.62) * (1 - E(17.4, 17.75)), font: '700 30px "Space Grotesk"', bg: fly > 0.5 ? '#ff7060' : '#fff6f0', col: fly > 0.5 ? '#fff' : INK });
+      }
+      chap(17.75, 21.0, '3 · SAGD', { bg: '#ff7060', col: '#fff' });
+      if (t > 17.9 && t < 21.4) lpTagL(ctx, 48, CH_Y + 62, 'drenaje por gravedad asistido por vapor', { k: BK(17.95, 18.25) * (1 - E(21.0, 21.35)) });
+      chap(21.35, 24.6, '4 · Combustión in situ', { bg: '#ff7060', col: '#fff' });
+    }
+    // beat 5 — surface: water -> boiler -> steam -> injector
+    if (t > 11.0 && t < 14.6) {
+      const out = 1 - E(14.2, 14.6);
+      const tank = pr([-22, 11, 10]), boil = pr([-9, 9, 9]), stack = pr([-7, 15.5, 10]), wh = pr([0, 6.5, -1.2]);
+      const tb = pr([-22, 2, 5.5]); lpTag(ctx, tb[0] - 30, tb[1] + 44, 'agua tratada', { k: BK(11.2, 11.5) * out });
+      const a1 = pr([-18.6, 6, 9]), b1 = pr([-13.2, 6.5, 8]);
+      lpArrow(ctx, a1, [(a1[0] + b1[0]) / 2, Math.min(a1[1], b1[1]) - 40], b1, E(11.5, 12.0) * out, [150, 200, 240], 11);
+      lpTag(ctx, boil[0] + 10, boil[1] + 120, 'caldera', { k: BK(11.9, 12.2) * out, bg: '#ff7060', col: '#fff' });
+      const a2 = pr([-4, 8.5, 8]), b2 = pr([0, 7.5, -1.2]);
+      lpArrow(ctx, a2, [(a2[0] + b2[0]) / 2 + 30, Math.min(a2[1], b2[1]) - 70], b2, E(12.3, 12.95) * out, [255, 246, 240], 12);
+      lpTag(ctx, (a2[0] + b2[0]) / 2 + 40, Math.min(a2[1], b2[1]) - 92, 'vapor a alta presión', { k: BK(12.6, 12.9) * out });
+      lpTag(ctx, wh[0] + 90, wh[1] + 70, 'inyector', { k: BK(13.0, 13.3) * out, bg: INK, col: '#fff' });
+      void stack;
+    }
+    // beat 6 — down the well, heat to the crude, crude to producers and up
+    if (t > 13.9 && t < 17.9) {
+      const out = 1 - E(17.45, 17.8);
+      const top = pr([2.5, 3, -1.2]), bot = pr([2.5, -22, -1.2]);
+      lpArrow(ctx, [top[0] + 26, top[1]], [top[0] + 36, (top[1] + bot[1]) / 2], [bot[0] + 26, bot[1]], E(14.0, 14.8) * out, [255, 246, 240], 12);
+      const hz = pr([0, -20, -1]); lpTag(ctx, hz[0], hz[1] - 6, 'cede su calor al crudo', { k: BK(15.0, 15.3) * out, bg: '#ff7060', col: '#fff' });
+      for (const sd of [-1, 1]) { const a = pr([sd * 9, -30, -1]), b = pr([sd * 21, -30, -1]); lpArrow(ctx, a, [(a[0] + b[0]) / 2, a[1] + 26], b, E(15.5, 16.1) * out, [230, 140, 70], 12); }
+      const cm = pr([0, -35.5, -1]); lpTag(ctx, cm[0], cm[1], 'crudo móvil', { k: BK(15.8, 16.1) * out });
+      for (const sd of [-1, 1]) { const p = pr([sd * 24, -36, -1.2]); lpTag(ctx, p[0] + sd * 40, p[1], 'productor', { k: BK(16.0 + (sd + 1) * 0.08, 16.3 + (sd + 1) * 0.08) * out, bg: INK, col: '#fff' }); }
+      const ua = pr([27.5, -20, -1.2]), ub = pr([27.5, 4, -1.2]);
+      lpArrow(ctx, ua, [ua[0] + 12, (ua[1] + ub[1]) / 2], ub, E(16.4, 17.05) * out, [230, 140, 70], 12);
+      const pl = pr([33, 9, 6]); lpTag(ctx, pl[0], Math.max(150, pl[1] - 20), 'a la planta', { k: BK(16.9, 17.2) * out });
+    }
+    // beat 7 — SAGD
+    if (t > 18.2 && t < 21.5) {
+      const out = 1 - E(21.0, 21.35);
+      const pi = pr([0, -27.2, -7]), pp = pr([0, -31, -7]);
+      lpTag(ctx, pi[0] - 150, pi[1] - 4, 'inyector', { k: BK(18.35, 18.65) * out, bg: '#ff7060', col: '#fff' });
+      lpTag(ctx, pp[0] - 150, pp[1] + 24, 'productor', { k: BK(18.5, 18.8) * out, bg: '#4d9da5', col: '#fff' });
+      const s = sagdS(t), C = sagdChamber(s);
+      const ch = pr([0, (C.top - 27) / 2 + 0.5, -0.5]);
+      if (t > 19.4) lpTag(ctx, ch[0] - 140, ch[1] - 6, 'cámara de vapor', { k: BK(19.4, 19.7) * out });
+      // light steam rises, heavy crude drains
+      const va = pr([0, -26, -1]), vb = pr([0, C.top - 0.2, -1]);
+      if (t > 19.0) lpArrow(ctx, [va[0] + 60, va[1]], [va[0] + 70, (va[1] + vb[1]) / 2], [vb[0] + 60, vb[1] + 10], E(19.0, 19.6) * out, [255, 246, 240], 11);
+      if (t > 19.7) lpTag(ctx, vb[0] + 250, vb[1] - 40, 'vapor liviano ↑', { k: BK(19.7, 20.0) * out });
+      for (const sd of [-1, 1]) { const hw = (C.top - 0.6 + 28.6) * C.k + 1.4, a = pr([sd * hw, C.top - 0.6, -1]), b = pr([sd * 2, -30.4, -1]); lpArrow(ctx, a, [(a[0] + b[0]) / 2 + sd * 30, (a[1] + b[1]) / 2 + 10], b, E(20.0, 20.6) * out, [230, 140, 70], 11); }
+      const ob = pr([12, -33.6, -1]); lpTag(ctx, ob[0] + 60, ob[1], 'crudo pesado ↓ por gravedad', { k: BK(20.3, 20.6) * out });
+    }
+    // beat 8 — in-situ combustion
+    if (t > 21.8 && t < 25.2) {
+      const out = 1 - E(24.6, 24.95);
+      const ai = pr([-24, 6.5, -1.2]); lpTag(ctx, ai[0], ai[1] - 40, 'aire', { k: BK(21.9, 22.2) * out, bg: '#b0cefa', col: INK });
+      const xf = combXf(t), fp = pr([xf - 1, -21, -1]);
+      lpTag(ctx, fp[0], fp[1] - 24, 'frente de fuego', { k: BK(22.4, 22.7) * out, bg: '#ff7060', col: '#fff' });
+      const ob = pr([xf + 9.5, -33.6, -1]); lpTag(ctx, ob[0], ob[1] + 4, 'crudo empujado', { k: BK(23.0, 23.3) * out });
+      const a = pr([xf + 4, -27, -1]), b = pr([21, -27, -1]);
+      if (t > 23.2) lpArrow(ctx, a, [(a[0] + b[0]) / 2, a[1] - 24], b, E(23.2, 23.7) * out, [230, 140, 70], 12);
+      const pp = pr([24, 6.5, -1.2]); lpTag(ctx, pp[0], pp[1] - 40, 'productor', { k: BK(23.6, 23.9) * out, bg: INK, col: '#fff' });
+      const bz = pr([-19, -21, -1]); lpTag(ctx, bz[0], bz[1] - 24, 'zona quemada', { k: BK(24.0, 24.3) * out, font: '700 28px "Space Grotesk"', bg: '#e4dcea', col: '#6a5f80' });
+    }
+
+    // ---------- hook -> header ----------
+    {
+      const sh = E(1.35, 2.3), a = EO(0.1, 0.6);
+      const size = H.lerp(76, 32, sh);
+      ctx.save(); ctx.globalAlpha = a; ctx.font = `700 ${size}px "Space Grotesk"`;
+      const title = 'EOR térmico', w = ctx.measureText(title).width;
+      const x = H.lerp(640 - w / 2, 48, sh), y = H.lerp(250, 66, sh) + (1 - a) * 24;
+      if (sh > 0) { ctx.save(); ctx.globalAlpha = a * sh; ctx.translate(x - 16, y - size * 1.05); const pw = w + 32, phh = size * 1.75, c2 = 12; ctx.fillStyle = 'rgba(42,31,79,0.82)'; ctx.beginPath(); ctx.moveTo(c2, 0); ctx.lineTo(pw, 0); ctx.lineTo(pw, phh - c2); ctx.lineTo(pw - c2, phh); ctx.lineTo(0, phh); ctx.lineTo(0, c2); ctx.closePath(); ctx.fill(); ctx.restore(); }
+      ctx.fillStyle = 'rgba(30,20,60,0.35)'; ctx.fillText(title, x + 3, y + 3);
+      ctx.fillStyle = '#ffffff'; ctx.fillText(title, x, y);
+      const uw = H.lerp(300, 120, sh), uy = y + size * 0.3;
+      ctx.fillStyle = '#ff7060'; ctx.beginPath(); ctx.moveTo(x + 2, uy); ctx.lineTo(x + 2 + uw * 0.78, uy); ctx.lineTo(x + uw * 0.72, uy + size * 0.12); ctx.lineTo(x + 2, uy + size * 0.12); ctx.fill();
+      ctx.fillStyle = '#ffb08a'; ctx.beginPath(); ctx.moveTo(x + 2 + uw * 0.78, uy); ctx.lineTo(x + uw, uy); ctx.lineTo(x + uw * 0.94, uy + size * 0.12); ctx.lineTo(x + uw * 0.72, uy + size * 0.12); ctx.fill();
+      // subline: the question, gone as the title shrinks
+      const qa = EO(0.35, 0.85) * (1 - E(1.3, 1.7));
+      if (qa > 0) { ctx.globalAlpha = qa; ctx.font = '700 46px "Space Grotesk"'; const q = '¿Cómo mover un crudo que no fluye?', qw = ctx.measureText(q).width; ctx.fillStyle = 'rgba(30,20,60,0.35)'; ctx.fillText(q, 640 - qw / 2 + 3, 340 + 3 + (1 - qa) * 16); ctx.fillStyle = '#fff6f0'; ctx.fillText(q, 640 - qw / 2, 340 + (1 - qa) * 16); }
+      ctx.restore();
+    }
+    // ---------- takeaway ----------
+    if (t > 25.4) {
+      const kk = H.ease.back(P(25.4, 25.85));
+      ctx.save(); ctx.translate(640, 610); ctx.scale(kk, kk);
+      lpTag(ctx, 0, 0, 'Más calor → menos viscosidad → más crudo', { font: '700 46px "Space Grotesk"', h: 84 });
+      ctx.restore();
+    }
+  }
+
+  window.DURATION = DURATION;
+  window.explainer = explainer;
+  window.EOR = { DURATION, lpTag, lpArrow };
+})();
+</script>
+<script>
+const BEATS = [
+  { n: 1, title: 'Gancho', t0: 0, t1: 2.3, key: 1.0, kind: 'scene', how: 'Apertura. Las facetas del bloque giran y aparecen desde la cámara hacia el horizonte; la planta y los pozos saltan a su sitio. El título se encoge hacia la esquina y queda como encabezado fijo.', text: ['EOR térmico', '¿Cómo mover un crudo que no fluye?'], sound: 'Acorde de cristal al aparecer el título; ráfaga de aire facetada cuando la cámara empieza a bajar; cama de “valle” (aire + pad suave) de fondo.' },
+  { n: 2, title: 'El problema', t0: 2.3, t1: 5.2, key: 4.75, kind: 'cont', how: 'Continuo: la cámara se lanza hacia la cara de corte hasta el yacimiento. Una gota de crudo facetada (oscura) surge frente al yacimiento con una lupa que la une a la capa. El contador de viscosidad salta a escena.', text: ['El problema', 'yacimiento', 'crudo pesado', 'viscosidad', '10 000 cP', 'no fluye ✕'], sound: 'Ráfaga de vuelo; golpe seco facetado por cada etiqueta; tono de cristal grave al aparecer la gota; sonido de error con la ✕ roja.' },
+  { n: 3, title: 'La solución: calentar', t0: 5.2, t1: 7.9, key: 7.25, kind: 'cont', how: 'Continuo: misma toma. Una cinta coral “calor” entra en la gota; sus facetas pasan de negro a ámbar y gotea. El contador baja de 10 000 a 10 cP y la etiqueta se vuelve coral con un anillo hexagonal (momento clave).', text: ['La solución: calentar', 'calor', '10 cP', 'fluye ✓', 'agua ≈ 1 cP'], sound: 'Siseo cálido mientras la cinta se dibuja; ticks del contador (máx. 12/s, frenando); GOLPE principal + acorde de cristal al llegar a 10 cP; “success” con la ✓.' },
+  { n: 4, title: 'Cinco métodos', t0: 7.9, t1: 10.8, key: 10.15, kind: 'cont', how: 'Continuo: la gota se encoge y la cámara sube sobre la meseta de la planta. Las cinco etiquetas caen una a una en columna; la 5 queda atenuada y recibe “menos eficiente”. Al final la 1 vuela a la esquina y se vuelve el subtítulo del siguiente beat.', text: ['Cinco métodos', '1 · Inyección continua de vapor', '2 · Estimulación cíclica (huff & puff)', '3 · SAGD: drenaje por gravedad con vapor', '4 · Combustión in situ', '5 · Agua caliente', 'menos eficiente'], sound: 'Ráfaga ascendente; cinco golpes facetados con tono que sube; el quinto más apagado y un “error” suave en “menos eficiente”; barrido corto cuando la 1 vuela.' },
+  { n: 5, title: 'En superficie', t0: 10.8, t1: 13.8, key: 13.45, kind: 'cont', how: 'Continuo: la cámara baja hasta la planta. Se enciende el brillo de la caldera. Flecha azul del tanque a la caldera; flecha blanca de vapor de la caldera a la cabeza del inyector; etiquetas sobre cada objeto.', text: ['1 · Inyección continua de vapor', 'agua tratada', 'caldera', 'vapor a alta presión', 'inyector'], sound: 'Encendido grave de la caldera (rumor bajo); flujo de agua en la primera flecha; siseo de vapor que crece con la segunda; golpes facetados por etiqueta.' },
+  { n: 6, title: 'Bajo tierra', t0: 13.8, t1: 17.6, key: 16.9, kind: 'cont', how: 'Continuo: la cámara retrocede y baja para ver todo el corte, de la superficie al yacimiento. Bocanadas de vapor bajan por el inyector; las facetas del yacimiento se calientan (blanco → ámbar, más ancho arriba). Gotas de crudo móvil viajan a los productores y suben a la planta.', text: ['cede su calor al crudo', 'crudo móvil', 'productor', 'a la planta'], sound: 'Siseo de vapor bajando (filtro que cae); cristal cálido cuando la zona se calienta; burbujeo suave de gotas; golpe facetado por etiqueta; tono que sube con la flecha hacia la planta.' },
+  { n: 7, title: 'SAGD', t0: 17.6, t1: 21.2, key: 20.5, kind: 'scene', how: 'Cambio de escena a la manera del medio: las facetas de la cara de corte giran en ola de izquierda a derecha y se recomponen con la nueva geometría; los pozos verticales se adelgazan y aparecen dos pozos horizontales vistos de frente. La cámara se acerca. Se usa un cambio porque es otra configuración de pozos.', text: ['3 · SAGD', 'drenaje por gravedad asistido por vapor', 'inyector', 'productor', 'cámara de vapor', 'vapor liviano ↑', 'crudo pesado ↓ por gravedad'], sound: 'Cascada de clics facetados mientras giran las facetas; vapor que sube (filtro ascendente); gotas que caen con tono descendente; golpes por etiqueta.' },
+  { n: 8, title: 'Combustión in situ', t0: 21.2, t1: 24.8, key: 24.3, kind: 'scene', how: 'Cambio de escena igual que el anterior (segundo giro de facetas), porque el calor ahora se genera dentro de la roca. Aire baja por el inyector, se enciende el frente de llamas facetadas y avanza hacia el productor dejando atrás la zona quemada y empujando un banco de crudo oscuro.', text: ['4 · Combustión in situ', 'aire', 'frente de fuego', 'crudo empujado', 'productor', 'zona quemada'], sound: 'Clics del giro de facetas; soplo de aire; ignición (golpe + crepitar de llamas en bucle bajo); empuje grave mientras avanza el frente.' },
+  { n: 9, title: 'Cierre', t0: 24.8, t1: 27.5, key: 26.7, kind: 'cont', how: 'Continuo: la cámara se aleja hasta el plano general del diorama (el mismo del gancho, ahora con el frente de fuego aún encendido) y aterriza la conclusión, que se sostiene ~1,5 s.', text: ['Más calor → menos viscosidad → más crudo'], sound: 'Ráfaga de alejamiento; golpe facetado + acorde de cristal que resuelve en la tónica; el pad cierra.' },
+];
+const fmt = (t) => t.toFixed(1).replace('.', ',') + ' s';
+const grid = document.getElementById('grid');
+for (const b of BEATS) {
+  const el = document.createElement('article'); el.className = 'beat';
+  el.innerHTML = `<div class="frame"><canvas width="1280" height="720" aria-label="Fotograma clave del beat ${b.n}, t = ${fmt(b.key)}"></canvas><span class="num">${b.n}</span></div>
+  <div class="head"><h2>${b.n}. ${b.title}</h2><span class="tc">${fmt(b.t0)} → ${fmt(b.t1)} · cuadro en ${fmt(b.key)}</span></div>
+  <dl>
+    <dt>Texto</dt><dd class="txt">${b.text.map(s => `<q>${s.replace(/&/g, '&amp;')}</q>`).join('')}</dd>
+    <dt>Transición</dt><dd><span class="tag-cut ${b.kind === 'scene' ? 'scene' : ''}">${b.kind === 'scene' ? (b.n === 1 ? 'Apertura' : 'Cambio de escena') : 'Continuo'}</span><br>${b.how}</dd>
+    <dt>Sonido</dt><dd>${b.sound}</dd>
+  </dl>`;
+  grid.appendChild(el);
+  b.canvas = el.querySelector('canvas');
+}
+(async () => {
+  try { await Promise.all(['700 30px "Space Grotesk"', '400 16px "Space Grotesk"'].map(f => document.fonts.load(f, 'AaZz09¿ñé→'))); } catch (e) {}
+  for (const b of BEATS) { const ctx = b.canvas.getContext('2d'); explainer(ctx, 1280, 720, b.key); await new Promise(r => setTimeout(r, 0)); }
+})();
+</script>

@@ -1,0 +1,99 @@
+<title>EOR térmico · Storyboard</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@500&display=block">
+<style>
+/* Layout: a contact sheet of key frames, two columns on desktop, one on phones; notes sit under each frame like a shot list. */
+:root {
+  --bg: #17142e; --panel: #221d41; --line: #3a3266; --fg: #f4ecf4; --muted: #b8aed0;
+  --coral: #ff7060; --teal: #60c4ce; --sand: #ffb08a;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font: 15px/1.55 var(--body); }
+.wrap { max-width: 1320px; margin: 0 auto; padding-block: 40px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { display: grid; gap: 10px; margin-bottom: 28px; }
+.eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--sand); }
+h1 { font: 700 clamp(30px, 5vw, 52px)/1.05 var(--display); margin: 0; text-wrap: balance; }
+.lede { color: var(--muted); max-width: 70ch; margin: 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font: 500 13px var(--mono); color: var(--muted); }
+.meta b { color: var(--fg); font-weight: 500; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 24px; }
+@media (max-width: 860px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+.beat { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; min-width: 0; }
+.frame { position: relative; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; overflow: hidden; background: #0d0b1c; clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px); }
+.frame canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; }
+.num { position: absolute; right: 10px; top: 10px; font: 700 13px var(--mono); background: var(--coral); color: #fff; padding: 4px 8px; clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px); }
+.head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.head h2 { font: 700 21px/1.2 var(--display); margin: 0; }
+.tc { font: 500 13px var(--mono); color: var(--sand); white-space: nowrap; }
+dl { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 6px 14px; margin: 0; font-size: 14px; }
+dt { font: 500 11px/1.9 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+dd { margin: 0; min-width: 0; }
+.txt q { quotes: none; font-family: var(--display); font-weight: 700; background: #fff6f0; color: #2a1f4f; padding: 1px 7px; margin: 0 4px 4px 0; display: inline-block; font-size: 13px; }
+.tag-cut { font-family: var(--mono); font-size: 11px; color: var(--teal); text-transform: uppercase; letter-spacing: .06em; }
+.tag-cut.scene { color: var(--coral); }
+@media (max-width: 520px) { dl { grid-template-columns: minmax(0, 1fr); } dt { line-height: 1.2; } }
+section.assume { margin-top: 44px; border-top: 1px solid var(--line); padding-top: 24px; display: grid; gap: 14px; }
+section.assume h2 { font: 700 26px var(--display); margin: 0; }
+section.assume ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; max-width: 90ch; }
+section.assume li::marker { color: var(--coral); }
+.ask { background: var(--panel); padding: 16px 18px; max-width: 90ch; clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px); }
+code { font-family: var(--mono); font-size: .92em; color: var(--sand); }
+</style>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Storyboard · estilo Low-Poly Faceted</span>
+    <h1>EOR térmico: del crudo que no fluye a la planta</h1>
+    <p class="lede">Un solo diorama facetado al amanecer: la planta en superficie y el yacimiento expuesto en la cara de corte del bloque. La cámara vuela entre las dos zonas; cuando cambia el método, las facetas del corte giran y se recomponen. Cada cuadro de abajo es un fotograma clave dibujado con el mismo código que usará la animación final.</p>
+    <div class="meta"><span>Duración <b>27,5 s</b></span><span>Lienzo <b>1280 × 720</b></span><span>Fuente <b>Space Grotesk</b></span><span>Sonido <b>sin voz, mezcla completa</b></span></div>
+  </header>
+  <div class="grid" id="grid"></div>
+  <section class="assume">
+    <h2>Datos y supuestos que tuve que asumir</h2>
+    <ul>
+      <li><b>Viscosidad 10 000 cP → 10 cP.</b> Valores ilustrativos de un crudo pesado típico al calentarlo de la temperatura de yacimiento a unos 200 °C. cP = centipoise, la unidad de viscosidad; el agua tiene ≈ 1 cP. El bitumen real puede superar 1 000 000 cP, así que el número es un ejemplo, no un caso de campo.</li>
+      <li><b>Escala vertical y espaciamiento de pozos no están a escala.</b> El yacimiento se dibuja como una capa de arena con crudo bajo un sello de lutita (roca impermeable). Inyector y productores separados a la vista, no a distancia real.</li>
+      <li><b>Inyección continua:</b> la zona caliente se dibuja más ancha arriba que abajo porque el vapor, más liviano, tiende a subir (segregación gravitacional, la llamada <i>steam override</i>).</li>
+      <li><b>SAGD:</b> los dos pozos horizontales se ven de frente (salen de la cara de corte). El productor queda unos metros por debajo del inyector; en campo suele ser ≈ 5 m. La cámara de vapor se dibuja como una cuña invertida que sube hasta el sello y luego se ensancha.</li>
+      <li><b>Combustión in situ:</b> asumo combustión directa (el frente avanza del inyector de aire hacia el productor). Zonas mostradas: quemada, frente de fuego, vapor y crudo liviano, banco de crudo. El frente va un poco inclinado porque el aire tiende a correr por arriba.</li>
+      <li><b>Estimulación cíclica (huff &amp; puff) y agua caliente</b> solo aparecen nombradas en la lista de cinco métodos, sin animación propia, para mantener la pieza en 27,5 s. El agua caliente va atenuada con la etiqueta “menos eficiente”, como dice tu texto.</li>
+      <li><b>Superficie:</b> el “agua tratada” es un tanque; la “planta” es una pequeña instalación de separación junto a la línea de flujo del productor.</li>
+      <li><b>Código de color:</b> coral = inyector y calor, turquesa = productor, azul claro = aire, ámbar = crudo ya móvil, marrón oscuro = crudo frío.</li>
+    </ul>
+    <p class="ask"><b>Para seguir:</b> dime “OK” y construyo la animación completa con sonido tal cual este guion. Si quieres cambios (por ejemplo, darle su propio beat de ~3 s a la estimulación cíclica, otros valores de viscosidad o un texto distinto), indícalos y los ajusto antes.</p>
+  </section>
+</div>
+<script>/*LIBS*/</script>
+<script>
+const BEATS = [
+  { n: 1, title: 'Gancho', t0: 0, t1: 2.3, key: 1.0, kind: 'scene', how: 'Apertura. Las facetas del bloque giran y aparecen desde la cámara hacia el horizonte; la planta y los pozos saltan a su sitio. El título se encoge hacia la esquina y queda como encabezado fijo.', text: ['EOR térmico', '¿Cómo mover un crudo que no fluye?'], sound: 'Acorde de cristal al aparecer el título; ráfaga de aire facetada cuando la cámara empieza a bajar; cama de “valle” (aire + pad suave) de fondo.' },
+  { n: 2, title: 'El problema', t0: 2.3, t1: 5.2, key: 4.75, kind: 'cont', how: 'Continuo: la cámara se lanza hacia la cara de corte hasta el yacimiento. Una gota de crudo facetada (oscura) surge frente al yacimiento con una lupa que la une a la capa. El contador de viscosidad salta a escena.', text: ['El problema', 'yacimiento', 'crudo pesado', 'viscosidad', '10 000 cP', 'no fluye ✕'], sound: 'Ráfaga de vuelo; golpe seco facetado por cada etiqueta; tono de cristal grave al aparecer la gota; sonido de error con la ✕ roja.' },
+  { n: 3, title: 'La solución: calentar', t0: 5.2, t1: 7.9, key: 7.25, kind: 'cont', how: 'Continuo: misma toma. Una cinta coral “calor” entra en la gota; sus facetas pasan de negro a ámbar y gotea. El contador baja de 10 000 a 10 cP y la etiqueta se vuelve coral con un anillo hexagonal (momento clave).', text: ['La solución: calentar', 'calor', '10 cP', 'fluye ✓', 'agua ≈ 1 cP'], sound: 'Siseo cálido mientras la cinta se dibuja; ticks del contador (máx. 12/s, frenando); GOLPE principal + acorde de cristal al llegar a 10 cP; “success” con la ✓.' },
+  { n: 4, title: 'Cinco métodos', t0: 7.9, t1: 10.8, key: 10.15, kind: 'cont', how: 'Continuo: la gota se encoge y la cámara sube sobre la meseta de la planta. Las cinco etiquetas caen una a una en columna; la 5 queda atenuada y recibe “menos eficiente”. Al final la 1 vuela a la esquina y se vuelve el subtítulo del siguiente beat.', text: ['Cinco métodos', '1 · Inyección continua de vapor', '2 · Estimulación cíclica (huff & puff)', '3 · SAGD: drenaje por gravedad con vapor', '4 · Combustión in situ', '5 · Agua caliente', 'menos eficiente'], sound: 'Ráfaga ascendente; cinco golpes facetados con tono que sube; el quinto más apagado y un “error” suave en “menos eficiente”; barrido corto cuando la 1 vuela.' },
+  { n: 5, title: 'En superficie', t0: 10.8, t1: 13.8, key: 13.45, kind: 'cont', how: 'Continuo: la cámara baja hasta la planta. Se enciende el brillo de la caldera. Flecha azul del tanque a la caldera; flecha blanca de vapor de la caldera a la cabeza del inyector; etiquetas sobre cada objeto.', text: ['1 · Inyección continua de vapor', 'agua tratada', 'caldera', 'vapor a alta presión', 'inyector'], sound: 'Encendido grave de la caldera (rumor bajo); flujo de agua en la primera flecha; siseo de vapor que crece con la segunda; golpes facetados por etiqueta.' },
+  { n: 6, title: 'Bajo tierra', t0: 13.8, t1: 17.6, key: 16.9, kind: 'cont', how: 'Continuo: la cámara retrocede y baja para ver todo el corte, de la superficie al yacimiento. Bocanadas de vapor bajan por el inyector; las facetas del yacimiento se calientan (blanco → ámbar, más ancho arriba). Gotas de crudo móvil viajan a los productores y suben a la planta.', text: ['cede su calor al crudo', 'crudo móvil', 'productor', 'a la planta'], sound: 'Siseo de vapor bajando (filtro que cae); cristal cálido cuando la zona se calienta; burbujeo suave de gotas; golpe facetado por etiqueta; tono que sube con la flecha hacia la planta.' },
+  { n: 7, title: 'SAGD', t0: 17.6, t1: 21.2, key: 20.5, kind: 'scene', how: 'Cambio de escena a la manera del medio: las facetas de la cara de corte giran en ola de izquierda a derecha y se recomponen con la nueva geometría; los pozos verticales se adelgazan y aparecen dos pozos horizontales vistos de frente. La cámara se acerca. Se usa un cambio porque es otra configuración de pozos.', text: ['3 · SAGD', 'drenaje por gravedad asistido por vapor', 'inyector', 'productor', 'cámara de vapor', 'vapor liviano ↑', 'crudo pesado ↓ por gravedad'], sound: 'Cascada de clics facetados mientras giran las facetas; vapor que sube (filtro ascendente); gotas que caen con tono descendente; golpes por etiqueta.' },
+  { n: 8, title: 'Combustión in situ', t0: 21.2, t1: 24.8, key: 24.3, kind: 'scene', how: 'Cambio de escena igual que el anterior (segundo giro de facetas), porque el calor ahora se genera dentro de la roca. Aire baja por el inyector, se enciende el frente de llamas facetadas y avanza hacia el productor dejando atrás la zona quemada y empujando un banco de crudo oscuro.', text: ['4 · Combustión in situ', 'aire', 'frente de fuego', 'crudo empujado', 'productor', 'zona quemada'], sound: 'Clics del giro de facetas; soplo de aire; ignición (golpe + crepitar de llamas en bucle bajo); empuje grave mientras avanza el frente.' },
+  { n: 9, title: 'Cierre', t0: 24.8, t1: 27.5, key: 26.7, kind: 'cont', how: 'Continuo: la cámara se aleja hasta el plano general del diorama (el mismo del gancho, ahora con el frente de fuego aún encendido) y aterriza la conclusión, que se sostiene ~1,5 s.', text: ['Más calor → menos viscosidad → más crudo'], sound: 'Ráfaga de alejamiento; golpe facetado + acorde de cristal que resuelve en la tónica; el pad cierra.' },
+];
+const fmt = (t) => t.toFixed(1).replace('.', ',') + ' s';
+const grid = document.getElementById('grid');
+for (const b of BEATS) {
+  const el = document.createElement('article'); el.className = 'beat';
+  el.innerHTML = `<div class="frame"><canvas width="1280" height="720" aria-label="Fotograma clave del beat ${b.n}, t = ${fmt(b.key)}"></canvas><span class="num">${b.n}</span></div>
+  <div class="head"><h2>${b.n}. ${b.title}</h2><span class="tc">${fmt(b.t0)} → ${fmt(b.t1)} · cuadro en ${fmt(b.key)}</span></div>
+  <dl>
+    <dt>Texto</dt><dd class="txt">${b.text.map(s => `<q>${s.replace(/&/g, '&amp;')}</q>`).join('')}</dd>
+    <dt>Transición</dt><dd><span class="tag-cut ${b.kind === 'scene' ? 'scene' : ''}">${b.kind === 'scene' ? (b.n === 1 ? 'Apertura' : 'Cambio de escena') : 'Continuo'}</span><br>${b.how}</dd>
+    <dt>Sonido</dt><dd>${b.sound}</dd>
+  </dl>`;
+  grid.appendChild(el);
+  b.canvas = el.querySelector('canvas');
+}
+(async () => {
+  try { await Promise.all(['700 30px "Space Grotesk"', '400 16px "Space Grotesk"'].map(f => document.fonts.load(f, 'AaZz09¿ñé→'))); } catch (e) {}
+  for (const b of BEATS) { const ctx = b.canvas.getContext('2d'); explainer(ctx, 1280, 720, b.key); await new Promise(r => setTimeout(r, 0)); }
+})();
+</script>
