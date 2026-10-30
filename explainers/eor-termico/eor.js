@@ -1,8 +1,15 @@
 // EOR térmico — explainer in the "Low-Poly Faceted" style.
 // One faceted block diorama at dawn: surface plant on top, the reservoir exposed on the cut face.
-// Every frame is a pure function of t: explainer(ctx, 1280, 720, t).
+// Vertical 9:16 for Reels / TikTok / Shorts. Every frame is a pure function of t: explainer(ctx, 1080, 1920, t).
 (function () {
   const DURATION = 32.5;
+  // Safe zone (general platform margins): text and key graphics stay clear of the top header (250 px),
+  // the caption + music bar at the bottom (450 px) and the button column on the right (150 px).
+  const FW = 1080, FH = 1920;
+  const SAFE = { left: 60, right: 930, top: 250, bottom: 1470 };
+  const SCX = (SAFE.left + SAFE.right) / 2, SCY = (SAFE.top + SAFE.bottom) / 2;
+  const FOC = 1000; // focal length in px; the optical centre sits on the centre of the safe zone
+  const FONT = (px) => `700 ${px}px "Space Grotesk"`;
 
   // ---------- tiny 3D pipeline (from the reference) ----------
   const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
@@ -17,7 +24,7 @@
     const f = [[0, 11, 5], [0, 5, 1], [0, 1, 7], [0, 7, 10], [0, 10, 11], [1, 5, 9], [5, 11, 4], [11, 10, 2], [10, 7, 6], [7, 1, 8], [3, 9, 4], [3, 4, 2], [3, 2, 6], [3, 6, 8], [3, 8, 9], [4, 9, 5], [2, 4, 11], [6, 2, 10], [8, 6, 7], [9, 8, 1]];
     return { v, f };
   })();
-  function makeCamYaw(pos, yaw, pitch, f, W, Hh) {
+  function makeCamYaw(pos, yaw, pitch, f, ox, oy) {
     const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
     return {
       pos,
@@ -25,17 +32,21 @@
         const dx = p[0] - pos[0], dy = p[1] - pos[1], dz = p[2] - pos[2];
         const x1 = dx * cy - dz * sy, z1 = dx * sy + dz * cy;
         const y2 = dy * cp + z1 * sp, z2 = -dy * sp + z1 * cp;
-        return [W / 2 + (f * x1) / z2, Hh / 2 - (f * y2) / z2, z2];
+        return [ox + (f * x1) / z2, oy - (f * y2) / z2, z2];
       },
     };
   }
 
   // ---------- reference 2D pieces: cut-corner tag, two-tone ribbon arrow ----------
+  // tags never leave the safe zone: the centre is clamped so the whole box stays inside
   function lpTag(ctx, x, y, text, o = {}) {
     ctx.save();
-    ctx.font = o.font || '700 28px "Space Grotesk"';
-    const fsz = parseInt((ctx.font.match(/(\d+)px/) || [0, 28])[1]);
-    const w = ctx.measureText(text).width + fsz * 1.3, h = o.h || Math.round(fsz * 1.75), k = o.k ?? 1, ch = h * 0.32;
+    ctx.font = o.font || FONT(40);
+    const fsz = parseInt((ctx.font.match(/(\d+)px/) || [0, 40])[1]);
+    const w = ctx.measureText(text).width + fsz * 1.3, h = o.h || Math.round(fsz * 1.75), ch = h * 0.32;
+    const k = (o.k ?? 1) * Math.min(1, (SAFE.right - SAFE.left - 12) / w); // a tag never gets wider than the safe zone
+    const hw = (w / 2) * Math.max(k, 1) + 6, hh = (h / 2) * Math.max(k, 1) + 6;
+    x = H.clamp(x, SAFE.left + hw, SAFE.right - hw); y = H.clamp(y, SAFE.top + hh, SAFE.bottom - hh);
     ctx.translate(x, y); ctx.scale(k, k);
     const pts = [[-w / 2 + ch, -h / 2], [w / 2, -h / 2], [w / 2, h / 2 - ch], [w / 2 - ch, h / 2], [-w / 2, h / 2], [-w / 2, -h / 2 + ch]];
     ctx.fillStyle = o.shadow || 'rgba(40,20,70,0.35)'; ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0] + 4, p[1] + 4) : ctx.moveTo(p[0] + 4, p[1] + 4)); ctx.closePath(); ctx.fill();
@@ -47,8 +58,8 @@
   }
   // same tag, anchored by its left edge
   function lpTagL(ctx, x, y, text, o = {}) {
-    ctx.save(); ctx.font = o.font || '700 28px "Space Grotesk"';
-    const fsz = parseInt((ctx.font.match(/(\d+)px/) || [0, 28])[1]);
+    ctx.save(); ctx.font = o.font || FONT(40);
+    const fsz = parseInt((ctx.font.match(/(\d+)px/) || [0, 40])[1]);
     const w = ctx.measureText(text).width + fsz * 1.3; ctx.restore();
     lpTag(ctx, x + w / 2 * (o.k ?? 1), y, text, o);
     return w;
@@ -94,7 +105,7 @@
   const CORAL = [255, 112, 96], TEAL = [96, 196, 206], STEAM = [250, 236, 240];
   const COLD_OIL = [66, 46, 42], WARM_OIL = [206, 118, 58], HOT = [255, 214, 186];
   const WATER = -0.6;
-  const XB = 64, ZB = 140, YB = -48; // block: x in [-XB, XB], z in [0, ZB], floor at YB; the cut face is z = 0
+  const XB = 64, ZB = 140, YB = -124; // block: x in [-XB, XB], z in [0, ZB], floor at YB; the cut face is z = 0
 
   const nz = H.makeNoise(31);
   // ---------- world ----------
@@ -206,7 +217,7 @@
     }
     // cut face (z = 0): jittered grid from the floor to the terrain edge; coloured per frame
     {
-      const CX = 2.6, cols = Math.round(2 * XB / CX), rows = 17, G = [];
+      const CX = 2.6, cols = Math.round(2 * XB / CX), rows = 42, G = [];
       for (let i = 0; i <= cols; i++) {
         const x = -XB + i * CX + (i > 0 && i < cols ? jr.range(-0.35, 0.35) * CX : 0), top = height(x, 0), col = [];
         for (let r = 0; r <= rows; r++) { const y = r === rows ? top : YB + r * (top - YB) / rows + (r > 0 ? jr.range(-0.32, 0.32) * 2.5 : 0); col.push([x, y, 0]); }
@@ -220,7 +231,7 @@
     }
     // side walls x = ±XB (static strata)
     for (const sx of [-1, 1]) {
-      const CZ = 4, cols = Math.round(ZB / CZ), rows = 10, G = [];
+      const CZ = 4, cols = Math.round(ZB / CZ), rows = 22, G = [];
       for (let i = 0; i <= cols; i++) { const z = i * CZ, top = height(sx * XB, z), col = []; for (let r = 0; r <= rows; r++) col.push([sx * XB, r === rows ? top : YB + r * (top - YB) / rows + (r > 0 ? jr.range(-0.3, 0.3) * 3 : 0), z]); G.push(col); }
       for (let i = 0; i < cols; i++) for (let r = 0; r < rows; r++) {
         const a = G[i][r], b = G[i + 1][r], c = G[i][r + 1], d = G[i + 1][r + 1];
@@ -308,21 +319,21 @@
 
   // ---------- camera flight ----------
   const KF = [
-    [0, 0, 56, -98, 0, 0.42], [1.7, 0, 54, -94, 0, 0.42],
-    [3.3, -5, -18.5, -52, 0, 0.035], [7.6, -3, -18, -48, 0, 0.035],
-    [8.8, 10, 30, -46, 0.06, 0.5], [10.6, 8, 28, -42, 0.06, 0.5],
-    [11.7, -9, 19, -34, -0.02, 0.4], [13.7, -7, 18, -32, -0.02, 0.4],
-    [14.9, 2, -8, -64, 0, 0.12], [17.5, 2, -8.5, -66, 0, 0.12],
-    [18.4, 15, -11, -56, 0, 0.1], [22.3, 15, -11, -54, 0, 0.1],
-    [23.4, 8, -26, -30, -0.17, 0.0], [26.1, 8, -26, -29, -0.17, 0.0],
-    [27, 2, -21, -52, 0, 0.05], [29.7, 2, -21, -54, 0, 0.05],
-    [31, 0, 56, -98, 0, 0.42], [DURATION, 0, 55, -95, 0, 0.42],
+    [0, 0, 44, -80, 0, 0.42], [1.7, 0, 42, -76, 0, 0.42],
+    [3.3, -4, 1.2, -64, 0, 0], [7.6, -3.4, 1.2, -61, 0, 0],
+    [8.8, 8, 34, -50, 0.06, 0.62], [10.6, 6, 32, -46, 0.06, 0.62],
+    [11.7, -11, 13, -36, -0.02, 0.2], [13.7, -10.5, 12.5, -34, -0.02, 0.2],
+    [14.9, 0, 12, -64, 0, 0.22], [17.5, 0, 12, -66, 0, 0.22],
+    [18.4, 0, 2.8, -55, 0, 0], [22.3, 0, 2.8, -53, 0, 0],
+    [23.4, 7, -17.5, -42, -0.15, 0], [26.1, 7, -17.5, -41, -0.15, 0],
+    [27, 0, 10, -68, 0, 0.2], [29.7, 0, 10, -70, 0, 0.2],
+    [31, 0, 44, -80, 0, 0.42], [DURATION, 0, 42, -77, 0, 0.42],
   ];
   function camAt(t, W, H_) {
     let k = 0; while (k < KF.length - 2 && t > KF[k + 1][0]) k++;
     const A = KF[k], B = KF[k + 1], u = H.ease.inOut(H.clamp((t - A[0]) / (B[0] - A[0])));
     const L = (i) => H.lerp(A[i], B[i], u);
-    return makeCamYaw([L(1), L(2), L(3)], L(4), L(5), 760, W, H_);
+    return makeCamYaw([L(1), L(2), L(3)], L(4), L(5), FOC, SCX, SCY);
   }
 
   // ---------- shade, cull, project, sort, draw ----------
@@ -428,26 +439,26 @@
     sky.addColorStop(0, '#1b2350'); sky.addColorStop(0.38, '#4d3f84'); sky.addColorStop(0.7, '#c06a93'); sky.addColorStop(1, '#ffb08a');
     ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H_);
     const R0 = H.rng(77);
-    for (let i = 0; i < 90; i++) { const x = R0() * W, y = R0() * 160, a = (1 - y / 160) * R0() * 0.8; ctx.fillStyle = `rgba(255,240,255,${a})`; ctx.fillRect(x, y, 1, 1); }
+    for (let i = 0; i < 140; i++) { const x = R0() * W, y = R0() * 420, a = (1 - y / 420) * R0() * 0.8; ctx.fillStyle = `rgba(255,240,255,${a})`; ctx.fillRect(x, y, 2, 2); }
     const sp = cam.proj([cam.pos[0] + 30, cam.pos[1] + 12, cam.pos[2] + 400]);
-    const g = ctx.createRadialGradient(sp[0], sp[1], 30, sp[0], sp[1], 320);
+    const g = ctx.createRadialGradient(sp[0], sp[1], 40, sp[0], sp[1], 440);
     g.addColorStop(0, 'rgba(255,214,160,0.5)'); g.addColorStop(1, 'rgba(255,214,160,0)');
     ctx.fillStyle = g; ctx.fillRect(0, 0, W, H_);
     for (let i = 0; i < 14; i++) {
       const a0 = (i / 14) * Math.PI * 2, a1 = ((i + 1) / 14) * Math.PI * 2;
       ctx.fillStyle = H.rgba(H.mix('#ffd49a', '#fff4d8', 0.5 + 0.5 * Math.cos(a0 - 2.3)));
-      ctx.beginPath(); ctx.moveTo(sp[0], sp[1]); ctx.lineTo(sp[0] + Math.cos(a0) * 50, sp[1] + Math.sin(a0) * 50); ctx.lineTo(sp[0] + Math.cos(a1) * 50, sp[1] + Math.sin(a1) * 50); ctx.closePath(); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(sp[0], sp[1]); ctx.lineTo(sp[0] + Math.cos(a0) * 64, sp[1] + Math.sin(a0) * 64); ctx.lineTo(sp[0] + Math.cos(a1) * 64, sp[1] + Math.sin(a1) * 64); ctx.closePath(); ctx.fill();
     }
   }
 
   // =============================== EXPLAINER ===============================
-  const GEM = [-11, -15.5, -18];
+  const GEM = [-5, -6, -24];
   function explainer(ctx, W, H_, t) {
     const P = (a, b) => ph(t, a, b), E = (a, b) => Ei(t, a, b), EO = (a, b) => H.ease.out(P(a, b)), BK = (a, b) => H.ease.back(P(a, b));
     if (!STATIC) buildStatic();
     const cam = camAt(t, W, H_);
     const pr = (p) => cam.proj(p);
-    const sz = (p, wu) => wu * 760 / p[2];
+    const sz = (p, wu) => wu * FOC / p[2];
     drawSky(ctx, W, H_, cam);
 
     // ---------- dynamic objects (drawn as a second sorted pass, in front of the cut face) ----------
@@ -567,166 +578,171 @@
     if (gemK > 0) { const p = pr(GEM); if (p[2] > 1) { const r = sz(p, 6.5); const g = ctx.createRadialGradient(p[0], p[1], r * 0.4, p[0], p[1], r * 1.6); g.addColorStop(0, `rgba(255,${180 + 40 * GEM_HEAT | 0},150,${(0.12 + 0.4 * GEM_HEAT) * gemK})`); g.addColorStop(1, 'rgba(255,200,150,0)'); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(p[0] - r * 2, p[1] - r * 2, r * 4, r * 4); ctx.globalCompositeOperation = 'source-over'; } }
 
     // ---------- overlays that land on the 3D objects ----------
+    // vertical layout: header pill on the top edge of the safe zone, chapter row under it, content below
+    const L0 = SAFE.left, CH_Y = SAFE.top + 150, ROW2 = CH_Y + 82;
     const fadeWin = (a0, a1, b0, b1) => BK(a0, a1) * (1 - E(b0, b1));
     // beat 2 — the problem
     if (t > 3.0 && t < 8.0) {
       const kRes = fadeWin(3.2, 3.55, 7.6, 7.95);
-      const pR = pr([-33, -29.5, -1]); lpTag(ctx, pR[0], pR[1], 'yacimiento', { k: kRes, bg: INK, col: '#fff' });
+      const pR = pr([-20, -33.5, -1]); lpTag(ctx, pR[0], pR[1], 'yacimiento', { k: kRes, bg: INK, col: '#fff' });
       // magnifier callout: a spot on the reservoir to the drop
-      const spot = pr([-6, -27, -0.5]), g = pr(GEM), gr = sz(g, 4.2);
-      ctx.save(); ctx.globalAlpha = EO(3.3, 3.7) * (1 - E(7.6, 7.95)); ctx.strokeStyle = 'rgba(255,246,240,0.85)'; ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.moveTo(spot[0] - 14, spot[1]); ctx.lineTo(g[0] - gr * 0.9, g[1] + gr * 0.4); ctx.moveTo(spot[0] + 14, spot[1]); ctx.lineTo(g[0] + gr * 0.9, g[1] + gr * 0.4); ctx.stroke();
-      ctx.beginPath(); for (let i = 0; i <= 6; i++) { const a = i / 6 * Math.PI * 2; ctx.lineTo(spot[0] + Math.cos(a) * 15, spot[1] + Math.sin(a) * 10); } ctx.stroke(); ctx.restore();
-      lpTag(ctx, g[0], g[1] - gr * 1.75, 'crudo pesado', { k: fadeWin(3.5, 3.85, 7.6, 7.95) });
+      const spot = pr([-9, -27, -0.5]), g = pr(GEM), gr = sz(g, 4.2);
+      ctx.save(); ctx.globalAlpha = EO(3.3, 3.7) * (1 - E(7.6, 7.95)); ctx.strokeStyle = 'rgba(255,246,240,0.85)'; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(spot[0] - 20, spot[1]); ctx.lineTo(g[0] - gr * 0.9, g[1] + gr * 0.4); ctx.moveTo(spot[0] + 20, spot[1]); ctx.lineTo(g[0] + gr * 0.9, g[1] + gr * 0.4); ctx.stroke();
+      ctx.beginPath(); for (let i = 0; i <= 6; i++) { const a = i / 6 * Math.PI * 2; ctx.lineTo(spot[0] + Math.cos(a) * 21, spot[1] + Math.sin(a) * 14); } ctx.stroke(); ctx.restore();
+      lpTag(ctx, g[0], g[1] - gr * 1.7, 'crudo pesado', { k: fadeWin(3.5, 3.85, 7.6, 7.95) });
     }
-    // viscosity counter: 10 000 cP -> 10 cP
+    // viscosity counter: 10 000 cP -> 10 cP, stacked above the drop
     if (t > 3.9 && t < 8.0) {
       const u = E(5.6, 7.0), v = Math.pow(10, 4 - 3 * u), vr = v >= 1000 ? Math.round(v / 100) * 100 : v >= 100 ? Math.round(v / 10) * 10 : Math.round(v);
       const txt = String(vr).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' cP';
       const hit = t > 7.0, pop = hit ? 1 + 0.2 * Math.sin(Math.min(1, (t - 7.0) / 0.35) * Math.PI) : 1;
-      const k = fadeWin(3.9, 4.25, 7.6, 7.95) * pop, x = 905, y = 300;
-      lpTag(ctx, x, y - 92, 'viscosidad', { k, bg: INK, col: '#fff' });
-      lpTag(ctx, x, y, txt, { k, font: '700 72px "Space Grotesk"', h: 108, bg: hit ? '#ff7060' : '#fff6f0', col: hit ? '#fff' : INK });
-      if (t > 7.0) { ctx.save(); ctx.globalAlpha = 1 - P(7.0, 7.7); ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; const rr = 150 + 80 * EO(7.0, 7.7); ctx.beginPath(); for (let k2 = 0; k2 <= 6; k2++) { const a = k2 / 6 * Math.PI * 2; ctx.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr * 0.62); } ctx.stroke(); ctx.restore(); }
-      lpTag(ctx, x, y + 92, 'agua ≈ 1 cP', { k: fadeWin(7.15, 7.45, 7.6, 7.95), font: '700 28px "Space Grotesk"' });
+      const k = fadeWin(3.9, 4.25, 7.6, 7.95) * pop, x = SCX, y = ROW2 + 140;
+      lpTag(ctx, x, y - 120, 'viscosidad', { k, bg: INK, col: '#fff' });
+      lpTag(ctx, x, y, txt, { k, font: FONT(100), h: 150, bg: hit ? '#ff7060' : '#fff6f0', col: hit ? '#fff' : INK });
+      if (t > 7.0) { ctx.save(); ctx.globalAlpha = 1 - P(7.0, 7.7); ctx.strokeStyle = '#fff'; ctx.lineWidth = 4; const rr = 210 + 110 * EO(7.0, 7.7); ctx.beginPath(); for (let k2 = 0; k2 <= 6; k2++) { const a = k2 / 6 * Math.PI * 2; ctx.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr * 0.62); } ctx.stroke(); ctx.restore(); }
+      lpTag(ctx, x, y + 122, 'agua ≈ 1 cP', { k: fadeWin(7.15, 7.45, 7.6, 7.95) });
       // verdict: cold = no flow (wrong), hot = flows (right)
       const g = pr(GEM), gr = sz(g, 4.2);
-      if (t < 5.75) { hexBadge(ctx, g[0] + gr * 1.05, g[1] - gr * 0.6, BK(4.4, 4.7) * (1 - E(5.5, 5.75)), false); lpTag(ctx, g[0], g[1] + gr * 1.75, 'no fluye', { k: BK(4.5, 4.8) * (1 - E(5.5, 5.75)), bg: '#ff5a4a', col: '#fff' }); }
-      else { hexBadge(ctx, g[0] + gr * 1.05, g[1] - gr * 0.6, fadeWin(7.0, 7.3, 7.6, 7.95), true); lpTag(ctx, g[0], g[1] + gr * 1.75, 'fluye', { k: fadeWin(7.05, 7.35, 7.6, 7.95), bg: '#3ccf9a', col: '#fff' }); }
+      if (t < 5.75) { hexBadge(ctx, g[0] + gr * 1.05, g[1] - gr * 0.6, BK(4.4, 4.7) * (1 - E(5.5, 5.75)) * 1.4, false); lpTag(ctx, g[0], g[1] + gr * 1.7, 'no fluye', { k: BK(4.5, 4.8) * (1 - E(5.5, 5.75)), bg: '#ff5a4a', col: '#fff' }); }
+      else { hexBadge(ctx, g[0] + gr * 1.05, g[1] - gr * 0.6, fadeWin(7.0, 7.3, 7.6, 7.95) * 1.4, true); lpTag(ctx, g[0], g[1] + gr * 1.7, 'fluye', { k: fadeWin(7.05, 7.35, 7.6, 7.95), bg: '#3ccf9a', col: '#fff' }); }
       // heat ribbon into the drop
-      if (t > 5.3) { const a = [g[0] - gr * 2.9, g[1] + gr * 1.0], b = [g[0] - gr * 1.0, g[1] + gr * 0.1]; lpArrow(ctx, a, [a[0] + 40, b[1] - 6], b, E(5.3, 5.9) * (1 - E(7.6, 7.95)), CORAL, 13); lpTag(ctx, a[0], a[1] + 40, 'calor', { k: fadeWin(5.5, 5.8, 7.6, 7.95), bg: '#ff7060', col: '#fff' }); }
+      if (t > 5.3) { const a = [g[0] - gr * 2.6, g[1] + gr * 0.9], b = [g[0] - gr * 1.0, g[1] + gr * 0.1]; lpArrow(ctx, a, [a[0] + 50, b[1] - 8], b, E(5.3, 5.9) * (1 - E(7.6, 7.95)), CORAL, 17); lpTag(ctx, a[0], a[1] + 56, 'calor', { k: fadeWin(5.5, 5.8, 7.6, 7.95), bg: '#ff7060', col: '#fff' }); }
     }
     // beat 4 — five methods
     const METHODS = ['1 · Inyección continua de vapor', '2 · Estimulación cíclica (huff & puff)', '3 · SAGD: drenaje por gravedad con vapor', '4 · Combustión in situ', '5 · Agua caliente'];
-    const LIST_Y = (i) => 196 + i * 78;
+    const LIST_Y = (i) => ROW2 + 20 + i * 88, LF = FONT(36);
     if (t > 8.1 && t < 11.3) {
       METHODS.forEach((m, i) => {
         if (i === 0) return; // item 1 is drawn below (it becomes the chapter tag)
         const k = BK(8.3 + i * 0.32, 8.62 + i * 0.32) * (1 - E(10.4, 10.8));
         if (k <= 0) return;
-        const w = lpTagL(ctx, 56, LIST_Y(i), m, { k, font: '700 30px "Space Grotesk"', bg: i === 4 ? '#e4dcea' : '#fff6f0', col: i === 4 ? '#6a5f80' : INK });
-        if (i === 4) lpTagL(ctx, 56 + w * k + 16, LIST_Y(i), 'menos eficiente', { k: BK(9.95, 10.25) * (1 - E(10.4, 10.8)), bg: '#ff5a4a', col: '#fff' });
+        const w = lpTagL(ctx, L0, LIST_Y(i), m, { k, font: LF, bg: i === 4 ? '#e4dcea' : '#fff6f0', col: i === 4 ? '#6a5f80' : INK });
+        if (i === 4) lpTagL(ctx, L0 + w * k + 16, LIST_Y(i), 'menos eficiente', { k: BK(9.95, 10.25) * (1 - E(10.4, 10.8)), bg: '#ff5a4a', col: '#fff' });
       });
     }
     // chapter tags (top-left, under the header)
-    const CH_Y = 128;
     {
-      const chap = (a, b, text, o = {}) => { if (t < a || t > b + 0.4) return; lpTagL(ctx, 48, CH_Y, text, { k: BK(a, a + 0.3) * (1 - E(b, b + 0.35)), font: '700 30px "Space Grotesk"', ...o }); };
+      const CF = FONT(38);
+      const chap = (a, b, text, o = {}) => { if (t < a || t > b + 0.4) return; lpTagL(ctx, L0, CH_Y, text, { k: BK(a, a + 0.3) * (1 - E(b, b + 0.35)), font: CF, ...o }); };
       chap(2.6, 5.1, 'El problema');
       chap(5.25, 7.7, 'La solución: calentar', { bg: '#ff7060', col: '#fff' });
       chap(7.95, 10.5, 'Cinco métodos');
       // item 1 of the list flies up and becomes the chapter tag of beats 5-6
       if (t > 8.3 && t < 17.95) {
         const fly = E(10.45, 11.05), y = H.lerp(LIST_Y(0), CH_Y, fly);
-        lpTagL(ctx, 56 - 8 * fly, y, METHODS[0], { k: BK(8.3, 8.62) * (1 - E(17.4, 17.75)), font: '700 30px "Space Grotesk"', bg: fly > 0.5 ? '#ff7060' : '#fff6f0', col: fly > 0.5 ? '#fff' : INK });
+        lpTagL(ctx, L0, y, METHODS[0], { k: BK(8.3, 8.62) * (1 - E(17.4, 17.75)), font: fly > 0.5 ? CF : LF, bg: fly > 0.5 ? '#ff7060' : '#fff6f0', col: fly > 0.5 ? '#fff' : INK });
       }
       chap(17.75, 22.4, '2 · Estimulación cíclica (huff & puff)', { bg: '#ff7060', col: '#fff' });
       chap(22.75, 26, '3 · SAGD', { bg: '#ff7060', col: '#fff' });
-      if (t > 22.9 && t < 26.4) lpTagL(ctx, 48, CH_Y + 62, 'drenaje por gravedad asistido por vapor', { k: BK(22.95, 23.25) * (1 - E(26, 26.35)) });
+      if (t > 22.9 && t < 26.4) lpTagL(ctx, L0, ROW2, 'drenaje por gravedad asistido por vapor', { k: BK(22.95, 23.25) * (1 - E(26, 26.35)), font: FONT(34) });
       chap(26.35, 29.6, '4 · Combustión in situ', { bg: '#ff7060', col: '#fff' });
     }
     // beat 5 — surface: water -> boiler -> steam -> injector
     if (t > 11.0 && t < 14.6) {
       const out = 1 - E(14.2, 14.6);
-      const tank = pr([-22, 11, 10]), boil = pr([-9, 9, 9]), stack = pr([-7, 15.5, 10]), wh = pr([0, 6.5, -1.2]);
-      const tb = pr([-22, 2, 5.5]); lpTag(ctx, tb[0] - 30, tb[1] + 44, 'agua tratada', { k: BK(11.2, 11.5) * out });
+      const boil = pr([-9, 9, 9]), wh = pr([0, 6.5, -1.2]);
+      const tb = pr([-22, 2, 5.5]); lpTag(ctx, tb[0], tb[1] + 70, 'agua tratada', { k: BK(11.2, 11.5) * out });
       const a1 = pr([-18.6, 6, 9]), b1 = pr([-13.2, 6.5, 8]);
-      lpArrow(ctx, a1, [(a1[0] + b1[0]) / 2, Math.min(a1[1], b1[1]) - 40], b1, E(11.5, 12.0) * out, [150, 200, 240], 11);
-      lpTag(ctx, boil[0] + 10, boil[1] + 120, 'caldera', { k: BK(11.9, 12.2) * out, bg: '#ff7060', col: '#fff' });
+      lpArrow(ctx, a1, [(a1[0] + b1[0]) / 2, Math.min(a1[1], b1[1]) - 60], b1, E(11.5, 12.0) * out, [150, 200, 240], 16);
+      lpTag(ctx, boil[0], boil[1] - 110, 'caldera', { k: BK(11.9, 12.2) * out, bg: '#ff7060', col: '#fff' });
       const a2 = pr([-4, 8.5, 8]), b2 = pr([0, 7.5, -1.2]);
-      lpArrow(ctx, a2, [(a2[0] + b2[0]) / 2 + 30, Math.min(a2[1], b2[1]) - 70], b2, E(12.3, 12.95) * out, [255, 246, 240], 12);
-      lpTag(ctx, (a2[0] + b2[0]) / 2 + 40, Math.min(a2[1], b2[1]) - 92, 'vapor a alta presión', { k: BK(12.6, 12.9) * out });
-      lpTag(ctx, wh[0] + 90, wh[1] + 70, 'inyector', { k: BK(13.0, 13.3) * out, bg: INK, col: '#fff' });
-      void stack;
+      lpArrow(ctx, a2, [(a2[0] + b2[0]) / 2 + 50, Math.min(a2[1], b2[1]) - 110], b2, E(12.3, 12.95) * out, [255, 246, 240], 17);
+      lpTag(ctx, b2[0] - 60, Math.min(a2[1], b2[1]) - 200, 'vapor a alta presión', { k: BK(12.6, 12.9) * out });
+      lpTag(ctx, wh[0] + 60, wh[1] + 110, 'inyector', { k: BK(13.0, 13.3) * out, bg: INK, col: '#fff' });
     }
     // beat 6 — down the well, heat to the crude, crude to producers and up
     if (t > 13.9 && t < 17.9) {
       const out = 1 - E(17.45, 17.8);
       const top = pr([2.5, 3, -1.2]), bot = pr([2.5, -22, -1.2]);
-      lpArrow(ctx, [top[0] + 26, top[1]], [top[0] + 36, (top[1] + bot[1]) / 2], [bot[0] + 26, bot[1]], E(14.0, 14.8) * out, [255, 246, 240], 12);
-      const hz = pr([0, -20, -1]); lpTag(ctx, hz[0], hz[1] - 6, 'cede su calor al crudo', { k: BK(15.0, 15.3) * out, bg: '#ff7060', col: '#fff' });
-      for (const sd of [-1, 1]) { const a = pr([sd * 9, -30, -1]), b = pr([sd * 21, -30, -1]); lpArrow(ctx, a, [(a[0] + b[0]) / 2, a[1] + 26], b, E(15.5, 16.1) * out, [230, 140, 70], 12); }
-      const cm = pr([0, -35.5, -1]); lpTag(ctx, cm[0], cm[1], 'crudo móvil', { k: BK(15.8, 16.1) * out });
-      for (const sd of [-1, 1]) { const p = pr([sd * 24, -36, -1.2]); lpTag(ctx, p[0] + sd * 40, p[1], 'productor', { k: BK(16.0 + (sd + 1) * 0.08, 16.3 + (sd + 1) * 0.08) * out, bg: INK, col: '#fff' }); }
-      const ua = pr([27.5, -20, -1.2]), ub = pr([27.5, 4, -1.2]);
-      lpArrow(ctx, ua, [ua[0] + 12, (ua[1] + ub[1]) / 2], ub, E(16.4, 17.05) * out, [230, 140, 70], 12);
-      const pl = pr([33, 9, 6]); lpTag(ctx, pl[0], Math.max(150, pl[1] - 20), 'a la planta', { k: BK(16.9, 17.2) * out });
+      lpArrow(ctx, [top[0] + 20, top[1]], [top[0] + 34, (top[1] + bot[1]) / 2], [bot[0] + 20, bot[1]], E(14.0, 14.8) * out, [255, 246, 240], 15);
+      const hz = pr([0, -18, -1]); lpTag(ctx, hz[0], hz[1], 'cede su calor al crudo', { k: BK(15.0, 15.3) * out, bg: '#ff7060', col: '#fff' });
+      for (const sd of [-1, 1]) { const a = pr([sd * 9, -30, -1]), b = pr([sd * 21, -30, -1]); lpArrow(ctx, a, [(a[0] + b[0]) / 2, a[1] + 30], b, E(15.5, 16.1) * out, [230, 140, 70], 15); }
+      const cm = pr([0, -36, -1]); lpTag(ctx, cm[0], cm[1], 'crudo móvil', { k: BK(15.8, 16.1) * out });
+      for (const sd of [-1, 1]) { const p = pr([sd * 24, -40, -1.2]); lpTag(ctx, p[0], p[1] + 20, 'productor', { k: BK(16.0 + (sd + 1) * 0.08, 16.3 + (sd + 1) * 0.08) * out, bg: INK, col: '#fff' }); }
+      const ua = pr([20.6, -20, -1.2]), ub = pr([20.6, 2, -1.2]);
+      lpArrow(ctx, ua, [ua[0] - 14, (ua[1] + ub[1]) / 2], ub, E(16.4, 17.05) * out, [230, 140, 70], 15);
+      const pl = pr([24, 9, -1.2]); lpTag(ctx, pl[0], pl[1] - 40, 'a la planta', { k: BK(16.9, 17.2) * out });
     }
-    // beat 6b — cyclic steam stimulation: three phases on one well
+    // beat 7 — cyclic steam stimulation: three phases on one well
     if (t > 18.2 && t < 23.0) {
-      const out = 1 - E(22.45, 22.8);
+      const out = 1 - E(22.45, 22.8), PF = FONT(36);
       const PH = [[18.4, '1 · Inyección de vapor', 'semanas'], [19.8, '2 · Remojo: pozo cerrado', 'días'], [20.9, '3 · Producción', 'meses']];
+      const PY = (i) => ROW2 + 10 + i * 82;
       PH.forEach(([a, txt, dur], i) => {
         const next = PH[i + 1] ? PH[i + 1][0] : 99, act = t >= a && t < next;
-        const w = lpTagL(ctx, 690, 300 + i * 80, txt, { k: BK(a, a + 0.3) * out, font: '700 30px "Space Grotesk"', bg: act ? '#ff7060' : '#fff6f0', col: act ? '#fff' : act || t < a ? INK : '#8a7fa0' });
-        if (t > a + 0.15) lpTagL(ctx, 690 + w + 12, 300 + i * 80, dur, { k: BK(a + 0.15, a + 0.45) * out, bg: INK, col: '#fff' });
+        const w = lpTagL(ctx, L0, PY(i), txt, { k: BK(a, a + 0.3) * out, font: PF, bg: act ? '#ff7060' : '#fff6f0', col: act ? '#fff' : t < a ? INK : '#8a7fa0' });
+        if (t > a + 0.15) lpTagL(ctx, L0 + w + 14, PY(i), dur, { k: BK(a + 0.15, a + 0.45) * out, font: PF, bg: INK, col: '#fff' });
       });
       const top = pr([0, 3, -1.2]), bot = pr([0, -24, -1.2]);
-      lpArrow(ctx, [top[0] - 34, top[1]], [top[0] - 46, (top[1] + bot[1]) / 2], [bot[0] - 34, bot[1]], E(18.4, 19.0) * (1 - E(19.7, 19.95)), [255, 246, 240], 12);
-      lpArrow(ctx, [bot[0] - 34, bot[1]], [bot[0] - 46, (top[1] + bot[1]) / 2], [top[0] - 34, top[1]], E(21.0, 21.6) * out, [230, 140, 70], 12);
-      const z = pr([0, -33.5, -1]); lpTag(ctx, z[0], z[1], 'el calor se reparte', { k: BK(20.0, 20.3) * (1 - E(20.85, 21.1)), bg: '#ff7060', col: '#fff' });
+      lpArrow(ctx, [top[0] - 40, top[1]], [top[0] - 56, (top[1] + bot[1]) / 2], [bot[0] - 40, bot[1]], E(18.4, 19.0) * (1 - E(19.7, 19.95)), [255, 246, 240], 16);
+      lpArrow(ctx, [bot[0] - 40, bot[1]], [bot[0] - 56, (top[1] + bot[1]) / 2], [top[0] - 40, top[1]], E(21.0, 21.6) * out, [230, 140, 70], 16);
+      const z = pr([0, -32, -1]); lpTag(ctx, z[0], z[1], 'el calor se reparte', { k: BK(20.0, 20.3) * (1 - E(20.85, 21.1)), bg: '#ff7060', col: '#fff' });
       lpTag(ctx, z[0], z[1], 'el mismo pozo produce', { k: BK(21.15, 21.45) * out, bg: '#4d9da5', col: '#fff' });
-      lpTagL(ctx, 690, 540, '↻ se repite el ciclo', { k: BK(21.9, 22.2) * out, font: '700 30px "Space Grotesk"', bg: INK, col: '#fff' });
+      lpTagL(ctx, L0, PY(3), '↻ se repite el ciclo', { k: BK(21.9, 22.2) * out, font: PF, bg: INK, col: '#fff' });
     }
-    // beat 7 — SAGD
+    // beat 8 — SAGD
     if (t > 23.2 && t < 26.5) {
       const out = 1 - E(26, 26.35);
       const pi = pr([0, -27.2, -7]), pp = pr([0, -31, -7]);
-      lpTag(ctx, pi[0] - 230, pi[1] - 30, 'inyector', { k: BK(23.35, 23.65) * out, bg: '#ff7060', col: '#fff' });
-      lpTag(ctx, pp[0] - 150, pp[1] + 24, 'productor', { k: BK(23.5, 23.8) * out, bg: '#4d9da5', col: '#fff' });
+      lpTag(ctx, pi[0] - 150, pi[1] - 60, 'inyector', { k: BK(23.35, 23.65) * out, bg: '#ff7060', col: '#fff' });
+      lpTag(ctx, pp[0] - 120, pp[1] + 60, 'productor', { k: BK(23.5, 23.8) * out, bg: '#4d9da5', col: '#fff' });
       const s = sagdS(t), C = sagdChamber(s);
-      const ch = pr([0, (C.top - 27) / 2 + 0.5, -0.5]);
-      if (t > 24.4) lpTag(ctx, ch[0] - 140, ch[1] - 6, 'cámara de vapor', { k: BK(24.4, 24.7) * out });
+      const ct = pr([0, C.top, -0.5]);
+      if (t > 24.4) lpTag(ctx, SCX, ct[1] - 150, 'cámara de vapor', { k: BK(24.4, 24.7) * out });
       // light steam rises, heavy crude drains
       const va = pr([0, -26, -1]), vb = pr([0, C.top - 0.2, -1]);
-      if (t > 24) lpArrow(ctx, [va[0] + 60, va[1]], [va[0] + 70, (va[1] + vb[1]) / 2], [vb[0] + 60, vb[1] + 10], E(24, 24.6) * out, [255, 246, 240], 11);
-      if (t > 24.7) lpTag(ctx, vb[0] + 250, vb[1] - 40, 'vapor liviano ↑', { k: BK(24.7, 25) * out });
-      for (const sd of [-1, 1]) { const hw = (C.top - 0.6 + 28.6) * C.k + 1.4, a = pr([sd * hw, C.top - 0.6, -1]), b = pr([sd * 2, -30.4, -1]); lpArrow(ctx, a, [(a[0] + b[0]) / 2 + sd * 30, (a[1] + b[1]) / 2 + 10], b, E(25, 25.6) * out, [230, 140, 70], 11); }
-      const ob = pr([12, -33.6, -1]); lpTag(ctx, ob[0] + 60, ob[1], 'crudo pesado ↓ por gravedad', { k: BK(25.3, 25.6) * out });
+      if (t > 24) lpArrow(ctx, [va[0] + 70, va[1]], [va[0] + 84, (va[1] + vb[1]) / 2], [vb[0] + 70, vb[1] + 12], E(24, 24.6) * out, [255, 246, 240], 15);
+      if (t > 24.7) lpTag(ctx, SCX + 150, ct[1] - 64, 'vapor liviano ↑', { k: BK(24.7, 25) * out });
+      for (const sd of [-1, 1]) { const hw = (C.top - 0.6 + 28.6) * C.k + 1.4, a = pr([sd * hw, C.top - 0.6, -1]), b = pr([sd * 2, -30.4, -1]); lpArrow(ctx, a, [(a[0] + b[0]) / 2 + sd * 40, (a[1] + b[1]) / 2 + 14], b, E(25, 25.6) * out, [230, 140, 70], 15); }
+      const ob = pr([0, -36, -1]); lpTag(ctx, SCX, ob[1], 'crudo pesado ↓ por gravedad', { k: BK(25.3, 25.6) * out });
     }
-    // beat 8 — in-situ combustion
+    // beat 9 — in-situ combustion
     if (t > 26.8 && t < 30.2) {
       const out = 1 - E(29.6, 29.95);
-      const ai = pr([-24, 6.5, -1.2]); lpTag(ctx, ai[0], ai[1] - 40, 'aire', { k: BK(26.9, 27.2) * out, bg: '#b0cefa', col: INK });
+      const ai = pr([-24, 6.5, -1.2]); lpTag(ctx, ai[0], ai[1] - 60, 'aire', { k: BK(26.9, 27.2) * out, bg: '#b0cefa', col: INK });
       const xf = combXf(t), fp = pr([xf - 1, -21, -1]);
-      lpTag(ctx, fp[0], fp[1] - 24, 'frente de fuego', { k: BK(27.4, 27.7) * out, bg: '#ff7060', col: '#fff' });
-      const ob = pr([xf + 9.5, -33.6, -1]); lpTag(ctx, ob[0], ob[1] + 4, 'crudo empujado', { k: BK(28, 28.3) * out });
+      lpTag(ctx, fp[0], fp[1] - 36, 'frente de fuego', { k: BK(27.4, 27.7) * out, bg: '#ff7060', col: '#fff' });
+      const ob = pr([xf + 9.5, -36, -1]); lpTag(ctx, ob[0], ob[1], 'crudo empujado', { k: BK(28, 28.3) * out });
       const a = pr([xf + 4, -27, -1]), b = pr([21, -27, -1]);
-      if (t > 28.2) lpArrow(ctx, a, [(a[0] + b[0]) / 2, a[1] - 24], b, E(28.2, 28.7) * out, [230, 140, 70], 12);
-      const pp = pr([24, 6.5, -1.2]); lpTag(ctx, pp[0], pp[1] - 40, 'productor', { k: BK(28.6, 28.9) * out, bg: INK, col: '#fff' });
-      const bz = pr([-19, -21, -1]); lpTag(ctx, bz[0], bz[1] - 24, 'zona quemada', { k: BK(29, 29.3) * out, font: '700 28px "Space Grotesk"', bg: '#e4dcea', col: '#6a5f80' });
+      if (t > 28.2) lpArrow(ctx, a, [(a[0] + b[0]) / 2, a[1] - 32], b, E(28.2, 28.7) * out, [230, 140, 70], 15);
+      const pp = pr([24, 6.5, -1.2]); lpTag(ctx, pp[0], pp[1] - 60, 'productor', { k: BK(28.6, 28.9) * out, bg: INK, col: '#fff' });
+      const bz = pr([-17, -38, -1]); lpTag(ctx, bz[0], bz[1], 'zona quemada', { k: BK(29, 29.3) * out, bg: '#e4dcea', col: '#6a5f80' });
     }
 
     // ---------- hook -> header ----------
     {
       const sh = E(1.35, 2.3), a = EO(0.1, 0.6);
-      const size = H.lerp(76, 32, sh);
-      ctx.save(); ctx.globalAlpha = a; ctx.font = `700 ${size}px "Space Grotesk"`;
+      const size = H.lerp(124, 44, sh);
+      ctx.save(); ctx.globalAlpha = a; ctx.font = FONT(size);
       const title = 'EOR térmico', w = ctx.measureText(title).width;
-      const x = H.lerp(640 - w / 2, 48, sh), y = H.lerp(250, 66, sh) + (1 - a) * 24;
-      if (sh > 0) { ctx.save(); ctx.globalAlpha = a * sh; ctx.translate(x - 16, y - size * 1.05); const pw = w + 32, phh = size * 1.75, c2 = 12; ctx.fillStyle = 'rgba(42,31,79,0.82)'; ctx.beginPath(); ctx.moveTo(c2, 0); ctx.lineTo(pw, 0); ctx.lineTo(pw, phh - c2); ctx.lineTo(pw - c2, phh); ctx.lineTo(0, phh); ctx.lineTo(0, c2); ctx.closePath(); ctx.fill(); ctx.restore(); }
-      ctx.fillStyle = 'rgba(30,20,60,0.35)'; ctx.fillText(title, x + 3, y + 3);
+      const x = H.lerp(SCX - w / 2, L0 + 16, sh), y = H.lerp(SAFE.top + 330, SAFE.top + size * 1.05, sh) + (1 - a) * 30;
+      if (sh > 0) { ctx.save(); ctx.globalAlpha = a * sh; ctx.translate(x - 16, y - size * 1.05); const pw = w + 32, phh = size * 1.75, c2 = 14; ctx.fillStyle = 'rgba(42,31,79,0.82)'; ctx.beginPath(); ctx.moveTo(c2, 0); ctx.lineTo(pw, 0); ctx.lineTo(pw, phh - c2); ctx.lineTo(pw - c2, phh); ctx.lineTo(0, phh); ctx.lineTo(0, c2); ctx.closePath(); ctx.fill(); ctx.restore(); }
+      ctx.fillStyle = 'rgba(30,20,60,0.35)'; ctx.fillText(title, x + 4, y + 4);
       ctx.fillStyle = '#ffffff'; ctx.fillText(title, x, y);
-      const uw = H.lerp(300, 120, sh), uy = y + size * 0.3;
+      const uw = H.lerp(w * 0.62, 150, sh), uy = y + size * 0.3;
       ctx.fillStyle = '#ff7060'; ctx.beginPath(); ctx.moveTo(x + 2, uy); ctx.lineTo(x + 2 + uw * 0.78, uy); ctx.lineTo(x + uw * 0.72, uy + size * 0.12); ctx.lineTo(x + 2, uy + size * 0.12); ctx.fill();
       ctx.fillStyle = '#ffb08a'; ctx.beginPath(); ctx.moveTo(x + 2 + uw * 0.78, uy); ctx.lineTo(x + uw, uy); ctx.lineTo(x + uw * 0.94, uy + size * 0.12); ctx.lineTo(x + uw * 0.72, uy + size * 0.12); ctx.fill();
-      // subline: the question, gone as the title shrinks
+      // the question, two lines, gone as the title shrinks
       const qa = EO(0.35, 0.85) * (1 - E(1.3, 1.7));
-      if (qa > 0) { ctx.globalAlpha = qa; ctx.font = '700 46px "Space Grotesk"'; const q = '¿Cómo mover un crudo que no fluye?', qw = ctx.measureText(q).width; ctx.fillStyle = 'rgba(30,20,60,0.35)'; ctx.fillText(q, 640 - qw / 2 + 3, 340 + 3 + (1 - qa) * 16); ctx.fillStyle = '#fff6f0'; ctx.fillText(q, 640 - qw / 2, 340 + (1 - qa) * 16); }
+      if (qa > 0) {
+        ctx.globalAlpha = qa; ctx.font = FONT(60);
+        ['¿Cómo mover un crudo', 'que no fluye?'].forEach((q, i) => { const qw = ctx.measureText(q).width, qy = SAFE.top + 500 + i * 80 + (1 - qa) * 20; ctx.fillStyle = 'rgba(30,20,60,0.35)'; ctx.fillText(q, SCX - qw / 2 + 3, qy + 3); ctx.fillStyle = '#fff6f0'; ctx.fillText(q, SCX - qw / 2, qy); });
+      }
       ctx.restore();
     }
-    // ---------- takeaway ----------
+    // ---------- takeaway: three stacked tags ----------
     if (t > 30.4) {
-      const kk = H.ease.back(P(30.4, 30.85));
-      ctx.save(); ctx.translate(640, 610); ctx.scale(kk, kk);
-      lpTag(ctx, 0, 0, 'Más calor → menos viscosidad → más crudo', { font: '700 46px "Space Grotesk"', h: 84 });
-      ctx.restore();
+      ['Más calor', '→ menos viscosidad', '→ más crudo'].forEach((s, i) => {
+        const a0 = 30.4 + i * 0.16, kk = H.ease.back(P(a0, a0 + 0.45));
+        lpTag(ctx, SCX, SAFE.top + 330 + i * 116, s, { k: kk, font: FONT(58), h: 98, bg: i === 2 ? '#ff7060' : '#fff6f0', col: i === 2 ? '#fff' : INK });
+      });
     }
   }
 
   window.DURATION = DURATION;
   window.explainer = explainer;
-  window.EOR = { DURATION, lpTag, lpArrow };
+  window.EOR = { DURATION, SAFE, W: FW, H: FH, lpTag, lpArrow };
 })();
 
 // ---------- sound: dawn valley over a faceted diorama (air, glassy facets, steam hiss, fire) ----------
@@ -850,7 +866,7 @@
 
     // ---- 9 takeaway
     gust(29.8, 31.0, 0.9);
-    facet(30.48, 470, 0.9);
+    facet(30.48, 470, 0.9); facet(30.64, 520, 0.8, -0.1); facet(30.8, 600, 0.9, 0.1); // three stacked tags
     ['A4', 'D5'].forEach((n, i) => glass(30.65 + i * 0.09, n, 1, (i - 0.5) * 0.3, 1.4)); k.tone(30.65, { f: 'D3', type: 'triangle', dur: 1.6, gain: 0.12, a: 0.02 });
   }
   window.scoreSound = scoreSound;

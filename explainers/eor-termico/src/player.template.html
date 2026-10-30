@@ -2,13 +2,16 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=block">
 <style>
-/* Layout: the 16:9 canvas letterboxed in the window, a thin faceted control bar under it. */
+/* Layout: the 9:16 canvas letterboxed in the window, a thin faceted control bar under it. */
 :root { --bg: #0f0c20; --bar: #1d1838; --fg: #f4ecf4; --muted: #a99fc6; --coral: #ff7060; --font: "Space Grotesk", "Segoe UI", system-ui, sans-serif; color-scheme: dark; }
 html, body { height: 100%; }
 body { background: var(--bg); color: var(--fg); font: 14px var(--font); display: flex; flex-direction: column; overflow: hidden; }
 #stage { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
+#stage { position: relative; }
 #c { display: block; background: #000; }
-.bar { display: flex; align-items: center; gap: 12px; padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); background: var(--bar); }
+#safe { position: absolute; pointer-events: none; display: none; }
+#safe.on { display: block; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); background: var(--bar); }
 button { font: 700 14px var(--font); color: #fff; background: var(--coral); border: 0; padding: 8px 14px; cursor: pointer; clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px); min-width: 44px; }
 button.ghost { background: #3a3266; }
 button:focus-visible, input:focus-visible { outline: 2px solid #ffb08a; outline-offset: 2px; }
@@ -16,12 +19,13 @@ button:focus-visible, input:focus-visible { outline: 2px solid #ffb08a; outline-
 #time { font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
 label { display: flex; align-items: center; gap: 6px; color: var(--muted); white-space: nowrap; }
 </style>
-<div id="stage"><canvas id="c" width="1280" height="720" aria-label="Animación: EOR térmico"></canvas></div>
+<div id="stage"><canvas id="c" width="1080" height="1920" aria-label="Animación: EOR térmico"></canvas><canvas id="safe" aria-hidden="true"></canvas></div>
 <div class="bar">
   <button id="play" aria-label="Reproducir">▶</button>
   <input id="scrub" type="range" min="0" max="1000" value="0" aria-label="Posición">
   <span id="time">0,0 / 0,0 s</span>
   <button id="snd" class="ghost" aria-pressed="true">Sonido: sí</button>
+  <button id="sz" class="ghost" aria-pressed="false" title="Muestra las franjas que tapan los botones de Reels / TikTok">Zona segura</button>
   <label><input id="loop" type="checkbox" checked> Bucle</label>
 </div>
 <script>/*LIBS*/</script>
@@ -31,13 +35,25 @@ label { display: flex; align-items: center; gap: 6px; color: var(--muted); white
   const D = window.DURATION, $ = (id) => document.getElementById(id);
   let T = 0, playing = false, last = 0, soundOn = true, stopSound = null;
   const fmt = (t) => t.toFixed(1).replace('.', ',');
-  function draw(t) { ctx.setTransform(c.width / 1280, 0, 0, c.height / 720, 0, 0); explainer(ctx, 1280, 720, t); $('time').textContent = `${fmt(t)} / ${fmt(D)} s`; $('scrub').value = Math.round(t / D * 1000); }
+  function draw(t) { ctx.setTransform(c.width / 1080, 0, 0, c.height / 1920, 0, 0); explainer(ctx, 1080, 1920, t); $('time').textContent = `${fmt(t)} / ${fmt(D)} s`; $('scrub').value = Math.round(t / D * 1000); }
   window.seek = (t) => { T = Math.max(0, Math.min(D, t)); draw(T); };
   function fit() {
-    const s = $('stage'), k = Math.min(s.clientWidth / 1280, s.clientHeight / 720), dpr = Math.min(2, window.devicePixelRatio || 1);
-    c.style.width = Math.floor(1280 * k) + 'px'; c.style.height = Math.floor(720 * k) + 'px';
-    const pw = Math.round(1280 * Math.min(1.5, k * dpr)); if (c.width !== pw) { c.width = pw; c.height = Math.round(pw * 720 / 1280); }
+    const s = $('stage'), k = Math.min(s.clientWidth / 1080, s.clientHeight / 1920), dpr = Math.min(2, window.devicePixelRatio || 1);
+    const cw = Math.floor(1080 * k), chh = Math.floor(1920 * k);
+    c.style.width = cw + 'px'; c.style.height = chh + 'px';
+    const pw = Math.round(1080 * Math.min(1, k * dpr)); if (c.width !== pw) { c.width = pw; c.height = Math.round(pw * 1920 / 1080); }
+    drawSafe(cw, chh, s);
     draw(T);
+  }
+  // review aid, never part of the video: shade the strips covered by the platform UI
+  function drawSafe(cw, chh, s) {
+    const g = $('safe'), Z = window.EOR.SAFE, k = cw / 1080;
+    g.width = cw; g.height = chh; g.style.width = cw + 'px'; g.style.height = chh + 'px';
+    g.style.left = (s.clientWidth - cw) / 2 + 'px'; g.style.top = (s.clientHeight - chh) / 2 + 'px';
+    const x = g.getContext('2d'); x.clearRect(0, 0, cw, chh); x.fillStyle = 'rgba(255,40,80,0.28)';
+    x.fillRect(0, 0, cw, Z.top * k); x.fillRect(0, Z.bottom * k, cw, chh - Z.bottom * k);
+    x.fillRect(0, Z.top * k, Z.left * k, (Z.bottom - Z.top) * k); x.fillRect(Z.right * k, Z.top * k, cw - Z.right * k, (Z.bottom - Z.top) * k);
+    x.setLineDash([8, 6]); x.strokeStyle = '#00ff88'; x.lineWidth = 2; x.strokeRect(Z.left * k, Z.top * k, (Z.right - Z.left) * k, (Z.bottom - Z.top) * k);
   }
   const killSound = () => { if (stopSound) { stopSound(); stopSound = null; } };
   const startSound = () => { killSound(); if (soundOn && playing) stopSound = SOUND.live(window.scoreSound, T, { voiceover: false }); };
@@ -50,6 +66,7 @@ label { display: flex; align-items: center; gap: 6px; color: var(--muted); white
   }
   $('play').onclick = () => setPlaying(!playing);
   $('scrub').oninput = (e) => { killSound(); window.seek(e.target.value / 1000 * D); if (playing) { last = performance.now(); startSound(); } };
+  $('sz').onclick = () => { const on = $('safe').classList.toggle('on'); $('sz').setAttribute('aria-pressed', on); };
   $('snd').onclick = () => { soundOn = !soundOn; $('snd').textContent = 'Sonido: ' + (soundOn ? 'sí' : 'no'); $('snd').setAttribute('aria-pressed', soundOn); if (soundOn) startSound(); else killSound(); };
   window.addEventListener('keydown', (e) => { if (e.code === 'Space' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') { e.preventDefault(); setPlaying(!playing); } });
   try { await Promise.all(['700 30px "Space Grotesk"', '400 16px "Space Grotesk"'].map((f) => document.fonts.load(f, 'AaZz09¿ñé→↻'))); } catch (e) {}
