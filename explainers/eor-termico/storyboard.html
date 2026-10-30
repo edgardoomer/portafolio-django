@@ -916,10 +916,10 @@ code { font-family: var(--mono); font-size: .92em; color: var(--sand); }
 
   // =============================== EXPLAINER ===============================
   const GEM = [-5, -6, -24];
-  function explainer(ctx, W, H_, t) {
+  function explainer(ctx, W, H_, t, o = {}) {
     const P = (a, b) => ph(t, a, b), E = (a, b) => Ei(t, a, b), EO = (a, b) => H.ease.out(P(a, b)), BK = (a, b) => H.ease.back(P(a, b));
     if (!STATIC) buildStatic();
-    const cam = camAt(t, W, H_);
+    const cam = o.cam ? makeCamYaw(o.cam.slice(0, 3), o.cam[3], o.cam[4], FOC, SCX, SCY) : camAt(t, W, H_);
     const pr = (p) => cam.proj(p);
     const sz = (p, wu) => wu * FOC / p[2];
     drawSky(ctx, W, H_, cam);
@@ -1039,6 +1039,8 @@ code { font-family: var(--mono); font-size: .92em; color: var(--sand); }
     renderTris(ctx, D.tris, cam, t, W, H_, false);
     if (combK > 0 && t > 27.1) { const p = pr([combXf(t) - 1, -27, -1]); if (p[2] > 1) { const r = sz(p, 13); const g = ctx.createRadialGradient(p[0], p[1], 2, p[0], p[1], r); g.addColorStop(0, `rgba(255,190,110,${0.55 * EO(27.1, 27.5)})`); g.addColorStop(1, 'rgba(255,140,90,0)'); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(p[0] - r, p[1] - r, r * 2, r * 2); ctx.globalCompositeOperation = 'source-over'; } }
     if (gemK > 0) { const p = pr(GEM); if (p[2] > 1) { const r = sz(p, 6.5); const g = ctx.createRadialGradient(p[0], p[1], r * 0.4, p[0], p[1], r * 1.6); g.addColorStop(0, `rgba(255,${180 + 40 * GEM_HEAT | 0},150,${(0.12 + 0.4 * GEM_HEAT) * gemK})`); g.addColorStop(1, 'rgba(255,200,150,0)'); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(p[0] - r * 2, p[1] - r * 2, r * 4, r * 4); ctx.globalCompositeOperation = 'source-over'; } }
+
+    if (o.bare) return; // scene only, no text (used by the cover)
 
     // ---------- overlays that land on the 3D objects ----------
     // vertical layout: header pill on the top edge of the safe zone, chapter row under it, content below
@@ -1205,7 +1207,29 @@ code { font-family: var(--mono); font-size: .92em; color: var(--sand); }
 
   window.DURATION = DURATION;
   window.explainer = explainer;
-  window.EOR = { DURATION, SAFE, W: FW, H: FH, lpTag, lpArrow };
+  // ---------- cover / thumbnail ----------
+  // The hot drop at the 10 cP moment. Text stays inside the safe zone and inside the centre crops the
+  // profile grids use (3:4 = y 240-1680, 1:1 = y 420-1500), so the thumbnail reads in every view.
+  function cover(ctx, W, H_) {
+    explainer(ctx, W, H_, 7.3, { bare: true, cam: [-3.4, 5, -60, 0, 0] });
+    const scrim = ctx.createLinearGradient(0, 300, 0, 980);
+    scrim.addColorStop(0, 'rgba(20,14,48,0)'); scrim.addColorStop(0.3, 'rgba(20,14,48,0.55)'); scrim.addColorStop(0.85, 'rgba(20,14,48,0.5)'); scrim.addColorStop(1, 'rgba(20,14,48,0)');
+    ctx.fillStyle = scrim; ctx.fillRect(0, 300, W, 680);
+    lpTagL(ctx, SAFE.left, 490, '4 métodos con calor', { font: FONT(42), bg: '#ff7060', col: '#fff' });
+    ctx.save(); ctx.font = FONT(140);
+    const title = 'EOR térmico', w = ctx.measureText(title).width, x = SAFE.left, y = 670;
+    ctx.fillStyle = 'rgba(30,20,60,0.45)'; ctx.fillText(title, x + 6, y + 6);
+    ctx.fillStyle = '#ffffff'; ctx.fillText(title, x, y);
+    const uw = w * 0.62, uy = y + 46, uh = 18;
+    ctx.fillStyle = '#ff7060'; ctx.beginPath(); ctx.moveTo(x + 2, uy); ctx.lineTo(x + 2 + uw * 0.78, uy); ctx.lineTo(x + uw * 0.72, uy + uh); ctx.lineTo(x + 2, uy + uh); ctx.fill();
+    ctx.fillStyle = '#ffb08a'; ctx.beginPath(); ctx.moveTo(x + 2 + uw * 0.78, uy); ctx.lineTo(x + uw, uy); ctx.lineTo(x + uw * 0.94, uy + uh); ctx.lineTo(x + uw * 0.72, uy + uh); ctx.fill();
+    ctx.font = FONT(62);
+    ['¿Cómo mover un crudo', 'que no fluye?'].forEach((q, i) => { const qy = 820 + i * 80; ctx.fillStyle = 'rgba(30,20,60,0.45)'; ctx.fillText(q, x + 3, qy + 3); ctx.fillStyle = '#fff6f0'; ctx.fillText(q, x, qy); });
+    ctx.restore();
+    lpTag(ctx, SCX, 1400, '10 000 cP  →  10 cP', { font: FONT(64), h: 108 });
+  }
+
+  window.EOR = { DURATION, SAFE, W: FW, H: FH, lpTag, lpArrow, cover };
 })();
 
 // ---------- sound: dawn valley over a faceted diorama (air, glassy facets, steam hiss, fire) ----------
